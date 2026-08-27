@@ -1,0 +1,247 @@
+fileFormatVersion: 2
+guid: bf7151579c38e2a44be94ba8773876c1
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: LeftHand(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LeftHand
+      parentName: LeftHand(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_Wrist
+      parentName: LeftHand(Clone)
+      position: {x: -0.0036095, y: 0.10848038, z: -0.034286}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_IndexMetacarpal
+      parentName: L_Wrist
+      position: {x: 0.019818999, y: -0.009505, z: 0.036447998}
+      rotation: {x: -0.57378656, y: -0, z: 0.054250006, w: 0.8172062}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_IndexProximal
+      parentName: L_IndexMetacarpal
+      position: {x: 0.003732, y: 0.002189, z: 0.059548}
+      rotation: {x: 0.15188201, y: 0.076982684, z: -0.041177798, w: 0.9845354}
+      scale: {x: 1.0000446, y: 1.0000408, z: 0.999991}
+    - name: L_IndexIntermediate
+      parentName: L_IndexProximal
+      position: {x: 0.0000014584699, y: -0.0000018205594, z: 0.037927467}
+      rotation: {x: 0.10676588, y: 0.5537382, z: 0.09522337, w: 0.8203094}
+      scale: {x: 0.99995506, y: 0.99994946, z: 0.99994975}
+    - name: L_IndexDistal
+      parentName: L_IndexIntermediate
+      position: {x: 0.0000009285007, y: 0.00000015937881, z: 0.024305161}
+      rotation: {x: 0.02149205, y: 0.110070944, z: 0.010696806, w: 0.99363375}
+      scale: {x: 1.0000453, y: 1.0000079, z: 1.0000004}
+    - name: L_IndexTip
+      parentName: L_IndexDistal
+      position: {x: -0.00029495324, y: 0.0010254311, z: 0.022364646}
+      rotation: {x: -0, y: -0, z: 8.22183e-10, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: L_MiddleMetacarpal
+      parentName: L_Wrist
+      position: {x: 0.00361, y: -0.007648, z: 0.034286}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_MiddleProximal
+      parentName: L_MiddleMetacarpal
+      position: {x: -0.0018839999, y: 0.005105, z: 0.061360996}
+      rotation: {x: 0.1896454, y: -0.011715394, z: 0.009750121, w: 0.98173434}
+      scale: {x: 0.9999646, y: 1.000007, z: 1.000008}
+    - name: L_MiddleIntermediate
+      parentName: L_MiddleProximal
+      position: {x: -0.00000033112343, y: -0.0000008804644, z: 0.042926535}
+      rotation: {x: 0.20427479, y: -0.0019675614, z: 0.012308918, w: 0.9788343}
+      scale: {x: 1.0000314, y: 0.999996, z: 1.0000381}
+    - name: L_MiddleDistal
+      parentName: L_MiddleIntermediate
+      position: {x: 0.00000017030132, y: 0.0000005871987, z: 0.027548432}
+      rotation: {x: -0.03223577, y: -0.0019388128, z: 0.040453266, w: 0.9986595}
+      scale: {x: 0.99997187, y: 1.000014, z: 0.99996334}
+    - name: L_MiddleTip
+      parentName: L_MiddleDistal
+      position: {x: -0.00030950914, y: 0.0011371507, z: 0.02496384}
+      rotation: {x: -0, y: -0, z: 7.275957e-11, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
+    - name: L_RingMetacarpal
+      parentName: L_Wrist
+      position: {x: -0.014992, y: -0.0060159997, z: 0.034776}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_RingProximal
+      parentName: L_RingMetacarpal
+      position: {x: -0.002473, y: -0.000513, z: 0.053917997}
+      rotation: {x: 0.08123157, y: -0.0861534, z: 0.05587994, w: 0.9913912}
+      scale: {x: 0.99998987, y: 1.0000367, z: 1.0000347}
+    - name: L_RingIntermediate
+      parentName: L_RingProximal
+      position: {x: 0.0000005266108, y: 0.0000003652638, z: 0.03899503}
+      rotation: {x: 0.30174103, y: 0.0072941408, z: 0.039557096, w: 0.95254105}
+      scale: {x: 1.0000358, y: 0.9999273, z: 0.9999417}
+    - name: L_RingDistal
+      parentName: L_RingIntermediate
+      position: {x: -0.000001039646, y: -0.00000054232555, z: 0.026573557}
+      rotation: {x: 0.09175542, y: 0.029570328, z: 0.008964408, w: 0.99530214}
+      scale: {x: 0.9999345, y: 0.9999724, z: 1.0000098}
+    - name: L_RingTip
+      parentName: L_RingDistal
+      position: {x: -0.0002563861, y: 0.0016081122, z: 0.024326071}
+      rotation: {x: -0.000029370189, y: -0.000000016763806, z: 0.00000004400499, w: 1}
+      scale: {x: 1, y: 1.0000553, z: 1.0000001}
+    - name: L_ThumbMetacarpal
+      parentName: L_Wrist
+      position: {x: 0.030218, y: -0.016083999, z: 0.034498}
+      rotation: {x: 0.29808015, y: 0.58043385, z: -0.5970516, w: 0.46666276}
+      scale: {x: 1.0000205, y: 1.0000343, z: 0.9999788}
+    - name: L_ThumbProximal
+      parentName: L_ThumbMetacarpal
+      position: {x: -0.000001152053, y: -0.000004860463, z: 0.032513987}
+      rotation: {x: 0.13021831, y: 0.047612462, z: 0.10037694, w: 0.9852415}
+      scale: {x: 0.99999255, y: 0.9999971, z: 0.99996305}
+    - name: L_ThumbDistal
+      parentName: L_ThumbProximal
+      position: {x: -0.000001023574, y: -0.000001828242, z: 0.033794336}
+      rotation: {x: -0.023023298, y: -0.4193751, z: 0.123295, w: 0.8991067}
+      scale: {x: 0.9999872, y: 0.99997383, z: 0.99999315}
+    - name: L_ThumbTip
+      parentName: L_ThumbDistal
+      position: {x: -0.00067067984, y: 0.0010256439, z: 0.02459195}
+      rotation: {x: -0, y: -0, z: 0.000000005122274, w: 1}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: L_Palm
+      parentName: L_Wrist
+      position: {x: 0.000863, y: -0.001272, z: 0.047823}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_LittleMetacarpal
+      parentName: L_Wrist
+      position: {x: -0.022999, y: -0.009419999, z: 0.034073997}
+      rotation: {x: 0.58626443, y: -0.25654832, z: 0.23647588, w: 0.7311335}
+      scale: {x: 1.0000185, y: 1.0000081, z: 0.99995893}
+    - name: L_LittleProximal
+      parentName: L_LittleMetacarpal
+      position: {x: 0.0000025303066, y: 0.000001160611, z: 0.045651983}
+      rotation: {x: -0.06267369, y: -0.051011845, z: -0.099036016, w: 0.99179727}
+      scale: {x: 0.99995625, y: 1.0000366, z: 1.0000681}
+    - name: L_LittleIntermediate
+      parentName: L_LittleProximal
+      position: {x: 0.0000001720091, y: -0.0000006646861, z: 0.030719941}
+      rotation: {x: 0.36025843, y: -0.025497988, z: 0.06776488, w: 0.9300386}
+      scale: {x: 1.0000153, y: 1.000007, z: 0.99995005}
+    - name: L_LittleDistal
+      parentName: L_LittleIntermediate
+      position: {x: 0.00000013540283, y: 0.0000006386686, z: 0.020311324}
+      rotation: {x: -0.44273016, y: 0.27743664, z: -0.09395976, w: 0.8474612}
+      scale: {x: 1.0000207, y: 0.99997133, z: 0.99997234}
+    - name: L_LittleTip
+      parentName: L_LittleDistal
+      position: {x: 0.00024632577, y: 0.0012151983, z: 0.021923328}
+      rotation: {x: -0, y: -0, z: -0.0000000074505797, w: 1}
+      scale: {x: 1.0000008, y: 1.0000027, z: 0.9999963}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
