@@ -96,10 +96,11 @@ public class Scene1Mgr : MonoBehaviour
         bool allLocked = true;
         for (int i = 0; i < ObjSocket.Length; i++)
         {
+            ObjUiNarasi[i].SetActive(false);
             if (!ObjSocket[i].GetComponent<SocketLockObject>().isFinishLocked)
             {
                 allLocked = false;
-                break;
+                //break;
             }
         }
 
