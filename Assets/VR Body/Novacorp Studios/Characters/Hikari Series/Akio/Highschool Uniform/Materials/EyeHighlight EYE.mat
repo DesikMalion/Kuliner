@@ -152,7 +152,7 @@ Material:
     - _IndirectLightIntensity: 0.1
     - _LightColorAttenuation: 0
     - _MToonVersion: 38
-    - _Metallic: 0
+    - _Metallic: 0.136
     - _Mode: 1
     - _OcclusionStrength: 1
     - _OutlineColorMode: 0
@@ -171,7 +171,7 @@ Material:
     - _ShadeShift: 0
     - _ShadeToony: 0.9
     - _ShadingGradeRate: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 0.507
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -184,8 +184,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
+    - _Color: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 0, g: 0, b: 0, a: 1}

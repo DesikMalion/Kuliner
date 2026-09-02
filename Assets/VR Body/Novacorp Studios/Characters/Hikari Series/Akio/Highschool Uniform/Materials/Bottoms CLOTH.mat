@@ -124,7 +124,7 @@ Material:
     - _CullMode: 2
     - _Cutoff: 0.5
     - _DebugMode: 0
-    - _DetailAlbedoMapScale: 1
+    - _DetailAlbedoMapScale: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
