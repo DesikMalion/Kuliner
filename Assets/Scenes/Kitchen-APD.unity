@@ -5644,7 +5644,7 @@ GameObject:
   - component: {fileID: 271194323}
   - component: {fileID: 271194322}
   - component: {fileID: 271194321}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShotFinal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8711,7 +8711,7 @@ GameObject:
   - component: {fileID: 484470781}
   - component: {fileID: 484470783}
   - component: {fileID: 484470782}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Buttons Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9853,7 +9853,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 518404355}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Elements
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9893,7 +9893,7 @@ GameObject:
   - component: {fileID: 522344178}
   - component: {fileID: 522344180}
   - component: {fileID: 522344179}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slider Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10030,7 +10030,7 @@ GameObject:
   - component: {fileID: 524929196}
   - component: {fileID: 524929195}
   - component: {fileID: 524929194}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Background Pannel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11756,7 +11756,7 @@ GameObject:
   - component: {fileID: 583289518}
   - component: {fileID: 583289520}
   - component: {fileID: 583289519}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Toggles Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12821,6 +12821,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1990114299}
     m_Modifications:
+    - target: {fileID: 909881759767330623, guid: e5db301629853dd4a99835fa70099d79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989151356592697494, guid: e5db301629853dd4a99835fa70099d79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4591731477880629220, guid: e5db301629853dd4a99835fa70099d79,
         type: 3}
       propertyPath: m_text
@@ -12835,6 +12845,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TextButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5289182684458692540, guid: e5db301629853dd4a99835fa70099d79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5289182684458692540, guid: e5db301629853dd4a99835fa70099d79,
         type: 3}
@@ -13010,6 +13025,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228554695504750986, guid: e5db301629853dd4a99835fa70099d79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13277,7 +13297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 651507506}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Labels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14087,7 +14107,7 @@ GameObject:
   - component: {fileID: 661262693}
   - component: {fileID: 661262695}
   - component: {fileID: 661262694}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14223,7 +14243,7 @@ GameObject:
   - component: {fileID: 667106083}
   - component: {fileID: 667106085}
   - component: {fileID: 667106084}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14357,7 +14377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 667603748}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: FollowingUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16099,7 +16119,7 @@ GameObject:
   - component: {fileID: 720522922}
   - component: {fileID: 720522921}
   - component: {fileID: 720522920}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Background Pannel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18118,6 +18138,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 518404355}
     m_Modifications:
+    - target: {fileID: 909881759767330623, guid: e5db301629853dd4a99835fa70099d79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989151356592697494, guid: e5db301629853dd4a99835fa70099d79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4591731477880629220, guid: e5db301629853dd4a99835fa70099d79,
         type: 3}
       propertyPath: m_text
@@ -18132,6 +18162,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TextButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5289182684458692540, guid: e5db301629853dd4a99835fa70099d79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5289182684458692540, guid: e5db301629853dd4a99835fa70099d79,
         type: 3}
@@ -18282,6 +18317,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228554695504750986, guid: e5db301629853dd4a99835fa70099d79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19181,7 +19221,7 @@ GameObject:
   - component: {fileID: 909261191}
   - component: {fileID: 909261193}
   - component: {fileID: 909261192}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Dropdown Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19788,7 +19828,7 @@ GameObject:
   - component: {fileID: 941244660}
   - component: {fileID: 941244659}
   - component: {fileID: 941244658}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Background Pannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20165,7 +20205,7 @@ GameObject:
   - component: {fileID: 946472478}
   - component: {fileID: 946472477}
   - component: {fileID: 946472476}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Background Pannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20258,7 +20298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 947626651}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Labels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20299,7 +20339,7 @@ GameObject:
   - component: {fileID: 956627626}
   - component: {fileID: 956627628}
   - component: {fileID: 956627627}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Toggles Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25815,7 +25855,7 @@ GameObject:
   - component: {fileID: 1278414696}
   - component: {fileID: 1278414698}
   - component: {fileID: 1278414697}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Buttons Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26961,7 +27001,7 @@ GameObject:
   - component: {fileID: 1341670932}
   - component: {fileID: 1341670931}
   - component: {fileID: 1341670930}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34899,7 +34939,7 @@ GameObject:
   - component: {fileID: 1672610251}
   - component: {fileID: 1672610253}
   - component: {fileID: 1672610252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slider Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37874,7 +37914,7 @@ GameObject:
   - component: {fileID: 1820731556}
   - component: {fileID: 1820731558}
   - component: {fileID: 1820731557}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40856,7 +40896,7 @@ GameObject:
   - component: {fileID: 1948655750}
   - component: {fileID: 1948655752}
   - component: {fileID: 1948655751}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Dropdown Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40994,7 +41034,7 @@ GameObject:
   - component: {fileID: 1953964820}
   - component: {fileID: 1953964822}
   - component: {fileID: 1953964821}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text Button Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41872,7 +41912,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1990114299}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Elements
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41912,7 +41952,7 @@ GameObject:
   - component: {fileID: 2000699487}
   - component: {fileID: 2000699489}
   - component: {fileID: 2000699488}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43500,7 +43540,7 @@ GameObject:
   - component: {fileID: 2052966395}
   - component: {fileID: 2052966397}
   - component: {fileID: 2052966396}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text Button Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
