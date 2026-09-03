@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using static UnityEngine.Rendering.GPUSort;
 
 public class Scene1Mgr : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Scene1Mgr : MonoBehaviour
 
     public GameObject NarasiFinal;
 
+    bool isStarted = false;
+
     void Start()
     {
         NarasiAwal.SetActive(true);
@@ -23,17 +26,29 @@ public class Scene1Mgr : MonoBehaviour
         for (int i = 0; i < ObjShapes.Length; i++)
         {
             ObjShapes[i].GetComponent<AdvancedOutline>().enabled = false;
+            ObjShapes[i].GetComponent<Rigidbody>().isKinematic = true;
+            BoxCollider[] boxColliders = ObjShapes[i].transform.GetComponentsInChildren<BoxCollider>();
+            foreach (BoxCollider boxCollider in boxColliders)
+            {
+                boxCollider.enabled = false;
+            }
 
         }
 
     }
 
     public void HideNarasiAwal() { 
+        isStarted = true;
         NarasiAwal.SetActive(false);
         for (int i = 0; i < ObjShapes.Length; i++)
         {
             ObjShapes[i].GetComponent<AdvancedOutline>().enabled = true;
-
+            ObjShapes[i].GetComponent<Rigidbody>().isKinematic = false;
+            BoxCollider[] boxColliders = ObjShapes[i].transform.GetComponentsInChildren<BoxCollider>();
+            foreach (BoxCollider boxCollider in boxColliders)
+            {
+                boxCollider.enabled = true;
+            }
         }
     }
 
@@ -73,6 +88,7 @@ public class Scene1Mgr : MonoBehaviour
     }
 
     public void HoverShapes(GameObject obj) { 
+        if (!isStarted) return;
         for (int i = 0; i < ObjShapes.Length; i++)
         {
             ObjUiNarasi[i].SetActive(false);
@@ -85,7 +101,8 @@ public class Scene1Mgr : MonoBehaviour
     }
 
 
-    public void ExitHoverShapes() { 
+    public void ExitHoverShapes() {
+        if (!isStarted) return;
         for (int i = 0; i < ObjShapes.Length; i++)
         {
             ObjUiNarasi[i].SetActive(false);
