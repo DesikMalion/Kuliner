@@ -25,7 +25,9 @@ public class Scene1Mgr : MonoBehaviour
 
         for (int i = 0; i < ObjShapes.Length; i++)
         {
-            ObjShapes[i].GetComponent<AdvancedOutline>().enabled = false;
+            ObjShapes[i].GetComponent<AdvancedOutline>().OutlineMode = AdvancedOutline.Mode.OutlineHidden;
+            ObjShapes[i].GetComponent<AdvancedOutline>().OutlineWidth = 0;
+            ObjShapes[i].GetComponent<AdvancedOutline>().PulseWidth = false;
             ObjShapes[i].GetComponent<Rigidbody>().isKinematic = true;
             BoxCollider[] boxColliders = ObjShapes[i].transform.GetComponentsInChildren<BoxCollider>();
             foreach (BoxCollider boxCollider in boxColliders)
@@ -42,7 +44,9 @@ public class Scene1Mgr : MonoBehaviour
         NarasiAwal.SetActive(false);
         for (int i = 0; i < ObjShapes.Length; i++)
         {
-            ObjShapes[i].GetComponent<AdvancedOutline>().enabled = true;
+            ObjShapes[i].GetComponent<AdvancedOutline>().OutlineMode = AdvancedOutline.Mode.OutlineVisible;
+            ObjShapes[i].GetComponent<AdvancedOutline>().OutlineWidth = 10;
+            ObjShapes[i].GetComponent<AdvancedOutline>().PulseWidth = true;
             ObjShapes[i].GetComponent<Rigidbody>().isKinematic = false;
             BoxCollider[] boxColliders = ObjShapes[i].transform.GetComponentsInChildren<BoxCollider>();
             foreach (BoxCollider boxCollider in boxColliders)

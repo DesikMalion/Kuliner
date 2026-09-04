@@ -325,23 +325,13 @@ namespace ITISKIRUHERE
             foreach ( MeshFilter meshFilter in _meshFilters )
             {
                 if ( !meshFilter ) continue;
-;
+                
                 Mesh originalMesh;
                 if ( !_originalMeshes.TryGetValue( meshFilter, out originalMesh ) )
                 {
                     originalMesh = meshFilter.sharedMesh;
                 }
                 if ( !originalMesh ) continue;
-
-                if (!originalMesh.isReadable)
-                {
-                    Debug.LogWarning(
-                        $"AdvancedOutline: Mesh '{originalMesh.name}' is not readable. " +
-                        "Smooth normals skipped."
-                    );
-
-                    continue;
-                }
 
                 Mesh meshCopy;
                 if ( !_clonedMeshes.TryGetValue( meshFilter, out meshCopy ) )
@@ -359,7 +349,7 @@ namespace ITISKIRUHERE
                     _runtimeBakeCache[originalMesh] = smoothNormals;
                 }
 
-                //meshCopy.SetUVs( 3, smoothNormals );
+                meshCopy.SetUVs( 3, smoothNormals );
 
                 Renderer renderer = meshFilter.GetComponent<Renderer>();
                 if ( renderer )

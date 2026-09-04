@@ -7,15 +7,21 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Kitchen-APD.unity
-    guid: 7a409cb99f067f64bb2bc165e37f06e8
+    guid: 39210c05a937d9d49be5746b31dbae62
   - enabled: 1
     path: Assets/Scenes/Kitchen-Safety.unity
+    guid: bb3db2b648e507c48b527d6b3a3c1f54
+  - enabled: 0
+    path: Assets/Scenes/TestScene/Kitchen-APD-.unity
+    guid: 7a409cb99f067f64bb2bc165e37f06e8
+  - enabled: 0
+    path: Assets/Scenes/TestScene/Kitchen-Safety-.unity
     guid: c9c8f1a82dc38b44684f12201aa8e483
   - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/TestScene/SampleScene.unity
     guid: 13f6f87036926f94ab0417ca1b31725c
   - enabled: 0
-    path: Assets/Scenes/BasicScene.unity
+    path: Assets/Scenes/TestScene/BasicScene.unity
     guid: bc761d9a86b33554f85fd11bb1f87ba3
   - enabled: 0
     path: Assets/Scenes/Restaurant.unity
@@ -27,7 +33,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Laundry.unity
     guid: 58001dfbdc27b1845b2279ada27b2a86
   - enabled: 0
-    path: Assets/Scenes/Kitchen.unity
+    path: Assets/Scenes/TestScene/Kitchen.unity
     guid: df0e13ee70d15124489c3ae826e52a42
   - enabled: 0
     path: Assets/Scenes/Lobby.unity
