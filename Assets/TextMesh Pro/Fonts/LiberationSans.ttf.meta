@@ -17,3 +17,10 @@ TrueTypeFontImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 170222
+  packageName: XR Interaction ToolKit Starter Kit
+  packageVersion: 
+  assetPath: Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+  uploadId: 0
