@@ -58,6 +58,7 @@ public class Scene2Mgr : MonoBehaviour
 
         Case2JetBurnerOff();
         Case2ControlBurnerOff();
+        Case3BlenderOff();
     }
 
     void OutlineEnabler(bool isEnable, GameObject obj)
@@ -272,6 +273,13 @@ public class Scene2Mgr : MonoBehaviour
 
     public void Case2Naration() {
 
+        Case1ResetSelection();
+
+        for (int i = 0; i < ObjHandCase1.Length; i++)
+        {
+            ObjHandCase1[i].SetActive(false);
+        }
+
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
             ObjUiNarasi[i].SetActive(false);
@@ -396,6 +404,7 @@ public class Scene2Mgr : MonoBehaviour
         ObjShapesCase2[5].SetActive(false);
         ObjShapesCase2[6].SetActive(false);
         ObjShapesCase2[7].SetActive(false);
+        ObjShapesCase2[8].SetActive(true);
         ObjShapesCase2[4].SetActive(true);
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
@@ -405,6 +414,98 @@ public class Scene2Mgr : MonoBehaviour
         ObjUiNarasi[6].SetActive(true);
     }
 
+    public void Case2PintuExit() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
 
+        ObjShapesCase2[8].SetActive(true);
+        //OutlineEnabler(true, ObjShapesCase2[8]);
+    }
+
+    public void Case2Finish()
+    {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        ObjShapesCase2[8].SetActive(false);
+        ObjShapesCase2[9].SetActive(false);
+        //OutlineEnabler(true, ObjShapesCase2[8]);
+        ObjUiNarasi[7].SetActive(true);
+    }
+
+    public void Case3Start() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[8].SetActive(true);
+
+        ObjSelection[9].SetActive(true);
+        ObjSelection[10].SetActive(true);
+
+    }
+
+    public void Case3Peringatan() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[9].SetActive(true);
+        //ObjSelection[10].SetActive(false);
+    }
+
+    public void Case3TombolBlender() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        //ObjUiNarasi[10].SetActive(true);
+
+        OutlineEnabler(true, ObjShapes[9]);
+        isBlenderOn = true;
+    }
+
+    XRKnob BlenderKnob;
+    public bool isBlenderOn = false;
+
+    public void Case3BlenderOff()
+    {
+        if (!isBlenderOn) return;
+        if (!BlenderKnob)
+            BlenderKnob = ObjShapes[9].GetComponent<XRKnob>();
+
+        if (BlenderKnob.Value == 0)
+        {
+            OutlineEnabler(false, ObjShapes[9]);
+
+            ObjUiNarasi[10].SetActive(true);
+
+            ObjSelection[10].GetComponent<ithappy.Construction.RotationScript>().enabled =false;
+            isBlenderOn = false;
+        }
+    }
+
+    public void Case3CabutKabel(){
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjSocket[4].SetActive(true);
+        ObjSocket[5].SetActive(true);
+        OutlineEnabler(true, ObjShapes[4]);
+
+    }
+
+    public void Case3Finish() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[11].SetActive(true);
+    }
 
 }
