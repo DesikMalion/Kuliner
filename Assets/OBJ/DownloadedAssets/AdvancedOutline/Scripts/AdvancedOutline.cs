@@ -158,7 +158,7 @@ namespace ITISKIRUHERE
 
         void OnTransformChildrenChanged()
         {
-            RefreshRenderers();
+            //RefreshRenderers();
         }
 
         void Update()

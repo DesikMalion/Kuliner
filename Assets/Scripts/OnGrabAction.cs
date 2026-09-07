@@ -48,10 +48,14 @@ public class ObjectGrabEvent : MonoBehaviour
         Debug.Log("Object sedang ditunjuk!");
 
         IXRHoverInteractor interactor = args.interactorObject;
+        xRSocketInteractor = interactor as XRSocketInteractor;
+        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+        if (!socketLockObject.interactables)
+            return;
 
         //Debug.Log("Interactor: " + interactor.transform.name);
 
-        if(!isGrabbed)
+        if (!isGrabbed)
         {
             isHovered = true;
             onHoverEnterEvent.Invoke();
@@ -80,6 +84,11 @@ public class ObjectGrabEvent : MonoBehaviour
 
         IXRSelectInteractor interactor = args.interactorObject;
 
+        xRSocketInteractor = interactor as XRSocketInteractor;
+        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+        if (!socketLockObject.interactables)
+            return;
+
         //Debug.Log("Di grab oleh: " + interactor.transform.name);
         isGrabbed = true;
         onGrabbedEvent.Invoke();
@@ -94,6 +103,11 @@ public class ObjectGrabEvent : MonoBehaviour
     private void OnReleased(SelectExitEventArgs args)
     {
         Debug.Log("Object dilepas");
+        IXRSelectInteractor interactor = args.interactorObject;
+        xRSocketInteractor = interactor as XRSocketInteractor;
+        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+        if (!socketLockObject.interactables)
+            return;
         isGrabbed = false;
         onReleaseEvent.Invoke();
     }

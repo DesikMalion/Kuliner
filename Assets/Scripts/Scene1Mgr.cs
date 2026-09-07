@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
-using static UnityEngine.Rendering.GPUSort;
-
 public class Scene1Mgr : MonoBehaviour
 {
     public GameObject NarasiAwal;
