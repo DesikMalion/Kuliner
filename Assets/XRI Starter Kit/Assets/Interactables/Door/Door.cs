@@ -91,7 +91,7 @@ namespace MikeNspired.XRIStarterKit
                 if (m_BackKnob)  m_BackKnob.Value  = 0f;
 
                 // Also place the door visually at an "open" angle
-                MoveDoorToOpenAngle();
+                //MoveDoorToOpenAngle();
             }
             else
             {
@@ -106,6 +106,7 @@ namespace MikeNspired.XRIStarterKit
                 // Visually put the door at angle 0 (fully closed)
                 m_DoorRigidBody.transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
+            //m_DoorJoint.transform.eulerAngles = Vector3.zero;
 
             // Ensure puller is disabled initially
             if (m_DoorPuller)

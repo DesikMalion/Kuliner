@@ -10,6 +10,7 @@ public class SocketLockObject : MonoBehaviour
     public UnityEvent onObjectSnappedEvent;
     [SerializeField] private XRSocketInteractor socket;
     public bool isFinishLocked = false;
+    public bool interactables = true;
 
     private void Awake()
     {
@@ -29,6 +30,8 @@ public class SocketLockObject : MonoBehaviour
     {
         Debug.Log("Object masuk socket: " + args.interactableObject.transform.name);
 
+        if (!interactables)
+            return;
         
         XRGrabInteractable grabInteractable =
             args.interactableObject.transform.GetComponent<XRGrabInteractable>();
