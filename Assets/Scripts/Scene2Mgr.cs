@@ -110,7 +110,7 @@ public class Scene2Mgr : MonoBehaviour
 
     }
 
-
+    #region case 1 Kondisi Alat Panas
     public void CaseNarasiAwal()
     {
         NarasiAwal.SetActive(false);
@@ -120,6 +120,9 @@ public class Scene2Mgr : MonoBehaviour
         }
 
         ObjUiNarasi[0].SetActive(true);
+        ObjSelection[12].SetActive(true);
+        ObjShapesCase2[4].SetActive(false);
+        ObjShapesCase2[10].SetActive(false);
     }
 
     public void Case1Selection() {
@@ -270,10 +273,13 @@ public class Scene2Mgr : MonoBehaviour
 
 
     }
+    #endregion
 
+    #region case 2 Kobaran Api dari Kompor
     public void Case2Naration() {
 
         Case1ResetSelection();
+
 
         for (int i = 0; i < ObjHandCase1.Length; i++)
         {
@@ -285,6 +291,9 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         ObjUiNarasi[4].SetActive(true);
+        ObjSelection[12].SetActive(true);
+        ObjShapesCase2[4].SetActive(false);
+        ObjShapesCase2[10].SetActive(true);
 
     }
 
@@ -436,7 +445,9 @@ public class Scene2Mgr : MonoBehaviour
         //OutlineEnabler(true, ObjShapesCase2[8]);
         ObjUiNarasi[7].SetActive(true);
     }
+    #endregion
 
+    #region case 3 Blender
     public void Case3Start() {
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
@@ -507,5 +518,134 @@ public class Scene2Mgr : MonoBehaviour
         }
         ObjUiNarasi[11].SetActive(true);
     }
+    #endregion
+
+    #region case 4 Air Mendidih
+    public void Case4Start() {
+
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        ObjUiNarasi[12].SetActive(true);
+        ObjShapes[5].SetActive(true);
+        ObjShapes[6].SetActive(true);
+
+    }
+
+    public void Case4APD() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        ObjUiNarasi[13].SetActive(true);
+
+    }
+
+    public void Case4APDSelect() {
+
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        ObjSelection[13].SetActive(true);
+        ObjSelection[14].SetActive(true);
+        ObjSelection[15].SetActive(true);
+    }
+
+    int case4SelectedCount = 0;
+    public void Case4APDObjSelect(GameObject Obj) {
+        case4SelectedCount++;
+        Obj.SetActive(false);
+        for (int i = 0; i < ObjHandAvatarCase1.Length; i++)
+        {
+            if (ObjHandAvatarCase1[i].name == Obj.name)
+            {
+                ObjHandAvatarCase1[i].SetActive(true);
+            }
+
+        }
+
+        if (Obj.name.ToLower().Contains("right"))
+        {
+            ObjHandAvatarDefaultR.SetActive(false);
+        }
+        else if (Obj.name.ToLower().Contains("left"))
+        {
+            ObjHandAvatarDefaultL.SetActive(false);
+
+        }
+
+        if (case4SelectedCount >= 3)
+        {
+            Case4TutupPanci();
+        }
+    }
+
+    public void Case4TutupPanci()
+    {
+
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        ObjUiNarasi[14].SetActive(true);
+
+    }
+
+    public void Case4TutupPanciEnable() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        ObjSocket[6].SetActive(true);
+        //OutlineEnabler(true, ObjShapes[6]);
+        ObjShapes[5].SetActive(true);
+        OutlineEnabler(true, ObjShapes[5]);
+
+        Collider[] boxColliders = ObjShapes[6].transform.GetComponentsInChildren<Collider>();
+        foreach (Collider boxCollider in boxColliders)
+        {
+            boxCollider.enabled = true;
+        }
+
+    }
+
+    public void Case4Panci() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[15].SetActive(true);
+    }
+
+    public void Case4PanciEnable() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjSocket[7].SetActive(true);
+        ObjShapes[6].SetActive(true);
+        OutlineEnabler(true, ObjShapes[6]);
+
+    }
+
+    public void Case4Finish() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[16].SetActive(true);
+        OutlineEnabler(false, ObjShapes[6]);
+    }
+
+
+
+    #endregion
 
 }
