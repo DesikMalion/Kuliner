@@ -6,7 +6,10 @@ using UnityEngine;
 public class Scene2Mgr : MonoBehaviour
 {
 
+    public GameObject Player;
     public GameObject NarasiAwal;
+    public GameObject PintuKiri;
+    public GameObject PintuKanan;
 
     public GameObject[] ObjShapes;
     public GameObject[] ObjSocket;
@@ -25,9 +28,15 @@ public class Scene2Mgr : MonoBehaviour
     public GameObject[] ObjHandAvatarCase1;
 
     //case 2 Kobaran Api dari Kompor
+    bool isCase2Started = false;
     public GameObject[] ObjShapesCase2;
     public GameObject[] ObjSelectCase2;
     public GameObject[] ObjSelectAvatarCase2;
+
+    bool isCase5Started = false;
+
+    bool isPintuKiriWatcher = false;
+    bool isPintuKananWatcher = false;
 
 
     void Start()
@@ -58,7 +67,12 @@ public class Scene2Mgr : MonoBehaviour
 
         Case2JetBurnerOff();
         Case2ControlBurnerOff();
+        Case2Finish();
         Case3BlenderOff();
+        Case5CekPintu();
+        Case5RegulatorOff();
+        Case5CekTinggalDapur();
+
     }
 
     void OutlineEnabler(bool isEnable, GameObject obj)
@@ -309,6 +323,7 @@ public class Scene2Mgr : MonoBehaviour
 
         
         isJetBurnerOn = true;
+        isCase2Started = true;
     }
 
     XRKnob JetBurnerKnob;
@@ -423,6 +438,7 @@ public class Scene2Mgr : MonoBehaviour
         ObjUiNarasi[6].SetActive(true);
     }
 
+
     public void Case2PintuExit() {
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
@@ -431,19 +447,26 @@ public class Scene2Mgr : MonoBehaviour
 
         ObjShapesCase2[8].SetActive(true);
         //OutlineEnabler(true, ObjShapesCase2[8]);
+        isPintuKiriWatcher = true;
     }
 
     public void Case2Finish()
     {
-        for (int i = 0; i < ObjUiNarasi.Length; i++)
-        {
-            ObjUiNarasi[i].SetActive(false);
-        }
+        if (!isPintuKiriWatcher || !isCase2Started) return;
 
-        ObjShapesCase2[8].SetActive(false);
-        ObjShapesCase2[9].SetActive(false);
-        //OutlineEnabler(true, ObjShapesCase2[8]);
-        ObjUiNarasi[7].SetActive(true);
+        if (PintuKiri.transform.localEulerAngles.y > 45) {
+            isPintuKiriWatcher = false;
+            isCase2Started = false;
+            for (int i = 0; i < ObjUiNarasi.Length; i++)
+            {
+                ObjUiNarasi[i].SetActive(false);
+            }
+
+            ObjShapesCase2[8].SetActive(false);
+            ObjShapesCase2[9].SetActive(false);
+            //OutlineEnabler(true, ObjShapesCase2[8]);
+            ObjUiNarasi[7].SetActive(true);
+        }
     }
     #endregion
 
@@ -466,6 +489,7 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         ObjUiNarasi[9].SetActive(true);
+        PintuKiri.transform.localEulerAngles = new Vector3(0, 0, 0);
         //ObjSelection[10].SetActive(false);
     }
 
@@ -643,9 +667,134 @@ public class Scene2Mgr : MonoBehaviour
         ObjUiNarasi[16].SetActive(true);
         OutlineEnabler(false, ObjShapes[6]);
     }
-
-
-
     #endregion
 
+    public void Case5Start() {
+        Case1Selection();
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[17].SetActive(true);
+
+        isCase5Started = true;
+
+        isPintuKiriWatcher = false;
+        isPintuKananWatcher = false;
+    }
+
+
+    public void Case5Identifikasi()
+    {
+
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        ObjUiNarasi[18].SetActive(true);
+
+        ObjSelection[16].SetActive(true);
+        ObjSelection[8].SetActive(true);
+        ObjSelection[18].SetActive(true);
+
+        PintuKiri.transform.localEulerAngles = new Vector3(0, 0, 0);
+        PintuKanan.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+    }
+
+    public void Case5SetPintu() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        isPintuKiriWatcher = true;
+        isPintuKananWatcher = true;
+    }
+
+
+    void Case5CekPintu() {
+
+        if (!isCase5Started && (!isPintuKiriWatcher || !isPintuKananWatcher))
+            return;
+        if (PintuKiri.transform.localEulerAngles.x > 25 &&
+                PintuKiri.transform.localEulerAngles.x > 25) 
+            {
+                isPintuKiriWatcher = false;
+                isPintuKananWatcher = false;
+                ObjSelection[8].SetActive(false);
+                ObjSelection[18].SetActive(false);
+
+                ObjUiNarasi[19].SetActive(true);
+            }
+
+    }
+
+    public void Case5CekRegulator() {
+
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
+        OutlineEnabler(true, ObjShapes[10]);
+        isRegulatorEnable = true;
+    }
+
+    public bool isRegulatorEnable = false;
+    XRKnob knobRegulator;
+    void Case5RegulatorOff() {
+        if (!isRegulatorEnable) return;
+
+        if (!knobRegulator)
+            knobRegulator = ObjShapes[10].GetComponent<XRKnob>();
+
+        //Debug.Log("Case2JetBurnerOff: " + JetBurnerKnob.Value);
+        if (knobRegulator.Value == 0)
+        {
+
+            OutlineEnabler(false, ObjShapes[10]);
+
+            ObjUiNarasi[20].SetActive(true);
+            ObjSelection[16].SetActive(false);
+            isRegulatorEnable = false;
+
+        }
+    }
+
+    public void Case5TinggalkanDapur() {
+
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        isCase5TinggalDapur = true;
+    }
+
+    bool isCase5TinggalDapur = false;
+    void Case5CekTinggalDapur() { 
+        if (!isCase5TinggalDapur) return;
+
+        if (Player.transform.localPosition.z > 5.4f) {
+
+            isCase5TinggalDapur = false;
+            ObjUiNarasi[21].SetActive(true);
+        }
+
+    }
+
+    public void Case5Finish()
+    {
+
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[22].SetActive(true);
+    }
+
+
 }
+
+
