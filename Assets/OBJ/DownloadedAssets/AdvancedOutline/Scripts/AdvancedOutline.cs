@@ -116,13 +116,30 @@ namespace ITISKIRUHERE
         public Shader OutlineMaskShader { get => _outlineMaskShader; set { _outlineMaskShader = value; _needsUpdate = true; } }
         public Shader OutlineFillShader { get => _outlineFillShader; set { _outlineFillShader = value; _needsUpdate = true; } }
 
+        public bool alreadyBaked = false;
         void Awake()
         {
-            _propertyBlock = new MaterialPropertyBlock();
-            CachePropertyIDs();
-            InitializeBakeCache();
-            InitializeMaterials();
-            RefreshRenderers();
+            CekAlreadyBake();
+
+            if (!alreadyBaked)
+            {
+                _propertyBlock = new MaterialPropertyBlock();
+                CachePropertyIDs();
+                //InitializeBakeCache();
+                InitializeMaterials();
+                RefreshRenderers();
+            }
+        }
+
+        void CekAlreadyBake() {
+
+            CacheComponents();
+            if (_meshFilters.Length > 0) {
+
+                if (_meshFilters[0].name.ToLower().Contains("(clone)")) {
+                    alreadyBaked = true;
+                }
+            }
         }
 
         void OnEnable()
@@ -131,16 +148,16 @@ namespace ITISKIRUHERE
             {
                 _propertyBlock = new MaterialPropertyBlock();
             }
-            CachePropertyIDs();
-            InitializeBakeCache();
-            InitializeMaterials();
-            RefreshRenderers();
+            //CachePropertyIDs();
+            //InitializeBakeCache();
+            //InitializeMaterials();
+            //RefreshRenderers();
         }
 
         void OnDisable()
         {
-            CleanAllOutlineMaterialsFromRenderers();
-            ClearClonedMeshes();
+            //CleanAllOutlineMaterialsFromRenderers();
+            //ClearClonedMeshes();
         }
 
         void OnDestroy()
@@ -199,7 +216,7 @@ namespace ITISKIRUHERE
 
             if ( _precomputeOutline && _bakeKeys.Count == 0 )
             {
-                Bake();
+                //Bake();
             }
             #endif
         }
@@ -208,7 +225,7 @@ namespace ITISKIRUHERE
         {
             CacheComponents();
             CleanAllOutlineMaterialsFromRenderers();
-            LoadSmoothNormals();
+           // LoadSmoothNormals();
             ApplyMaterialsToRenderers();
             _needsUpdate = true;
         }
@@ -440,13 +457,15 @@ namespace ITISKIRUHERE
         #if UNITY_EDITOR
         public void EditorBake()
         {
-            Bake();
+          //  Bake();
             InitializeBakeCache();
             RefreshRenderers();
         }
 
         void Bake()
         {
+            CekAlreadyBake();
+            if (alreadyBaked)return;
             var bakedMeshes = new HashSet<Mesh>();
             _bakeKeys.Clear();
             _bakeValues.Clear();

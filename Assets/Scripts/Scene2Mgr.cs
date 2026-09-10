@@ -2,6 +2,7 @@ using ITISKIRUHERE;
 using MikeNspired.XRIStarterKit;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Scene2Mgr : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class Scene2Mgr : MonoBehaviour
 
     void Start()
     {
+        
         NarasiAwal.SetActive(true);
         NarasiFinal.SetActive(false);
 
@@ -55,11 +57,13 @@ public class Scene2Mgr : MonoBehaviour
         for (int i = 0; i < ObjSelection.Length; i++)
         {
             ObjSelection[i].SetActive(false);
+            //OutlineEnabler(false, ObjSelection[i]);
         }
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
             ObjUiNarasi[i].SetActive(false);
         }
+        
     }
 
     void Update()
@@ -67,9 +71,9 @@ public class Scene2Mgr : MonoBehaviour
 
         Case2JetBurnerOff();
         Case2ControlBurnerOff();
-        Case2Finish();
+        //Case2Finish();
         Case3BlenderOff();
-        Case5CekPintu();
+        //Case5CekPintu();
         Case5RegulatorOff();
         Case5CekTinggalDapur();
 
@@ -86,7 +90,7 @@ public class Scene2Mgr : MonoBehaviour
         }
         if (advancedOutline == null)
         {
-            Debug.LogError("AdvancedOutline component not found on the object or its children.");
+            //Debug.LogError("AdvancedOutline component not found on the object or its children.");
             return;
         }
         if (isEnable)
@@ -452,11 +456,11 @@ public class Scene2Mgr : MonoBehaviour
 
     public void Case2Finish()
     {
-        if (!isPintuKiriWatcher || !isCase2Started) return;
+        if (!isCase2Started) return;
 
-        if (PintuKiri.transform.localEulerAngles.y > 45) {
-            isPintuKiriWatcher = false;
-            isCase2Started = false;
+        PintuKiri.GetComponent<Animator>().enabled = true;
+
+        isCase2Started = false;
             for (int i = 0; i < ObjUiNarasi.Length; i++)
             {
                 ObjUiNarasi[i].SetActive(false);
@@ -466,7 +470,7 @@ public class Scene2Mgr : MonoBehaviour
             ObjShapesCase2[9].SetActive(false);
             //OutlineEnabler(true, ObjShapesCase2[8]);
             ObjUiNarasi[7].SetActive(true);
-        }
+
     }
     #endregion
 
@@ -669,6 +673,7 @@ public class Scene2Mgr : MonoBehaviour
     }
     #endregion
 
+    #region case 5 Kebocoran Gas
     public void Case5Start() {
         Case1Selection();
         for (int i = 0; i < ObjUiNarasi.Length; i++)
@@ -678,6 +683,8 @@ public class Scene2Mgr : MonoBehaviour
         ObjUiNarasi[17].SetActive(true);
 
         isCase5Started = true;
+        PintuKiri.GetComponent<Animator>().enabled = false;
+        PintuKiri.transform.localEulerAngles = new Vector3(0, 0, 0);
 
         isPintuKiriWatcher = false;
         isPintuKananWatcher = false;
@@ -692,11 +699,11 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
 
-        ObjUiNarasi[18].SetActive(true);
+        //ObjUiNarasi[18].SetActive(true);
 
         ObjSelection[16].SetActive(true);
         ObjSelection[8].SetActive(true);
-        ObjSelection[18].SetActive(true);
+        
 
         PintuKiri.transform.localEulerAngles = new Vector3(0, 0, 0);
         PintuKanan.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -708,26 +715,36 @@ public class Scene2Mgr : MonoBehaviour
         {
             ObjUiNarasi[i].SetActive(false);
         }
-
-        isPintuKiriWatcher = true;
-        isPintuKananWatcher = true;
+        ObjSelection[8].SetActive(true);
+        ObjSelection[18].SetActive(true);
+        //isPintuKiriWatcher = true;
+        //isPintuKananWatcher = true;
     }
 
+    bool isPintuKiriOpen = false;
+    bool isPintuKananOpen = false;
+    public void Case5BukakPintu(bool isKiri) {
 
-    void Case5CekPintu() {
-
-        if (!isCase5Started && (!isPintuKiriWatcher || !isPintuKananWatcher))
+        if (!isCase5Started )
             return;
-        if (PintuKiri.transform.localEulerAngles.x > 25 &&
-                PintuKiri.transform.localEulerAngles.x > 25) 
-            {
-                isPintuKiriWatcher = false;
-                isPintuKananWatcher = false;
-                ObjSelection[8].SetActive(false);
-                ObjSelection[18].SetActive(false);
+        if (isKiri)
+        {
+            PintuKiri.GetComponent<Animator>().enabled = true;
+            isPintuKiriOpen = true;
+        }
+        else
+        {
+            PintuKanan.GetComponent<Animator>().enabled = true;
+            isPintuKananOpen = true;
+        }
 
-                ObjUiNarasi[19].SetActive(true);
-            }
+        if (isPintuKiriOpen && isPintuKananOpen)
+        {
+            ObjSelection[8].SetActive(false);
+            ObjSelection[18].SetActive(false);
+
+            ObjUiNarasi[19].SetActive(true);
+        }
 
     }
 
@@ -794,6 +811,71 @@ public class Scene2Mgr : MonoBehaviour
         ObjUiNarasi[22].SetActive(true);
     }
 
+    #endregion
+
+    #region case 6 APAR
+    public void Case6Start() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[23].SetActive(true);
+        ObjSelection[20].SetActive(true);
+    }
+    public void Case6TeknikApar()
+    {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        ObjUiNarasi[24].SetActive(true);
+    }
+
+    public void Case6EnablePin()
+    {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+        OutlineEnabler(true, ObjShapes[11]);
+
+    }
+
+    public void Case6PinDisable()
+    {
+
+        OutlineEnabler(false, ObjShapes[11]);
+        OutlineEnabler(true, ObjShapes[12]);
+        ObjShapes[11].GetComponent<Animator>().enabled = true;
+        ObjSelection[21].SetActive(true);
+    }
+
+    public void Case6EnableHose()
+    {
+        OutlineEnabler(false, ObjShapes[12]);
+
+    }
+
+    int case6ApiPadam = 0;
+    public void Case6ApiPadam()
+    {
+        case6ApiPadam++;
+        if (case6ApiPadam >= 3)
+        {
+            for (int i = 0; i < ObjUiNarasi.Length; i++)
+            {
+                ObjUiNarasi[i].SetActive(false);
+            }
+            ObjUiNarasi[25].SetActive(true);
+        }
+        
+    }
+
+    #endregion
+
+    public void CaseNarasiFinal() { 
+        NarasiFinal.SetActive(true);
+    }
 
 }
 

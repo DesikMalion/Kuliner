@@ -40,7 +40,8 @@ public class VRig : MonoBehaviour
     void Update()
     {
         transform.position = headCons.position + headBodyOffset;
-      //  transform.forward = Vector3.Lerp(transform.forward, Vector3.ProjectOnPlane(headCons.up,Vector3.up).normalized,Time.deltaTime*TurnSmoothness);
+        transform.eulerAngles = new Vector3(0, head.VRTarget.eulerAngles.y, 0);
+        //  transform.forward = Vector3.Lerp(transform.forward, Vector3.ProjectOnPlane(headCons.up,Vector3.up).normalized,Time.deltaTime*TurnSmoothness);
         head.Map();
         rightHand.Map();
         leftHand.Map();
