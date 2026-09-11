@@ -54,7 +54,7 @@ public class MainMenuManager : MonoBehaviour
     void Update()
     {
         //adjust jarak dan tinggi panel
-        //PosisikanMenuDiDepanKamera();
+        PosisikanMenuDiDepanKamera();
     }
     public void BukaHome()
     {
