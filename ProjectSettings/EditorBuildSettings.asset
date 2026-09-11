@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Kitchen-Safety.unity
     guid: bb3db2b648e507c48b527d6b3a3c1f54
   - enabled: 1
-    path: Assets/Scenes/Kitchen-Safety-2.unity
+    path: Assets/Scenes/Kitchen-Safety-2-Bahaya-Apar.unity
     guid: f50efaa5920a5254299d9fbc4643b535
   - enabled: 0
     path: Assets/Scenes/TestScene/Kitchen-APD-.unity
