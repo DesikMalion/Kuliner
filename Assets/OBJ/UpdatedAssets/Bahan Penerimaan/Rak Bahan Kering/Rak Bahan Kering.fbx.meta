@@ -1,29 +1,69 @@
 fileFormatVersion: 2
-guid: 09bd93990daa3cd459fd7861493fa71d
+guid: 0a359e16610878847b6fce8f48067983
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
-      type: UnityEngine:Texture2D
+      type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Timbangan Bahan_diff
-    second: {fileID: 2800000, guid: 96fcaa0bd06895c49ae70a6dfac69d00, type: 3}
+      name: Alpha Rak Bahan kering
+    second: {fileID: 2100000, guid: 619bdfdc2b40846479d80f5ae092f083, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stainless Rak Bahan kering
+    second: {fileID: 2100000, guid: 30ecb94e78557f24bacadbb90e0dfe5b, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Timbangan Bahan_metal
-    second: {fileID: 2800000, guid: 2c06bf0bee18d9d4aaf86ab2ecfedcba, type: 3}
+      name: Opacity Rak Bahan
+    second: {fileID: 2800000, guid: 06f3a1db122f8454d90214524cae00de, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Timbangan Bahan_normal
-    second: {fileID: 2800000, guid: b56243c6fe827a04eb8ea28cab859fbe, type: 3}
+      name: Rak Bahan Kering_Alpha_BaseColor
+    second: {fileID: 2800000, guid: ebe086e4147a8544f864e8e6edf78eb5, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Timbangan Bahan_roughness
-    second: {fileID: 2800000, guid: 8e51bd89f1346e34b9edc66b0da943da, type: 3}
+      name: Rak Bahan Kering_Alpha_Emissive
+    second: {fileID: 2800000, guid: b9dda313ba6bcd647abfe2c535001d0e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Rak Bahan Kering_Alpha_Metallic
+    second: {fileID: 2800000, guid: 628f9e47e04eec84fbbc88a66528d234, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Rak Bahan Kering_Alpha_Normal
+    second: {fileID: 2800000, guid: a8ce87ac912e6644a8532f77854dc9c3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Rak Bahan Kering_Alpha_Roughness
+    second: {fileID: 2800000, guid: 7ceb30a91e021964dbf68b499eac8d07, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Rak Bahan Kering_stainless_BaseColor
+    second: {fileID: 2800000, guid: 3e5ea3d41dbd8a64d964c71d2330dce6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Rak Bahan Kering_stainless_Metallic
+    second: {fileID: 2800000, guid: 4e9610f2dc08e0842affa65ca5c97947, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Rak Bahan Kering_stainless_Normal
+    second: {fileID: 2800000, guid: def86ea4be3ec824d97ad977acc9561e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Rak Bahan Kering_stainless_Roughness
+    second: {fileID: 2800000, guid: c5adfacc494891c46b4f5d437ec8dfb3, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -11,7 +11,7 @@ public class AreaSortir : MonoBehaviour
         if (bahan != null)
         {
             // Beritahu bahan bahwa ia sedang berada di dalam area ini
-            bahan.SetAreaSortir(this);
+            bahan.SetAreaSaatIni(this);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -20,7 +20,7 @@ public class AreaSortir : MonoBehaviour
         if (bahan != null)
         {
             // Hapus data area jika bahan ditarik keluar lagi
-            bahan.HapusAreaSortir(this);
+            bahan.HapusAreaSaatIni(this);
         }
     }
     public void ProsesBahanMasuk(BahanData bahan)

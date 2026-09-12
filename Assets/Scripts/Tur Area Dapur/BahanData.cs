@@ -2,14 +2,8 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-// Kategori penyimpanan berdasarkan tabel Anda
-public enum TipePenyimpanan
-{
-    BelumDitentukan,
-    RakBahanKering,
-    LemariPendingin,
-    Freezer
-}
+// Membuat daftar pilihan kategori untuk dropdown di Inspector
+public enum KategoriSimpan { RakKering, Chiller, Freezer }
 
 [RequireComponent(typeof(XRGrabInteractable))]
 public class BahanData : MonoBehaviour
@@ -18,11 +12,10 @@ public class BahanData : MonoBehaviour
     public string namaBahan;
     [TextArea] public string deskripsiKondisi;
     public bool isLayakDiterima;
+    [HideInInspector] public bool sudahDisortir = false;
 
     [Header("Informasi Penyimpanan")]
-    public TipePenyimpanan tempatSeharusnya;
-
-    [HideInInspector] public bool sudahDisortir = false;
+    public KategoriSimpan kategoriPenyimpanan; // Kategori tempat yang benar
     [HideInInspector] public bool sudahDisimpan = false;
 
     private Vector3 posisiAwal;
@@ -30,8 +23,9 @@ public class BahanData : MonoBehaviour
     private Rigidbody rb;
     private XRGrabInteractable grabInteractable;
 
+    // Variabel pendeteksi zona
     private AreaSortir areaSortirSaatIni;
-    private AreaSortir areaSimpanSaatIni;
+    private ZonaPenyimpanan zonaSimpanSaatIni;
 
     private void Awake()
     {
@@ -48,37 +42,41 @@ public class BahanData : MonoBehaviour
     private void OnEnable()
     {
         if (grabInteractable != null)
+        {
             grabInteractable.selectExited.AddListener(OnDilepas);
+        }
     }
 
     private void OnDisable()
     {
         if (grabInteractable != null)
+        {
             grabInteractable.selectExited.RemoveListener(OnDilepas);
+        }
     }
 
-    // --- Logika Area Penerimaan ---
-    public void SetAreaSortir(AreaSortir area) { areaSortirSaatIni = area; }
-    public void HapusAreaSortir(AreaSortir area) { if (areaSortirSaatIni == area) areaSortirSaatIni = null; }
+    // --- LOGIKA PENERIMAAN ---
+    public void SetAreaSaatIni(AreaSortir area) { areaSortirSaatIni = area; }
+    public void HapusAreaSaatIni(AreaSortir area) { if (areaSortirSaatIni == area) areaSortirSaatIni = null; }
 
-    // --- Logika Area Penyimpanan ---
-    public void SetAreaSimpan(AreaSortir area) { areaSimpanSaatIni = area; }
-    public void HapusAreaSimpan(AreaSortir area) { if (areaSimpanSaatIni == area) areaSimpanSaatIni = null; }
+    // --- LOGIKA PENYIMPANAN ---
+    public void SetZonaSimpanSaatIni(ZonaPenyimpanan zona) { zonaSimpanSaatIni = zona; }
+    public void HapusZonaSimpanSaatIni(ZonaPenyimpanan zona) { if (zonaSimpanSaatIni == zona) zonaSimpanSaatIni = null; }
 
-    // Dieksekusi saat user melepaskan Grip/Trigger
     private void OnDilepas(SelectExitEventArgs args)
     {
-        // Cek apakah dilepas di Area Penerimaan
+        // Jika dilepas di meja penerimaan
         if (areaSortirSaatIni != null && !sudahDisortir)
         {
             sudahDisortir = true;
             areaSortirSaatIni.ProsesBahanMasuk(this);
         }
-        // Cek apakah dilepas di Area Penyimpanan
-        else if (areaSimpanSaatIni != null && !sudahDisimpan)
+
+        // Jika dilepas di kulkas/rak penyimpanan
+        if (zonaSimpanSaatIni != null && !sudahDisimpan)
         {
             sudahDisimpan = true;
-            areaSimpanSaatIni.ProsesBahanMasuk(this);
+            zonaSimpanSaatIni.ProsesBahanMasuk(this);
         }
     }
 
@@ -89,8 +87,9 @@ public class BahanData : MonoBehaviour
 
         sudahDisortir = false;
         sudahDisimpan = false;
+
         areaSortirSaatIni = null;
-        areaSimpanSaatIni = null;
+        zonaSimpanSaatIni = null;
 
         if (rb != null)
         {
