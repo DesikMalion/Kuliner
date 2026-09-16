@@ -9,6 +9,12 @@ TagManager:
   - Anchor
   - PlayerHand
   - Destroyer
+  - BahanBenar
+  - PisauDaging
+  - PisauSayur
+  - PisauBuah
+  - PisauKecil
+  - Gunting
   layers:
   - Default
   - TransparentFX
@@ -18,7 +24,7 @@ TagManager:
   - UI
   - Player
   - Mirror
-  - 
+  - Sliceable
   - 
   - 
   - 
