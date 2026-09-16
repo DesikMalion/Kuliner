@@ -12,7 +12,7 @@ public class ObjectGrabEvent : MonoBehaviour
 
     public UnityEvent onGrabbedEvent;
     public UnityEvent onReleaseEvent;
-    
+
     private XRGrabInteractable grabInteractable;
 
     public UnityEvent onHoverEnterEvent;
@@ -45,12 +45,21 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnHoverEntered(HoverEnterEventArgs args)
     {
+        Debug.Log("Object sedang ditunjuk!");
 
-        IXRHoverInteractor interactor = args.interactorObject;
-        xRSocketInteractor = interactor as XRSocketInteractor;
-        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
-        if (!socketLockObject.interactables)
-            return;
+        try
+        {
+            IXRHoverInteractor interactor = args.interactorObject;
+
+            xRSocketInteractor = interactor as XRSocketInteractor;
+            SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+            if (!socketLockObject.interactables)
+                return;
+        }
+        catch (System.NullReferenceException e)
+        {
+            Debug.Log("OnGrabbed: SocketLockObject null");
+        }
 
         //Debug.Log("Interactor: " + interactor.transform.name);
 
@@ -63,8 +72,9 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnHoverExited(HoverExitEventArgs args)
     {
+        Debug.Log("Object tidak lagi ditunjuk!");
 
-        IXRHoverInteractor interactor = args.interactorObject;
+        //IXRHoverInteractor interactor = args.interactorObject;
 
         //Debug.Log("Interactor keluar: " + interactor.transform.name);
 
@@ -80,12 +90,20 @@ public class ObjectGrabEvent : MonoBehaviour
     {
         Debug.Log("Object di grab");
 
-        IXRSelectInteractor interactor = args.interactorObject;
+        try
+        {
+            IXRSelectInteractor interactor = args.interactorObject;
 
-        xRSocketInteractor = interactor as XRSocketInteractor;
-        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
-        if (!socketLockObject.interactables)
-            return;
+            xRSocketInteractor = interactor as XRSocketInteractor;
+            SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+            if (!socketLockObject.interactables)
+                return;
+        }
+        catch (System.NullReferenceException e)
+        {
+            Debug.Log("OnGrabbed: SocketLockObject null");
+        }
+
 
         //Debug.Log("Di grab oleh: " + interactor.transform.name);
         isGrabbed = true;
@@ -101,11 +119,19 @@ public class ObjectGrabEvent : MonoBehaviour
     private void OnReleased(SelectExitEventArgs args)
     {
         Debug.Log("Object dilepas");
-        IXRSelectInteractor interactor = args.interactorObject;
-        xRSocketInteractor = interactor as XRSocketInteractor;
-        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
-        if (!socketLockObject.interactables)
-            return;
+        try
+        {
+            IXRSelectInteractor interactor = args.interactorObject;
+
+            xRSocketInteractor = interactor as XRSocketInteractor;
+            SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+            if (!socketLockObject.interactables)
+                return;
+        }
+        catch (System.NullReferenceException e)
+        {
+            Debug.Log("OnGrabbed: SocketLockObject null");
+        }
         isGrabbed = false;
         onReleaseEvent.Invoke();
     }

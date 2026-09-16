@@ -47,8 +47,12 @@ public class SocketLockObject : MonoBehaviour
 
             Debug.Log("Object berhasil di-lock");
             AdvancedOutline advancedOutline = args.interactableObject.transform.GetComponent<AdvancedOutline>();
-            if (advancedOutline != null)
-                advancedOutline.enabled = false;
+            if (advancedOutline != null) {
+
+                advancedOutline.PulseWidth = false;
+                advancedOutline.OutlineMode = AdvancedOutline.Mode.OutlineHidden;
+                advancedOutline.OutlineWidth = 0;
+            }
 
             args.interactableObject.transform.gameObject.isStatic = true;
 

@@ -95,9 +95,10 @@ public class Scene2Mgr : MonoBehaviour
         }
         if (isEnable)
         {
+            advancedOutline.PulseWidth = true;
             advancedOutline.OutlineMode = AdvancedOutline.Mode.OutlineVisible;
             advancedOutline.OutlineWidth = 10;
-            advancedOutline.PulseWidth = true;
+            
             Rigidbody rigidbody = obj.GetComponent<Rigidbody>();
             if (rigidbody != null)
             {
@@ -111,9 +112,10 @@ public class Scene2Mgr : MonoBehaviour
         }
         else
         {
+            advancedOutline.PulseWidth = false;
             advancedOutline.OutlineMode = AdvancedOutline.Mode.OutlineHidden;
             advancedOutline.OutlineWidth = 0;
-            advancedOutline.PulseWidth = false;
+            
             Rigidbody rigidbody = obj.GetComponent<Rigidbody>();
             if (rigidbody != null)
             {

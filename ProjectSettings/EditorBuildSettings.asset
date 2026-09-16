@@ -5,27 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Kitchen-APD.unity
-    guid: 39210c05a937d9d49be5746b31dbae62
+    guid: 1b15135b6cbb4584c97cefe6264b5fc0
   - enabled: 0
     path: Assets/Scenes/Kitchen-Safety.unity
     guid: bb3db2b648e507c48b527d6b3a3c1f54
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Kitchen-Safety-2-Bahaya-Apar.unity
     guid: f50efaa5920a5254299d9fbc4643b535
-  - enabled: 0
-    path: Assets/Scenes/TestScene/Kitchen-APD-.unity
-    guid: 7a409cb99f067f64bb2bc165e37f06e8
-  - enabled: 0
-    path: Assets/Scenes/TestScene/Kitchen-Safety-.unity
-    guid: c9c8f1a82dc38b44684f12201aa8e483
-  - enabled: 0
-    path: Assets/Scenes/TestScene/SampleScene.unity
-    guid: 13f6f87036926f94ab0417ca1b31725c
-  - enabled: 0
-    path: Assets/Scenes/TestScene/BasicScene.unity
-    guid: bc761d9a86b33554f85fd11bb1f87ba3
   - enabled: 0
     path: Assets/Scenes/Restaurant.unity
     guid: 9fb149b8fd54960489dfdbbeada6b3bd
