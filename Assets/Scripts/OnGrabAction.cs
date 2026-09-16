@@ -45,7 +45,6 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnHoverEntered(HoverEnterEventArgs args)
     {
-        Debug.Log("Object sedang ditunjuk!");
 
         IXRHoverInteractor interactor = args.interactorObject;
 
@@ -60,7 +59,6 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnHoverExited(HoverExitEventArgs args)
     {
-        Debug.Log("Object tidak lagi ditunjuk!");
 
         IXRHoverInteractor interactor = args.interactorObject;
 

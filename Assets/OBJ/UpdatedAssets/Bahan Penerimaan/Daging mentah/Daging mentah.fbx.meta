@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fa88ce3373eb1eb4ab12745848679582
+guid: e080252cc1f1f674c9b6db6bceafbc3a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,28 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Sayur Busuk
-    second: {fileID: 2100000, guid: 9d1a9098b91199f4a82e37bf7f5f5d77, type: 2}
+      name: Daging mentah
+    second: {fileID: 2100000, guid: 38e0cc62d7f5a3048ab1f5edf57237d4, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Sayur Rusak_diff
-    second: {fileID: 2800000, guid: d12e0d45c2e31dc42a5a49e5cb2bc56b, type: 3}
+      name: Daging mentah_diff
+    second: {fileID: 2800000, guid: 316d0e3d508e5da4489672b87cc80397, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Sayur Rusak_metal
-    second: {fileID: 2800000, guid: 56afddad5f7e7654baa304fa220b41a7, type: 3}
+      name: Daging mentah_metal
+    second: {fileID: 2800000, guid: 0600b2112c61f2d4b895d31e8baa487e, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Sayur Rusak_normal
-    second: {fileID: 2800000, guid: bf1b90cd4079b964a82a0dc1feb2079f, type: 3}
+      name: Daging mentah_normal
+    second: {fileID: 2800000, guid: 5a0926ee4b532254d8bfe3cbc556d880, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Sayur Rusak_roughness
-    second: {fileID: 2800000, guid: 7d0fad58a1527314089387db48d21754, type: 3}
+      name: Daging mentah_roughness
+    second: {fileID: 2800000, guid: fb17cc91e2bc4f24f89272f3921cc2bc, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
