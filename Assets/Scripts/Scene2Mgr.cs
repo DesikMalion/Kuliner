@@ -2,7 +2,6 @@ using ITISKIRUHERE;
 using MikeNspired.XRIStarterKit;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Scene2Mgr : MonoBehaviour
 {
@@ -63,7 +62,8 @@ public class Scene2Mgr : MonoBehaviour
         {
             ObjUiNarasi[i].SetActive(false);
         }
-        
+
+        ObjSelection[19].SetActive(true);
     }
 
     void Update()
@@ -109,6 +109,9 @@ public class Scene2Mgr : MonoBehaviour
             {
                 boxCollider.enabled = true;
             }
+            if (advancedOutline.gameObject.tag == "OutlineCircle") {
+                advancedOutline.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            }
         }
         else
         {
@@ -125,6 +128,10 @@ public class Scene2Mgr : MonoBehaviour
             foreach (Collider boxCollider in boxColliders)
             {
                 boxCollider.enabled = false;
+            }
+            if (advancedOutline.gameObject.tag == "OutlineCircle")
+            {
+                advancedOutline.gameObject.GetComponent<MeshRenderer>().enabled = false;
             }
         }
 
@@ -143,6 +150,9 @@ public class Scene2Mgr : MonoBehaviour
         ObjSelection[12].SetActive(true);
         ObjShapesCase2[4].SetActive(false);
         ObjShapesCase2[10].SetActive(false);
+
+        ObjSelection[19].SetActive(true);
+        ObjShapes[9].SetActive(false);
     }
 
     public void Case1Selection() {
@@ -162,9 +172,11 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
 
-
+        
         ObjHandAvatarDefaultR.SetActive(true);
         ObjHandAvatarDefaultL.SetActive(true);
+
+        ObjSelection[22].SetActive(true);
     }
 
     GameObject selectedCase1_1 = null;
@@ -223,7 +235,9 @@ public class Scene2Mgr : MonoBehaviour
                     ObjHandCase1[i].SetActive(false);
                 }
 
+                ObjSelection[22].SetActive(false);
                 ObjUiNarasi[2].SetActive(true);
+
             }
             else {
 
@@ -270,7 +284,7 @@ public class Scene2Mgr : MonoBehaviour
         {
             OutlineEnabler(true, ObjShapesCase1[i]);
         }
-
+        
     }
 
     public void Case1FinishLoyang()
@@ -344,7 +358,7 @@ public class Scene2Mgr : MonoBehaviour
         if (!BurnerKnob)
             BurnerKnob = ObjShapesCase2[1].GetComponent<XRKnob>();
         //Debug.Log("Case2JetBurnerOff: " + JetBurnerKnob.Value);
-        if (JetBurnerKnob.Value == 1)
+        if (JetBurnerKnob.Value > 0.5f)
         {
             OutlineEnabler(true, ObjShapesCase2[1]);
             OutlineEnabler(false, ObjShapesCase2[0]);
@@ -358,7 +372,7 @@ public class Scene2Mgr : MonoBehaviour
     public void Case2ControlBurnerOff()
     {
         if (!isControlBurnerOn) return;
-        if (BurnerKnob.Value == 1)
+        if (BurnerKnob.Value > 0.5f)
         {
             OutlineEnabler(false, ObjShapesCase2[1]);
             OutlineEnabler(false, ObjShapesCase2[0]);
@@ -390,6 +404,8 @@ public class Scene2Mgr : MonoBehaviour
 
         }
 
+        ObjSelection[23].SetActive(true);
+
 
     }
 
@@ -418,6 +434,15 @@ public class Scene2Mgr : MonoBehaviour
             selectedCase2_2 = obj;
             OutlineEnabler(true, ObjShapesCase2[5]);
             ObjShapesCase2[6].SetActive(true);
+            ObjShapesCase2[5].SetActive(true);
+            ObjSelection[23].SetActive(false);
+
+            for (int i = 0; i < ObjShapesCase1.Length; i++)
+            {
+                ObjShapesCase1[i].SetActive(false);
+                ObjSocketCase1[i].SetActive(false);
+                
+            }
         }
     }
 
@@ -505,6 +530,7 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         //ObjUiNarasi[10].SetActive(true);
+        ObjShapes[9].SetActive(true);
 
         OutlineEnabler(true, ObjShapes[9]);
         isBlenderOn = true;
@@ -519,7 +545,7 @@ public class Scene2Mgr : MonoBehaviour
         if (!BlenderKnob)
             BlenderKnob = ObjShapes[9].GetComponent<XRKnob>();
 
-        if (BlenderKnob.Value == 0)
+        if (BlenderKnob.Value <= 0.125f)
         {
             OutlineEnabler(false, ObjShapes[9]);
 
@@ -561,6 +587,8 @@ public class Scene2Mgr : MonoBehaviour
         ObjUiNarasi[12].SetActive(true);
         ObjShapes[5].SetActive(true);
         ObjShapes[6].SetActive(true);
+        OutlineEnabler(false, ObjShapes[5]);
+        OutlineEnabler(false, ObjShapes[6]);
 
     }
 
@@ -581,9 +609,10 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
 
-        ObjSelection[13].SetActive(true);
-        ObjSelection[14].SetActive(true);
-        ObjSelection[15].SetActive(true);
+        //ObjSelection[13].SetActive(true);
+        //ObjSelection[14].SetActive(true);
+        //ObjSelection[15].SetActive(true);
+        ObjSelection[24].SetActive(true);
     }
 
     int case4SelectedCount = 0;
@@ -617,6 +646,7 @@ public class Scene2Mgr : MonoBehaviour
 
     public void Case4TutupPanci()
     {
+        ObjSelection[24].SetActive(false);
 
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
@@ -628,15 +658,11 @@ public class Scene2Mgr : MonoBehaviour
     }
 
     public void Case4TutupPanciEnable() {
+
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
             ObjUiNarasi[i].SetActive(false);
         }
-
-        ObjSocket[6].SetActive(true);
-        //OutlineEnabler(true, ObjShapes[6]);
-        ObjShapes[5].SetActive(true);
-        OutlineEnabler(true, ObjShapes[5]);
 
         Collider[] boxColliders = ObjShapes[6].transform.GetComponentsInChildren<Collider>();
         foreach (Collider boxCollider in boxColliders)
@@ -644,9 +670,14 @@ public class Scene2Mgr : MonoBehaviour
             boxCollider.enabled = true;
         }
 
+        ObjSocket[6].SetActive(true);
+        OutlineEnabler(true, ObjShapes[5]);
+
+
     }
 
     public void Case4Panci() {
+        OutlineEnabler(false, ObjShapes[5]);
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
             ObjUiNarasi[i].SetActive(false);
@@ -660,7 +691,6 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         ObjSocket[7].SetActive(true);
-        ObjShapes[6].SetActive(true);
         OutlineEnabler(true, ObjShapes[6]);
 
     }
@@ -678,6 +708,7 @@ public class Scene2Mgr : MonoBehaviour
     #region case 5 Kebocoran Gas
     public void Case5Start() {
         Case1Selection();
+        ObjSelection[22].SetActive(false);
         for (int i = 0; i < ObjUiNarasi.Length; i++)
         {
             ObjUiNarasi[i].SetActive(false);
@@ -690,6 +721,9 @@ public class Scene2Mgr : MonoBehaviour
 
         isPintuKiriWatcher = false;
         isPintuKananWatcher = false;
+
+        ObjSelection[8].SetActive(false);
+        ObjSelection[18].SetActive(false);
     }
 
 
@@ -701,12 +735,13 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
 
-        //ObjUiNarasi[18].SetActive(true);
+        ObjUiNarasi[18].SetActive(true);
 
         ObjSelection[16].SetActive(true);
-        ObjSelection[8].SetActive(true);
-        
+        //ObjSelection[8].SetActive(true);
 
+        PintuKiri.GetComponent<Animator>().enabled = false;
+        PintuKanan.GetComponent<Animator>().enabled = false;
         PintuKiri.transform.localEulerAngles = new Vector3(0, 0, 0);
         PintuKanan.transform.localEulerAngles = new Vector3(0, 0, 0);
 
@@ -719,25 +754,36 @@ public class Scene2Mgr : MonoBehaviour
         }
         ObjSelection[8].SetActive(true);
         ObjSelection[18].SetActive(true);
+        isCase5BukakPintu = true;
         //isPintuKiriWatcher = true;
         //isPintuKananWatcher = true;
     }
 
+    bool isCase5BukakPintu = false;
     bool isPintuKiriOpen = false;
     bool isPintuKananOpen = false;
     public void Case5BukakPintu(bool isKiri) {
 
-        if (!isCase5Started )
+        if (isCase5Started && isCase5BukakPintu) { }
+        else
+        {
             return;
+        }
         if (isKiri)
         {
             PintuKiri.GetComponent<Animator>().enabled = true;
             isPintuKiriOpen = true;
+            ObjSelection[18].SetActive(false);
         }
         else
         {
             PintuKanan.GetComponent<Animator>().enabled = true;
             isPintuKananOpen = true;
+            ObjSelection[8].SetActive(false);
+            if (!isPintuKiriOpen)
+            {
+                ObjSelection[18].SetActive(true);
+            }
         }
 
         if (isPintuKiriOpen && isPintuKananOpen)
@@ -770,7 +816,7 @@ public class Scene2Mgr : MonoBehaviour
             knobRegulator = ObjShapes[10].GetComponent<XRKnob>();
 
         //Debug.Log("Case2JetBurnerOff: " + JetBurnerKnob.Value);
-        if (knobRegulator.Value == 0)
+        if (knobRegulator.Value >= 0.9167f)
         {
 
             OutlineEnabler(false, ObjShapes[10]);
@@ -789,6 +835,7 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         isCase5TinggalDapur = true;
+        ObjSelection[25].SetActive(true);
     }
 
     bool isCase5TinggalDapur = false;
@@ -799,6 +846,7 @@ public class Scene2Mgr : MonoBehaviour
 
             isCase5TinggalDapur = false;
             ObjUiNarasi[21].SetActive(true);
+            ObjSelection[25].SetActive(false);
         }
 
     }

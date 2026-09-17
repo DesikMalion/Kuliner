@@ -8,30 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Kitchen-APD.unity
     guid: 1b15135b6cbb4584c97cefe6264b5fc0
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Kitchen-Safety.unity
-    guid: bb3db2b648e507c48b527d6b3a3c1f54
-  - enabled: 0
+    guid: c930e2cff35bc8040bd1290965fc766e
+  - enabled: 1
     path: Assets/Scenes/Kitchen-Safety-2-Bahaya-Apar.unity
-    guid: f50efaa5920a5254299d9fbc4643b535
-  - enabled: 0
-    path: Assets/Scenes/Restaurant.unity
-    guid: 9fb149b8fd54960489dfdbbeada6b3bd
-  - enabled: 0
-    path: Assets/Scenes/Double Bedroom.unity
-    guid: cecd5e872bddd77409b9f2e069ff7539
-  - enabled: 0
-    path: Assets/Scenes/Laundry.unity
-    guid: 58001dfbdc27b1845b2279ada27b2a86
-  - enabled: 0
-    path: Assets/Scenes/TestScene/Kitchen.unity
-    guid: df0e13ee70d15124489c3ae826e52a42
-  - enabled: 0
-    path: Assets/Scenes/Lobby.unity
-    guid: a994843535981244bb7b7d202c886a16
-  - enabled: 0
-    path: Assets/Scenes/Single Bedroom.unity
-    guid: ae140e771c1001348a6783076a34394e
+    guid: d6146accbbe27b249a139f26ceeeaddf
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f733a9693051d1c4ead95434902e1e33,
       type: 2}

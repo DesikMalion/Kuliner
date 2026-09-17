@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 [RequireComponent(typeof(XRGrabInteractable))]
 public class ObjectGrabEvent : MonoBehaviour
 {
+    public bool TestGrabbed = false;
     bool isGrabbed = false;
     bool isHovered = false;
 
@@ -29,6 +30,12 @@ public class ObjectGrabEvent : MonoBehaviour
 
         grabInteractable.hoverEntered.AddListener(OnHoverEntered);
         grabInteractable.hoverExited.AddListener(OnHoverExited);
+    }
+
+    private void OnEnable()
+    {
+        if (!TestGrabbed) return;
+        OnGrabbed(null);
     }
 
     private void OnDestroy()

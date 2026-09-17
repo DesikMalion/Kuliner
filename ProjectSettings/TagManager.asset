@@ -15,6 +15,7 @@ TagManager:
   - PisauBuah
   - PisauKecil
   - Gunting
+  - OutlineCircle
   layers:
   - Default
   - TransparentFX
