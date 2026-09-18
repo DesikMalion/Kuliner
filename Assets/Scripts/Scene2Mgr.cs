@@ -64,6 +64,8 @@ public class Scene2Mgr : MonoBehaviour
         }
 
         ObjSelection[19].SetActive(true);
+        ObjSelection[10].GetComponent<ithappy.Construction.RotationScript>().enabled = false;
+
     }
 
     void Update()
@@ -509,9 +511,19 @@ public class Scene2Mgr : MonoBehaviour
         }
         ObjUiNarasi[8].SetActive(true);
 
+        ObjSelection[10].GetComponent<ithappy.Construction.RotationScript>().enabled = true;
+
+
+    }
+
+    public void Case3BlenderAktif() {
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
+
         ObjSelection[9].SetActive(true);
         ObjSelection[10].SetActive(true);
-
     }
 
     public void Case3Peringatan() {
@@ -520,7 +532,10 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         ObjUiNarasi[9].SetActive(true);
+        PintuKiri.GetComponent<Animator>().enabled = false;
         PintuKiri.transform.localEulerAngles = new Vector3(0, 0, 0);
+        ObjSelection[9].SetActive(false);
+
         //ObjSelection[10].SetActive(false);
     }
 
@@ -530,7 +545,8 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         //ObjUiNarasi[10].SetActive(true);
-        ObjShapes[9].SetActive(true);
+        ObjShapes[9].SetActive(true); 
+        ObjSelection[9].SetActive(false);
 
         OutlineEnabler(true, ObjShapes[9]);
         isBlenderOn = true;
@@ -561,9 +577,10 @@ public class Scene2Mgr : MonoBehaviour
         {
             ObjUiNarasi[i].SetActive(false);
         }
-        ObjSocket[4].SetActive(true);
-        ObjSocket[5].SetActive(true);
+        //ObjSocket[4].SetActive(true);
+        //ObjSocket[5].SetActive(true);
         OutlineEnabler(true, ObjShapes[4]);
+        ObjShapes[4].GetComponent<Rigidbody>().isKinematic = true;
 
     }
 
@@ -573,6 +590,8 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         ObjUiNarasi[11].SetActive(true);
+        OutlineEnabler(false, ObjShapes[4]);
+        ObjShapes[4].GetComponent<Animator>().enabled = true;
     }
     #endregion
 
@@ -888,6 +907,7 @@ public class Scene2Mgr : MonoBehaviour
             ObjUiNarasi[i].SetActive(false);
         }
         OutlineEnabler(true, ObjShapes[11]);
+        ObjShapes[11].GetComponent<Rigidbody>().isKinematic = true;
 
     }
 
@@ -923,7 +943,12 @@ public class Scene2Mgr : MonoBehaviour
 
     #endregion
 
-    public void CaseNarasiFinal() { 
+    public void CaseNarasiFinal() {
+
+        for (int i = 0; i < ObjUiNarasi.Length; i++)
+        {
+            ObjUiNarasi[i].SetActive(false);
+        }
         NarasiFinal.SetActive(true);
     }
 
