@@ -8,6 +8,10 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 public class ObjectGrabEvent : MonoBehaviour
 {
     public bool TestGrabbed = false;
+    public bool TestHovered = false;
+    public bool TestRelease = false;
+    public bool TestHoverExit = false;
+
     bool isGrabbed = false;
     bool isHovered = false;
 
@@ -34,8 +38,26 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnEnable()
     {
-        if (!TestGrabbed) return;
-        OnGrabbed(null);
+        if (TestGrabbed)
+        {
+            onGrabbedEvent.Invoke();
+        }
+
+        if (TestHovered)
+        {
+            onHoverEnterEvent.Invoke();
+        }
+
+        if (TestRelease)
+        {
+            onReleaseEvent.Invoke();
+        }
+
+        if (TestHoverExit) 
+        {  
+            onHoverExitEvent.Invoke();
+        }
+
     }
 
     private void OnDestroy()

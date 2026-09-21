@@ -7,10 +7,12 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class SocketLockObject : MonoBehaviour
 {
+    public bool TestEvent = false;
     public UnityEvent onObjectSnappedEvent;
     [SerializeField] private XRSocketInteractor socket;
     public bool isFinishLocked = false;
     public bool interactables = true;
+    public bool EventOnly = false;
 
     private void Awake()
     {
@@ -26,9 +28,23 @@ public class SocketLockObject : MonoBehaviour
             socket.selectEntered.RemoveListener(OnObjectSnapped);
     }
 
+    private void OnEnable()
+    {
+        if (TestEvent) {
+
+            onObjectSnappedEvent.Invoke();
+        }
+    }
+
     private void OnObjectSnapped(SelectEnterEventArgs args)
     {
         Debug.Log("Object masuk socket: " + args.interactableObject.transform.name);
+
+        if (EventOnly) {
+            isFinishLocked = true;
+            onObjectSnappedEvent.Invoke();
+            return;
+        }
 
         if (!interactables)
             return;
