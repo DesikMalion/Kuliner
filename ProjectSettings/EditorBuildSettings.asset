@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Kitchen-Safety.unity
     guid: c930e2cff35bc8040bd1290965fc766e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Kitchen-Safety-2-Bahaya-Apar.unity
     guid: d6146accbbe27b249a139f26ceeeaddf
+  - enabled: 0
+    path: Assets/Scenes/Kitchen-Safety-3-P3K.unity
+    guid: 5175401f51d52d542bf0058a17c54240
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f733a9693051d1c4ead95434902e1e33,
       type: 2}

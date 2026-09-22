@@ -317,7 +317,7 @@ public class SceneP3KMgr : MonoBehaviour
 
     IEnumerator WaitKuis1Plester()
     {
-        yield return new WaitForSeconds(.25f);
+        yield return new WaitForSeconds(.5f);
         StartCoroutine(WaitSetKinematic(ObjShapes[15], true));
         OutlineOn(ObjShapes[15]);
         OutlineOff(ObjShapes[2]);
@@ -331,9 +331,6 @@ public class SceneP3KMgr : MonoBehaviour
 
     public void Kuis1Finish() {
 
-        //ObjSetKinematic(ObjShapes[15], false, false);
-       // ObjShapes[15].GetComponentInChildren<BoxCollider>().enabled = false;
-        //ObjShapes[15].GetComponent<Rigidbody>().isKinematic = true;
         StartCoroutine(WaitSetKinematic(ObjShapes[15], false));
         
         HideUIShapes();
