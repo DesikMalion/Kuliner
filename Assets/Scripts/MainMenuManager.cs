@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] Transform menuCanvas;//drag Canvas (World Space) yang jadi parent semua panel
     [SerializeField] float jarakDariKamera = 1.5f;
     [SerializeField] float tinggiOffset = 0f;
+
+    private bool isAPressed = false;
 
     private void Awake()
     {
@@ -54,7 +57,36 @@ public class MainMenuManager : MonoBehaviour
     void Update()
     {
         //adjust jarak dan tinggi panel
-        PosisikanMenuDiDepanKamera();
+        //PosisikanMenuDiDepanKamera();
+
+        InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+
+        if (rightHand.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonPressed))
+        {
+            if (primaryButtonPressed && !isAPressed)
+            {
+                isAPressed = true; // Tandai tombol sedang ditahan
+
+                // 4. Panggil fungsi untuk menampilkan menu kembali
+                MunculkanMenu();
+            }
+            else if (!primaryButtonPressed)
+            {
+                isAPressed = false; // Reset saat tombol A dilepas
+            }
+        }
+    }
+    public void MunculkanMenu()
+    {
+        // Jika menu sedang di-hide (tidak aktif), maka aktifkan
+        if (menuCanvas != null && !menuCanvas.gameObject.activeSelf)
+        {
+            menuCanvas.gameObject.SetActive(true);
+
+            // Opsional: Atur ulang posisinya di depan wajah pemain 
+            // agar tidak muncul di posisi tertinggal (di belakang pemain)
+            PosisikanMenuDiDepanKamera();
+        }
     }
     public void BukaHome()
     {

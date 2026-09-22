@@ -53,8 +53,8 @@ public class ObjectGrabEvent : MonoBehaviour
             onReleaseEvent.Invoke();
         }
 
-        if (TestHoverExit) 
-        {  
+        if (TestHoverExit)
+        {
             onHoverExitEvent.Invoke();
         }
 
