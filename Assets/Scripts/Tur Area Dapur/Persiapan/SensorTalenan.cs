@@ -3,7 +3,6 @@ using UnityEngine;
 public class SensorTalenan : MonoBehaviour
 {
     [Header("Pengaturan Talenan")]
-    [Tooltip("Tentukan jenis talenan ini")]
     public TipeTalenan jenisTalenanIni;
 
     [Header("Referensi Manager")]
@@ -11,25 +10,13 @@ public class SensorTalenan : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Cek apakah benda yang menyentuh talenan adalah Bahan Persiapan
         BahanPersiapan bahan = other.GetComponent<BahanPersiapan>();
-
-        // Jika yang menyentuh adalah parent, coba cari di komponennya
         if (bahan == null) bahan = other.GetComponentInParent<BahanPersiapan>();
 
-        if (bahan != null && !bahan.sedangDiTalenan)
+        if (bahan != null)
         {
-            bahan.sedangDiTalenan = true;
-
-            // Evaluasi Kontaminasi Silang
-            if (bahan.talenanYangBenar != jenisTalenanIni)
-            {
-                // Lapor ke manager bahwa terjadi pelanggaran
-                if (managerPersiapan != null)
-                {
-                    managerPersiapan.CatatPelanggaranKontaminasi(bahan.namaBahan, jenisTalenanIni, bahan.talenanYangBenar);
-                }
-            }
+            // Memberi tahu bahan bahwa dia sedang berada di atas talenan ini
+            bahan.SetTalenan(this);
         }
     }
 
@@ -40,7 +27,28 @@ public class SensorTalenan : MonoBehaviour
 
         if (bahan != null)
         {
-            bahan.sedangDiTalenan = false;
+            // Menghapus data jika benda ditarik keluar dari talenan
+            bahan.HapusTalenan(this);
+            //bahan.sudahDievaluasi = false; // Reset agar bisa dinilai lagi jika ditaruh ulang
+        }
+    }
+
+    // Fungsi ini sekarang dipanggil/diperintah oleh objek bahan SAAT DILEPAS
+    public void ProsesEvaluasiBahan(BahanPersiapan bahan)
+    {
+        if (bahan.talenanYangBenar != jenisTalenanIni)
+        {
+            if (managerPersiapan != null)
+            {
+                managerPersiapan.CatatPelanggaranKontaminasi(bahan.namaBahan, jenisTalenanIni, bahan.talenanYangBenar);
+            }
+        }
+        else
+        {
+            if (managerPersiapan != null)
+            {
+                managerPersiapan.CatatPenempatanBenar();
+            }
         }
     }
 }

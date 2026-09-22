@@ -12,6 +12,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Rak Bahan Kering
+    second: {fileID: 2100000, guid: ef579460eb6a86a47a230d2960d2b319, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Stainless Rak Bahan kering
     second: {fileID: 2100000, guid: 30ecb94e78557f24bacadbb90e0dfe5b, type: 2}
   - first:
@@ -48,22 +53,22 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Rak Bahan Kering_stainless_BaseColor
-    second: {fileID: 2800000, guid: 3e5ea3d41dbd8a64d964c71d2330dce6, type: 3}
+    second: {fileID: 2800000, guid: 2901a4f073e4dba47ab8eacbe0e02111, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Rak Bahan Kering_stainless_Metallic
-    second: {fileID: 2800000, guid: 4e9610f2dc08e0842affa65ca5c97947, type: 3}
+    second: {fileID: 2800000, guid: dbc762bd536c4a7438098c29ffe53d4e, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Rak Bahan Kering_stainless_Normal
-    second: {fileID: 2800000, guid: def86ea4be3ec824d97ad977acc9561e, type: 3}
+    second: {fileID: 2800000, guid: d8384e205572d0747b09935e50959201, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Rak Bahan Kering_stainless_Roughness
-    second: {fileID: 2800000, guid: c5adfacc494891c46b4f5d437ec8dfb3, type: 3}
+    second: {fileID: 2800000, guid: 79b230a72a93e544ab568f187cddece0, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

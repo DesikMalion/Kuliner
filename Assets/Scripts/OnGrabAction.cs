@@ -7,7 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 [RequireComponent(typeof(XRGrabInteractable))]
 public class ObjectGrabEvent : MonoBehaviour
 {
-    bool isGrabbed = false;
+    public bool isGrabbed = false;
     bool isHovered = false;
 
     public UnityEvent onGrabbedEvent;
@@ -45,12 +45,15 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnHoverEntered(HoverEnterEventArgs args)
     {
+        
+        //IXRHoverInteractor interactor = args.interactorObject;
+        //xRSocketInteractor = interactor as XRSocketInteractor;
+        //Debug.Log("Tes hover" + xRSocketInteractor.gameObject.name);
+        //SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+        //if (!socketLockObject.interactables)
+        //    return;
 
-        IXRHoverInteractor interactor = args.interactorObject;
-        xRSocketInteractor = interactor as XRSocketInteractor;
-        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
-        if (!socketLockObject.interactables)
-            return;
+
 
         //Debug.Log("Interactor: " + interactor.transform.name);
 
@@ -80,12 +83,12 @@ public class ObjectGrabEvent : MonoBehaviour
     {
         Debug.Log("Object di grab");
 
-        IXRSelectInteractor interactor = args.interactorObject;
+        //IXRSelectInteractor interactor = args.interactorObject;
 
-        xRSocketInteractor = interactor as XRSocketInteractor;
-        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
-        if (!socketLockObject.interactables)
-            return;
+        //xRSocketInteractor = interactor as XRSocketInteractor;
+        //SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+        //if (!socketLockObject.interactables)
+        //    return;
 
         //Debug.Log("Di grab oleh: " + interactor.transform.name);
         isGrabbed = true;
@@ -100,12 +103,12 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnReleased(SelectExitEventArgs args)
     {
-        Debug.Log("Object dilepas");
-        IXRSelectInteractor interactor = args.interactorObject;
-        xRSocketInteractor = interactor as XRSocketInteractor;
-        SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
-        if (!socketLockObject.interactables)
-            return;
+        //Debug.Log("Object dilepas");
+        //IXRSelectInteractor interactor = args.interactorObject;
+        //xRSocketInteractor = interactor as XRSocketInteractor;
+        //SocketLockObject socketLockObject = xRSocketInteractor.GetComponent<SocketLockObject>();
+        //if (!socketLockObject.interactables)
+        //    return;
         isGrabbed = false;
         onReleaseEvent.Invoke();
     }
