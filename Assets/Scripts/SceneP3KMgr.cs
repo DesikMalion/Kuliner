@@ -17,8 +17,8 @@ public class SceneP3KMgr : MonoBehaviour
     public GameObject[] UIShapes;
     public GameObject[] ObjListKuis;
 
-    List<Vector3>ShapesPos = new List<Vector3>();
-    List<Vector3>ShapesRot = new List<Vector3>();
+    List<Vector3> ShapesPos = new List<Vector3>();
+    List<Vector3> ShapesRot = new List<Vector3>();
 
 
     void Start()
@@ -44,13 +44,14 @@ public class SceneP3KMgr : MonoBehaviour
 
         for (int i = 0; i < ObjShapes.Length; i++)
         {
-            ObjSetKinematic(ObjShapes[i], false,false);
+            ObjSetKinematic(ObjShapes[i], false, false);
         }
 
         HideUIShapes();
     }
 
-    void ResetObjShapesPos() {
+    void ResetObjShapesPos()
+    {
 
         for (int i = 0; i < ObjShapes.Length; i++)
         {
@@ -70,7 +71,8 @@ public class SceneP3KMgr : MonoBehaviour
             ShapesRot.Add(ObjShapes[i].transform.eulerAngles);
         }
 
-        for (int i = 0; i < ObjListKuis.Length; i++) {
+        for (int i = 0; i < ObjListKuis.Length; i++)
+        {
 
             ObjListKuis[i].SetActive(false);
         }
@@ -156,7 +158,8 @@ public class SceneP3KMgr : MonoBehaviour
 
     }
 
-    public void ObjSetKinematic(GameObject obj, bool enable, bool setAll = true) {
+    public void ObjSetKinematic(GameObject obj, bool enable, bool setAll = true)
+    {
         // Debug.Log("ObjSetKinematic called with enable: " + enable + " for object: " + obj.name);
 
         if (setAll)
@@ -171,7 +174,8 @@ public class SceneP3KMgr : MonoBehaviour
                 }
             }
         }
-        else {
+        else
+        {
             obj.GetComponentInChildren<BoxCollider>().enabled = enable;
             obj.GetComponent<Rigidbody>().isKinematic = !enable;
         }
@@ -186,9 +190,10 @@ public class SceneP3KMgr : MonoBehaviour
         }
     }
 
-    public void OnGrab(GameObject obj) {
+    public void OnGrab(GameObject obj)
+    {
 
-        if (!isStarted)return;
+        if (!isStarted) return;
 
         if (isKuis1)
         {
@@ -197,6 +202,26 @@ public class SceneP3KMgr : MonoBehaviour
             return;
         }
 
+        if (isKuis2)
+        {
+            StartCoroutine(Kuis2Jawab(obj));
+
+            return;
+        }
+
+        if (isKuis3)
+        {
+            StartCoroutine(Kuis3Jawab(obj));
+
+            return;
+        }
+
+        if (isKuis4)
+        {
+            StartCoroutine(Kuis4Jawab(obj));
+
+            return;
+        }
 
         if (isKuis)
             return;
@@ -211,7 +236,8 @@ public class SceneP3KMgr : MonoBehaviour
 
     }
 
-    public void OnRelease(GameObject obj) {
+    public void OnRelease(GameObject obj)
+    {
         if (!isStarted) return;
 
         if (isKuis)
@@ -223,7 +249,8 @@ public class SceneP3KMgr : MonoBehaviour
         //ObjSetKinematic(obj, false);
     }
 
-    public void OnHoverEnter(GameObject obj) {
+    public void OnHoverEnter(GameObject obj)
+    {
         if (!isStarted) return;
 
         if (isKuis)
@@ -237,7 +264,8 @@ public class SceneP3KMgr : MonoBehaviour
         }
     }
 
-    public void OnHoverExit(GameObject obj) {
+    public void OnHoverExit(GameObject obj)
+    {
         if (!isStarted) return;
 
         if (isKuis)
@@ -249,10 +277,11 @@ public class SceneP3KMgr : MonoBehaviour
     }
 
 
-    #region Kuis
+    #region Kuis 1
 
     bool isKuis = false;
-    public void ButtonStartKuis() {
+    public void ButtonStartKuis()
+    {
 
         TombolKuis.SetActive(false);
         ResetShapesSocket();
@@ -264,7 +293,7 @@ public class SceneP3KMgr : MonoBehaviour
         UIShapes[17].SetActive(true);
         ObjListKuis[0].SetActive(true);
         ObjListKuis[1].SetActive(true);
-        
+
 
         ObjSetKinematic(ObjShapes[16], true, false);
         OutlineOn(ObjShapes[16]);
@@ -283,7 +312,8 @@ public class SceneP3KMgr : MonoBehaviour
         ResetObjShapesPos();
 
     }
-    public void Kuis1SarungTangan() {
+    public void Kuis1SarungTangan()
+    {
 
         ObjSetKinematic(ObjShapes[16], false, false);
         OutlineOff(ObjShapes[16]);
@@ -304,11 +334,12 @@ public class SceneP3KMgr : MonoBehaviour
         isKuis1 = false;
     }
 
-    public void Kuis1Plester() {
+    public void Kuis1Plester()
+    {
 
 
-        StartCoroutine(WaitSetKinematic(ObjShapes[2], false));
-        
+        //StartCoroutine(WaitSetKinematic(ObjShapes[2], false));
+
 
         //ObjSetKinematic(ObjShapes[15], true, false);
 
@@ -317,8 +348,10 @@ public class SceneP3KMgr : MonoBehaviour
 
     IEnumerator WaitKuis1Plester()
     {
+        ResetObjShapesPos();
         yield return new WaitForSeconds(.5f);
         StartCoroutine(WaitSetKinematic(ObjShapes[15], true));
+        ObjShapes[2].SetActive(false);
         OutlineOn(ObjShapes[15]);
         OutlineOff(ObjShapes[2]);
         ObjListKuis[1].SetActive(false);
@@ -329,22 +362,256 @@ public class SceneP3KMgr : MonoBehaviour
 
     }
 
-    public void Kuis1Finish() {
+    public void Kuis1Finish()
+    {
 
+        ObjSetKinematic(ObjShapes[2], false, false);
+        ResetObjShapesPos();
         StartCoroutine(WaitSetKinematic(ObjShapes[15], false));
-        
+
         HideUIShapes();
         OutlineOff(ObjShapes[15]);
         ObjListKuis[5].SetActive(false);
 
         ObjListKuis[4].SetActive(true);
         UIShapes[18].SetActive(true);
+
     }
 
 
 
     #endregion
 
+    #region Kuis 2
 
+    bool isKuis2 = false;
+    public void Kuis2Start()
+    {
+
+        isKuis2 = true;
+        HideUIShapes();
+        ResetObjShapesPos();
+        ObjShapes[2].SetActive(true);
+        UIShapes[19].SetActive(true);
+
+        for (int i = 0; i < ObjListKuis.Length; i++)
+        {
+
+            ObjListKuis[i].SetActive(false);
+
+        }
+
+        ObjListKuis[6].SetActive(true);
+        ObjListKuis[7].SetActive(true);
+
+        OutlineOn(ObjShapes[15]);
+        ObjSetKinematic(ObjShapes[15], true, false);
+
+        OutlineOn(ObjShapes[8]);
+        ObjSetKinematic(ObjShapes[8], true, false);
+
+        OutlineOn(ObjShapes[10]);
+        ObjSetKinematic(ObjShapes[10], true, false);
+
+        OutlineOn(ObjShapes[14]);
+        ObjSetKinematic(ObjShapes[14], true, false);
+
+    }
+
+
+    IEnumerator Kuis2Jawab(GameObject obj)
+    {
+        HideUIShapes();
+        // benar = ObjShapes[15]
+        bool benar = false;
+        if (obj.name == ObjShapes[15].name)
+        {
+            benar = true;
+        }
+
+        StartCoroutine(KuisPanelJawaban(benar));
+
+        yield return new WaitForSeconds(3f);
+        
+        UIShapes[19].SetActive(true);
+        if (benar)
+        {
+            isKuis2 = false;
+            Kuis3Start();
+        }
+
+    }
+
+    IEnumerator KuisPanelJawaban(bool benar)
+    {
+        if (benar)
+        {
+            UIShapes[21].SetActive(true);
+        }
+        else
+        {
+            UIShapes[20].SetActive(true);
+        }
+        yield return new WaitForSeconds(2.5f);
+        
+            UIShapes[21].SetActive(false);
+
+            UIShapes[20].SetActive(false);
+
+
+    }
+
+    #endregion
+
+    #region Kuis 3
+
+    bool isKuis3 = false;
+    void Kuis3Start()
+    {
+        HideUIShapes();
+
+        OutlineOff(ObjShapes[15]);
+        ObjSetKinematic(ObjShapes[15], false, false);
+
+        OutlineOff(ObjShapes[8]);
+        ObjSetKinematic(ObjShapes[8], false, false);
+
+        OutlineOff(ObjShapes[10]);
+        ObjSetKinematic(ObjShapes[10], false, false);
+
+        OutlineOff(ObjShapes[14]);
+        ObjSetKinematic(ObjShapes[14], false, false);
+
+        ResetObjShapesPos();
+
+        isKuis3 = true;
+        HideUIShapes();
+        ResetObjShapesPos();
+
+        UIShapes[22].SetActive(true);
+
+        for (int i = 0; i < ObjListKuis.Length; i++)
+        {
+
+            ObjListKuis[i].SetActive(false);
+
+        }
+
+
+        OutlineOn(ObjShapes[10]);
+        ObjSetKinematic(ObjShapes[10], true, false);
+
+        OutlineOn(ObjShapes[2]);
+        ObjSetKinematic(ObjShapes[2], true, false);
+
+        OutlineOn(ObjShapes[16]);
+        ObjSetKinematic(ObjShapes[16], true, false);
+
+        OutlineOn(ObjShapes[12]);
+        ObjSetKinematic(ObjShapes[12], true, false);
+    }
+
+    IEnumerator Kuis3Jawab(GameObject obj)
+    {
+        HideUIShapes();
+        // benar = ObjShapes[15]
+        bool benar = false;
+        if (obj.name == ObjShapes[10].name)
+        {
+            benar = true;
+        }
+
+        StartCoroutine(KuisPanelJawaban(benar));
+
+        yield return new WaitForSeconds(3f);
+
+        UIShapes[22].SetActive(true);
+        if (benar)
+        {
+            isKuis3 = false;
+            Kuis4Start();
+        }
+
+    }
+
+
+
+    #endregion
+
+    #region Kuis 4
+    bool isKuis4 = false;
+    void Kuis4Start()
+    {
+        HideUIShapes();
+
+        OutlineOff(ObjShapes[10]);
+        ObjSetKinematic(ObjShapes[10], false, false);
+
+        OutlineOff(ObjShapes[2]);
+        ObjSetKinematic(ObjShapes[2], false, false);
+
+        OutlineOff(ObjShapes[16]);
+        ObjSetKinematic(ObjShapes[16], false, false);
+
+        OutlineOff(ObjShapes[12]);
+        ObjSetKinematic(ObjShapes[12], false, false);
+
+        isKuis4 = true;
+        HideUIShapes();
+        ResetObjShapesPos();
+
+        UIShapes[23].SetActive(true);
+
+        for (int i = 0; i < ObjListKuis.Length; i++)
+        {
+
+            ObjListKuis[i].SetActive(false);
+
+        }
+
+        OutlineOn(ObjShapes[16]);
+        ObjSetKinematic(ObjShapes[16], true, false);
+
+        OutlineOn(ObjShapes[1]);
+        ObjSetKinematic(ObjShapes[1], true, false);
+
+        OutlineOn(ObjShapes[7]);
+        ObjSetKinematic(ObjShapes[7], true, false);
+
+        OutlineOn(ObjShapes[15]);
+        ObjSetKinematic(ObjShapes[15], true, false);
+
+
+    }
+
+    IEnumerator Kuis4Jawab(GameObject obj)
+    {
+        HideUIShapes();
+        // benar = ObjShapes[15]
+        bool benar = false;
+        if (obj.name == ObjShapes[16].name)
+        {
+            benar = true;
+        }
+
+        StartCoroutine(KuisPanelJawaban(benar));
+
+        yield return new WaitForSeconds(3f);
+
+        
+        if (benar)
+        {
+            isKuis4 = false;
+            ShotFinal.SetActive(true);
+        }
+        else {
+
+            UIShapes[22].SetActive(true);
+        } 
+    
+
+    }
+
+    #endregion
 
 }

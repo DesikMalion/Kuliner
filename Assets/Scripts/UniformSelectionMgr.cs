@@ -1,7 +1,6 @@
 using ITISKIRUHERE;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class UniformSelectionMgr : MonoBehaviour
 {
@@ -66,6 +65,7 @@ public class UniformSelectionMgr : MonoBehaviour
             {
                 if (UniformObjectsSelect[i].Name.Contains(subname))
                 {
+
                     UniformObjectsSelect[i].Obj.SetActive(true);
                     OutlineDisabler(UniformObjectsSelect[i].Obj);
 
@@ -74,6 +74,7 @@ public class UniformSelectionMgr : MonoBehaviour
 
                 if (UniformObjectsSelect[i].Name.ToLower() == name.ToLower())
                 {
+
                     OutlineDisabler(UniformObjectsSelect[i].Obj);
                     UniformObjectsSelect[i].Obj.SetActive(false);
                     //break;
@@ -85,7 +86,7 @@ public class UniformSelectionMgr : MonoBehaviour
                             if (UniformObjectsSelect[i].isTrue)
                             {
                                 UniformNames[j].isSelected = true;
-                                SavePlayerprefs(name);
+                                SavePlayerprefs(subname);
 
                             }
                             else
@@ -94,6 +95,9 @@ public class UniformSelectionMgr : MonoBehaviour
                                 UniformNames[j].isSelected = false;
 
                             }
+
+                            if (isApdSelection)
+                                ListUIEnabler(UniformNames[j].SubName);
                         }
 
                     }
@@ -181,6 +185,33 @@ public class UniformSelectionMgr : MonoBehaviour
         SetUniform(shoeL);
     }
 
+    void ListUIEnabler(string name)
+    {
+        bool selected = true;
+        int index = 0;
+        for (int i = 0; i < UniformNames.Length; i++)
+        {
+            if (UniformNames[i].SubName == name)
+            {
+                index = i;
+                if (!UniformNames[i].isSelected)
+                {
+                    selected = false;
+
+                }
+
+            }
+        }
+
+        if (selected)
+        {
+            UniformNames[index].UI_List.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else {
+            UniformNames[index].UI_List.transform.GetChild(0).gameObject.SetActive(false);
+        }
+    }
+
     bool isLoadscene = false;
     public void LoadScene(string name) { 
         if (isLoadscene) return;
@@ -249,7 +280,9 @@ public class UniformObject
 public class UniformNames
 {
     public string Name;
+    public string SubName;
     public bool isSelected;
-    
+    public GameObject UI_List;
+
 
 }

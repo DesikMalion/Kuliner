@@ -9,26 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Kitchen-Area.unity
     guid: 035d12559a741a747a9bba7368f4c460
   - enabled: 0
-    path: Assets/Scenes/Kitchen-APD.unity
-    guid: 39210c05a937d9d49be5746b31dbae62
-  - enabled: 0
-    path: Assets/Scenes/Kitchen-Safety.unity
-    guid: bb3db2b648e507c48b527d6b3a3c1f54
-  - enabled: 0
-    path: Assets/Scenes/Kitchen-Safety-3-P3K.unity
-    guid: 94f638450f1cdc14fa3a35542b681876
-  - enabled: 0
     path: Assets/Scenes/Tur Area Dapur.unity
     guid: c535754fe40b7834fa82cf5d796f4c70
-  - enabled: 0
-    path: Assets/Scenes/Kitchen-Safety-2-Bahaya-Apar.unity
-    guid: f50efaa5920a5254299d9fbc4643b535
-  - enabled: 0
-    path: Assets/Scenes/TestScene/Kitchen-APD-.unity
-    guid: 7a409cb99f067f64bb2bc165e37f06e8
-  - enabled: 0
-    path: Assets/Scenes/TestScene/Kitchen-Safety-.unity
-    guid: c9c8f1a82dc38b44684f12201aa8e483
   - enabled: 0
     path: Assets/Scenes/TestScene/SampleScene.unity
     guid: 13f6f87036926f94ab0417ca1b31725c
@@ -38,6 +20,18 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestScene/Kitchen.unity
     guid: df0e13ee70d15124489c3ae826e52a42
+  - enabled: 0
+    path: Assets/Scenes/Kitchen-APD.unity
+    guid: 1b15135b6cbb4584c97cefe6264b5fc0
+  - enabled: 0
+    path: Assets/Scenes/Kitchen-Safety.unity
+    guid: c930e2cff35bc8040bd1290965fc766e
+  - enabled: 0
+    path: Assets/Scenes/Kitchen-Safety-2-Bahaya-Apar.unity
+    guid: d6146accbbe27b249a139f26ceeeaddf
+  - enabled: 0
+    path: Assets/Scenes/Kitchen-Safety-3-P3K.unity
+    guid: 5175401f51d52d542bf0058a17c54240
   - enabled: 0
     path: Assets/Scenes/Orientasi Dapur.unity
     guid: 795c49803fa086c4e9c86eb9aaff9d63

@@ -1,4 +1,5 @@
 using ITISKIRUHERE;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -13,6 +14,8 @@ public class Scene1Mgr : MonoBehaviour
     public GameObject[] ObjUiNarasi;
 
     public GameObject NarasiFinal;
+    public GameObject LantaiBasah;
+    public GameObject UILantaiDibersihkan;
 
     bool isStarted = false;
 
@@ -127,6 +130,21 @@ public class Scene1Mgr : MonoBehaviour
         {
             NarasiFinal.SetActive(true);
         }
+
+    }
+
+    public void SocketCaution() {
+
+        StartCoroutine(LoadingSocketCaution());
+    }
+
+    IEnumerator LoadingSocketCaution()
+    {
+
+        UILantaiDibersihkan.SetActive(true);
+        yield return new WaitForSeconds(2.75f);
+        UILantaiDibersihkan.SetActive(false);
+        LantaiBasah.SetActive(false);
 
     }
 }
