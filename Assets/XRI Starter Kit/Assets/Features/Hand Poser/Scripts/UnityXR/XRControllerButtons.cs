@@ -9,6 +9,8 @@ namespace MikeNspired.XRIStarterKit
     /// </summary>
     public class XRControllerButtons : MonoBehaviour
     {
+        public bool testTriggerPress = false;
+        public bool testTriggerRelease = false;
         [SerializeField] private InputActionReference triggerAction;
         [SerializeField] private InputActionReference gripAction;
 
@@ -48,6 +50,15 @@ namespace MikeNspired.XRIStarterKit
             // Enable input actions
             triggerAction?.action?.Enable();
             gripAction?.action?.Enable();
+
+
+            if (testTriggerPress) {
+                OnTriggerPressed.Invoke();
+            }
+
+            if (testTriggerRelease) { 
+                OnTriggerReleased.Invoke();
+            }
         }
 
         private void OnDisable()
