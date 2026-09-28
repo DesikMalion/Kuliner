@@ -1,0 +1,237 @@
+fileFormatVersion: 2
+guid: 8714692d71d469143a10daca5e6395b3
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chiller Body
+    second: {fileID: 2100000, guid: 61a355963759d54488146331d8cd9c11, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chiller Pattern
+    second: {fileID: 2100000, guid: 8d38e54e723df284e8f420b78f23db0a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Body
+    second: {fileID: 2100000, guid: 389a8495d4db7d14d97aa65d8f78f971, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Kaca
+    second: {fileID: 2100000, guid: 081be42ab7a79d744aab8dc6859a562e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Pattern
+    second: {fileID: 2100000, guid: 47488af0174d9b54498f190e6e6b4a6f, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller body_BaseColor
+    second: {fileID: 2800000, guid: c4a1a5c9c9ca76f47a6415b5b2870815, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Body_BaseColor
+    second: {fileID: 2800000, guid: d098da50a40244a43aaa323226463d39, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Body_Metallic
+    second: {fileID: 2800000, guid: 9b8bcc27941acc543afeb9fff449b216, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Body_Normal
+    second: {fileID: 2800000, guid: 95dcd50d455353746afb505ea0ed6fec, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Body_Roughness
+    second: {fileID: 2800000, guid: 2ab56555b43693547a27a4fc4dce4ba0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Pattern_BaseColor
+    second: {fileID: 2800000, guid: 509a937bba947034e9e483994274d628, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Pattern_Emissive
+    second: {fileID: 2800000, guid: 209cc4f7ae6a67c4796928e6ae15a807, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Pattern_Metallic
+    second: {fileID: 2800000, guid: d3963baa4d504104bbf803ee28152261, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Pattern_Normal
+    second: {fileID: 2800000, guid: 5ffa3d6b28bcd9242b0abe8e8e9c51a3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_Pattern_Roughness
+    second: {fileID: 2800000, guid: 0f51dc9ee7512754bb739a89636b805b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_body_Emissive
+    second: {fileID: 2800000, guid: a1da5e9e17f19ae4698e73416240f931, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_body_Metallic
+    second: {fileID: 2800000, guid: b65ecc1c29097c24087d0316820249cd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_body_Normal
+    second: {fileID: 2800000, guid: 60ce891bc34f64a4f9ffe00f3d5b6698, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_body_Roughness
+    second: {fileID: 2800000, guid: bd84a083d01fbbc4ead5e433a561a418, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_pattern_BaseColor
+    second: {fileID: 2800000, guid: 7cb65956d021c6d49b8c3a9cdc5c0c4a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_pattern_Emissive
+    second: {fileID: 2800000, guid: ebfba49b6fd582a4b9a59f65d1f3a1d6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_pattern_Metallic
+    second: {fileID: 2800000, guid: 153f2a02ce0ac1846a89367b245ea69a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_pattern_Normal
+    second: {fileID: 2800000, guid: d685a690aacbfbc4db9e6c3db6183e8c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Chiller_pattern_Roughness
+    second: {fileID: 2800000, guid: 5d47b1546d6e85e4fa63f212724ea848, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Opacity Chiller Body
+    second: {fileID: 2800000, guid: 10b0a99b73828e24586b745116d79db7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Opacity Chiller Pattern
+    second: {fileID: 2800000, guid: 3b06070d3943ee14c8432f165a5e5ab1, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

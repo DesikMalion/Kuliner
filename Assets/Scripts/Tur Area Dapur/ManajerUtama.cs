@@ -21,7 +21,7 @@ public class ManajerUtama : MonoBehaviour
             managerPersiapan.MulaiAreaPersiapan();
         }
 
-        Debug.Log("Tugas Persiapan Dimulai: Bahan telah diletakkan di atas meja.");
+        //Debug.Log("Tugas Persiapan Dimulai: Bahan telah diletakkan di atas meja.");
     }
 
     // Fungsi pembersih global untuk menghapus bahan yang tertinggal
