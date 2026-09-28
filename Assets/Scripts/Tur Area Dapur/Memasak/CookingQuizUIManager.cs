@@ -112,8 +112,11 @@ public class CookingQuizUIManager : MonoBehaviour
         {
             // Teks menjadi Hijau
             teksFeedback.text = "<color=#00FF00>Jawaban anda benar</color>";
-            if (alatAktif != null) alatAktif.TandaiSelesai();
-
+            if (alatAktif != null)
+            {
+                alatAktif.TandaiSelesai();
+                if (EvaluasiMemasak.Instance != null) EvaluasiMemasak.Instance.CatatAlatSelesai();
+            }
             // Tutup kuis otomatis setelah 2 detik
             Invoke("SembunyikanKuis", 2f);
         }
@@ -121,6 +124,10 @@ public class CookingQuizUIManager : MonoBehaviour
         {
             // Teks menjadi Merah
             teksFeedback.text = "<color=#FF0000>Jawaban salah, silakan coba lagi</color>";
+            if (alatAktif != null && EvaluasiMemasak.Instance != null)
+            {
+                EvaluasiMemasak.Instance.CatatKesalahan(alatAktif.GetNamaAlat());
+            }
         }
     }
 

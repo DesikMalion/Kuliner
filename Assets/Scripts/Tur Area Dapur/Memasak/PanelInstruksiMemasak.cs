@@ -19,7 +19,10 @@ public class PanelInstruksiMemasak : MonoBehaviour
         {
             teksTombol = tombolNavigasi.GetComponentInChildren<TextMeshProUGUI>();
         }
-
+        if (EvaluasiMemasak.Instance != null && daftarAlatMasak != null)
+        {
+            EvaluasiMemasak.Instance.totalAlat = daftarAlatMasak.Length;
+        }
         // Jalankan Fase 1 saat panel pertama kali aktif
         SetFaseSatu();
     }

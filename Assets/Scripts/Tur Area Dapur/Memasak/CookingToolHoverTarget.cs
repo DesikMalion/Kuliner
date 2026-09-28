@@ -37,7 +37,7 @@ public class CookingToolHoverTarget : MonoBehaviour
     private XRSimpleInteractable simpleInteractable;
     private bool isSelesai = false;
     private bool sedangDiHover = false;
-
+    public string GetNamaAlat() { return toolName; }
     private void Awake()
     {
         simpleInteractable = GetComponent<XRSimpleInteractable>();
