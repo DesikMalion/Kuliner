@@ -2,11 +2,15 @@ using ITISKIRUHERE;
 using MikeNspired.XRIStarterKit;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class SceneTeknikPanasBasah : MonoBehaviour
 {
     public bool isTest = false;
 
+    int indexMateri = 0;
+    public GameObject[] ObjParentMateri;
     public GameObject[] ObjShapes;
     public GameObject[] ObjSocket;
 
@@ -21,6 +25,12 @@ public class SceneTeknikPanasBasah : MonoBehaviour
     XRKnob JetBurnerKnob;
     XRKnob BurnerKnob;
 
+    public bool isJetBurnerOn = false;
+    public bool isControlBurnerOn = false;
+    public bool isJetBurnerOff = false;
+    public bool isControlBurnerOff = false;
+
+
     void Start()
     {
         NarasiAwal();
@@ -33,12 +43,23 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         CaseMengukus_JetBurnerOn();
         CaseMengukus_ControlBurnerOff();
         CaseMengukus_JetBurnerOff();
+
+        CaseSoup_ControlBurnerOn();
+        CaseSoup_JetBurnerOn();
+        //CaseMengukus_ControlBurnerOff();
+        //CaseMengukus_JetBurnerOff();
     }
 
     void NarasiAwal() {
 
         DisableUINarasi();
         ObjUiNarasi[0].SetActive(true);
+
+        for (int i = 0; i < ObjParentMateri.Length; i++) {
+
+            ObjParentMateri[i].SetActive(false);
+
+        }
 
         for (int i = 0; i < ObjSelection.Length; i++) {
 
@@ -169,8 +190,17 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
     public void UIStartMengukus()
     {
+        NarasiAwal();
+
         DisableUINarasi();
         ObjUiNarasi[1].SetActive(true);
+
+        for (int i = 0; i < ObjParentMateri.Length; i++)
+        {
+
+            ObjParentMateri[i].SetActive(false);
+
+        }
     }
 
     public void StartCaseMengukus() {
@@ -181,6 +211,9 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         {
             ObjShapesSiomay[i].SetActive(true);
         }
+
+        ObjParentMateri[0].SetActive(true);
+        indexMateri = 0;
 
         ObjShapes[2].SetActive(true);
         ObjShapes[3].SetActive(true);
@@ -309,13 +342,10 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         isControlBurnerOn = true;
     }
 
-    public bool isJetBurnerOn = false;
-    public bool isControlBurnerOn = false;
-    public bool isJetBurnerOff = false;
-    public bool isControlBurnerOff = false;
 
     void CaseMengukus_ControlBurnerOn()
     {
+        if (indexMateri != 0) return;
         if (!isControlBurnerOn) return;
         if (BurnerKnob.Value <= 0.055f)
         {
@@ -337,6 +367,7 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
     void CaseMengukus_JetBurnerOn()
     {
+        if (indexMateri != 0) return;
         if (!isJetBurnerOn) return;
         if (JetBurnerKnob.Value <= 0.055f)
         {
@@ -388,6 +419,7 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
     void CaseMengukus_JetBurnerOff()
     {
+        if (indexMateri != 0) return;
         if (!isJetBurnerOff) return;
         if (JetBurnerKnob.Value >= 0.945f)
         {
@@ -407,7 +439,9 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
     }
 
-    void CaseMengukus_ControlBurnerOff() {
+    void CaseMengukus_ControlBurnerOff()
+    {
+        if (indexMateri != 0) return;
         if (!isControlBurnerOff) return;
         if (BurnerKnob.Value >= 0.945f)
         {
@@ -521,6 +555,434 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         ObjUiNarasi[3].SetActive(true);
 
     }
+
+
+    #endregion
+
+    #region Simmering -  Soup
+    public void UIStartSoup()
+    {
+        NarasiAwal();
+        DisableUINarasi();
+        ObjUiNarasi[4].SetActive(true);
+
+        for (int i = 0; i < ObjParentMateri.Length; i++)
+        {
+
+            ObjParentMateri[i].SetActive(false);
+
+        }
+    }
+
+    public void StartCaseSoup()
+    {
+
+        DisableUINarasi();
+
+        ObjParentMateri[1].SetActive(true);
+        indexMateri = 1;
+
+        ObjSelection[0].SetActive(true);
+        ObjSelection[1].SetActive(true);
+
+        ObjShapes[6].SetActive(true);
+        ObjShapes[7].SetActive(true);
+        ObjShapes[8].SetActive(true);
+        ObjShapes[9].SetActive(true);
+        ObjShapes[10].SetActive(true);
+        ObjShapes[11].SetActive(true);
+        ObjShapes[12].SetActive(true);
+        ObjShapes[13].SetActive(true);
+        ObjShapes[14].SetActive(true);
+        ObjShapes[15].SetActive(true);
+        ObjShapes[16].SetActive(true);
+        ObjShapes[17].SetActive(true);
+
+        ObjSelection[10].SetActive(true);
+        ObjSelection[11].SetActive(true);
+
+        //aktifkan gelas
+        ObjSocket[4].SetActive(true);
+        OutlineOn(ObjShapes[16]);
+        ObjSetColliderKinematic(ObjShapes[16], true, false);
+
+        JetBurnerKnob.Value = 1;
+        BurnerKnob.Value = 1;
+
+    }
+
+    public void CaseSoup_TutupPanci()
+    {
+
+        StartCoroutine(WaitSoupTutupPanci());
+
+    }
+
+    IEnumerator WaitSoupTutupPanci()
+    {
+        OutlineOff(ObjShapes[16]);
+        ObjSelection[21].SetActive(true);
+        yield return new WaitForSeconds(3f);
+
+        ObjSelection[21].SetActive(false);
+        ObjSocket[4].SetActive(false);
+        ObjShapes[16].SetActive(false);
+        ObjSelection[13].SetActive(true);
+
+        //tutup panci
+        ObjSocket[5].SetActive(true);
+        OutlineOn(ObjShapes[6]);
+        ObjSetColliderKinematic(ObjShapes[6], true, false);
+    }
+
+
+    public void CaseSoup_CekBurner()
+    {
+        //ObjSocket[2].SetActive(false);
+        OutlineOff(ObjSocket[5]);
+        ObjSocket[5].GetComponent<Collider>().enabled = false;
+
+        OutlineOff(ObjShapes[6]);
+        ObjSetColliderKinematic(ObjShapes[6], false, true);
+
+        OutlineOn(ObjShapes[0]);
+        ObjSetColliderKinematic(ObjShapes[0], true, true);
+        isControlBurnerOn = true;
+    }
+
+
+    void CaseSoup_ControlBurnerOn()
+    {
+        if (indexMateri != 1) return;
+        if (!isControlBurnerOn) return;
+        if (BurnerKnob.Value <= 0.055f)
+        {
+
+            isControlBurnerOn = false;
+            isJetBurnerOn = true;
+
+            OutlineOff(ObjShapes[0]);
+            ObjSetColliderKinematic(ObjShapes[0], false, true);
+
+            OutlineOn(ObjShapes[1]);
+            ObjSetColliderKinematic(ObjShapes[1], true, true);
+
+            ObjSelection[4].SetActive(true);
+        }
+
+
+    }
+
+    void CaseSoup_JetBurnerOn()
+    {
+        if (indexMateri != 1) return;
+        if (!isJetBurnerOn) return;
+        if (JetBurnerKnob.Value <= 0.055f)
+        {
+
+            isJetBurnerOn = false;
+            OutlineOff(ObjShapes[1]);
+            ObjSetColliderKinematic(ObjShapes[1], false, true);
+
+            ObjSelection[5].SetActive(true);
+            StartCoroutine(WaitAirSoupMatang());
+        }
+
+
+    }
+
+    IEnumerator WaitAirSoupMatang()
+    {
+        ObjSelection[29].SetActive(true);
+        yield return new WaitForSeconds(5f);
+        ObjSelection[12].SetActive(true);
+        yield return new WaitForSeconds(5f);
+        ObjSelection[29].SetActive(false);
+
+        //buka tutup
+        ObjShapes[6].isStatic = false;
+        OutlineOn(ObjShapes[6]);
+        ObjSetColliderKinematic(ObjShapes[6], true, false);
+        ObjSocket[5].SetActive(false);
+        ObjSocket[6].SetActive(true);
+    }
+
+
+    public void CaseSoup_PilihKaldu() {
+
+        OutlineOff(ObjShapes[6]);
+        ObjSetColliderKinematic(ObjShapes[6], true, true);
+        ObjSocket[6].SetActive(false);
+
+        ObjSocket[9].SetActive(true);
+        OutlineOn(ObjShapes[7]);
+        ObjSetColliderKinematic(ObjShapes[7], true, false);
+        OutlineOn(ObjShapes[8]);
+        ObjSetColliderKinematic(ObjShapes[8], true, false);
+        OutlineOn(ObjShapes[9]);
+        ObjSetColliderKinematic(ObjShapes[9], true, false);
+
+    }
+
+    public void CaseSoup_SocketKaldu() {
+
+        StartCoroutine(WaitSoupSocketKaldu());
+    }
+
+    IEnumerator WaitSoupSocketKaldu()
+    {
+        OutlineOff(ObjShapes[7]);
+        OutlineOff(ObjShapes[8]);
+        OutlineOff(ObjShapes[9]);
+        ObjSelection[30].SetActive(true);
+        yield return new WaitForSeconds(3f);
+        ObjSelection[30].SetActive(false);
+        ObjSelection[13].SetActive(false);
+        ObjSocket[9].SetActive(false);
+
+
+        ObjShapes[7].SetActive(false);
+        ObjShapes[8].SetActive(false);
+        ObjShapes[9].SetActive(false);
+
+        ObjSelection[14].SetActive(true);
+
+        CaseSoupLoyangSayur();
+    }
+
+    void CaseSoupLoyangSayur() {
+
+        ObjSocket[10].SetActive(true);
+
+        OutlineOn(ObjShapes[10]);
+        ObjShapes[10].GetComponent<XRGrabInteractable>().colliders[0].enabled = true;
+        ObjShapes[10].GetComponent<Rigidbody>().isKinematic = false;
+
+        OutlineOn(ObjShapes[11]);
+        ObjShapes[11].GetComponent<XRGrabInteractable>().colliders[0].enabled = true;
+        ObjShapes[11].GetComponent<Rigidbody>().isKinematic = false;
+        OutlineOn(ObjShapes[12]);
+        ObjShapes[12].GetComponent<XRGrabInteractable>().colliders[0].enabled = true;
+        ObjShapes[12].GetComponent<Rigidbody>().isKinematic = false;
+        OutlineOn(ObjShapes[13]);
+        ObjShapes[13].GetComponent<XRGrabInteractable>().colliders[0].enabled = true;
+        ObjShapes[13].GetComponent<Rigidbody>().isKinematic = false;
+        OutlineOn(ObjShapes[14]);
+        ObjShapes[14].GetComponent<XRGrabInteractable>().colliders[0].enabled = true;
+        ObjShapes[14].GetComponent<Rigidbody>().isKinematic = false;
+        OutlineOn(ObjShapes[15]);
+        ObjShapes[15].GetComponent<XRGrabInteractable>().colliders[0].enabled = true;
+        ObjShapes[15].GetComponent<Rigidbody>().isKinematic = false;
+
+    }
+
+    int sayurMasuk = 0;
+    public void CaseSoupSayurPanci() {
+        sayurMasuk++;
+        StartCoroutine(WaitSoupSocketSayurPanci());
+    }
+
+    IEnumerator WaitSoupSocketSayurPanci()
+    {
+
+        GameObject ObjSnapped = ObjSocket[10].GetComponent<SocketLockObject>().ObjSnapped;
+        ObjSnapped.GetComponent<XRGrabInteractable>().colliders[0].enabled = false;
+
+        Rigidbody[] rigidbodies = ObjSnapped.GetComponentsInChildren<Rigidbody>();
+
+        for (int i = 0; i < rigidbodies.Length; i++)
+        {
+            if (rigidbodies[i].gameObject.name.ToLower().Contains("sayur")) {
+                rigidbodies[i].isKinematic = false;
+            }
+        }
+
+        OutlineOff(ObjSnapped);
+
+        string objSnappedName = ObjSnapped.name;
+
+        if (objSnappedName.ToLower().Contains("wortel"))
+        {
+
+            ObjSelection[15].SetActive(true);
+
+        }
+        else if (objSnappedName.ToLower().Contains("kubis"))
+        {
+
+            ObjSelection[16].SetActive(true);
+
+        }
+        else if (objSnappedName.ToLower().Contains("brokoli"))
+        {
+
+            ObjSelection[17].SetActive(true);
+
+        }
+        else if (objSnappedName.ToLower().Contains("kentang"))
+        {
+
+            ObjSelection[18].SetActive(true);
+
+        }
+        else if (objSnappedName.ToLower().Contains("buncis"))
+        {
+
+            ObjSelection[19].SetActive(true);
+
+        }
+        else if (objSnappedName.ToLower().Contains("kembang"))
+        {
+
+            ObjSelection[16].SetActive(true);
+
+        }
+
+        yield return new WaitForSeconds(2f);
+
+        ObjSnapped.SetActive(false);
+        ObjSocket[10].SetActive(false);
+
+        yield return new WaitForSeconds(0.1f);
+
+        ObjSocket[10].SetActive(true);
+        OutlineOn(ObjSocket[10]);
+        ObjSocket[10].GetComponent<Collider>().enabled = true;
+        ObjSocket[10].GetComponent<XRSocketInteractor>().attachTransform.gameObject.SetActive(true);
+
+
+
+
+        if (sayurMasuk >= 6)
+        {
+            yield return new WaitForSeconds(1.5f);
+            ObjSocket[10].SetActive(false);
+            CaseSoupTutupPanciMatang();
+
+            //StartCoroutine(WaitSoupSayurMatang());
+        }
+    }
+
+
+    void CaseSoupTutupPanciMatang() {
+
+        ObjSocket[7].SetActive(true);
+        OutlineOn(ObjShapes[6]);
+        ObjSetColliderKinematic(ObjShapes[6], true, false);
+        ObjShapes[6].isStatic = false;
+    }
+    public void CaseSoupPanciMatangTutup()
+    {
+
+        StartCoroutine(WaitSoupSayurMatang());
+
+    }
+
+    IEnumerator WaitSoupSayurMatang()
+    {
+        ObjSocket[7].SetActive(false);
+        OutlineOff(ObjShapes[6]);
+        ObjSelection[31].SetActive(true);
+        yield return new WaitForSeconds(10f);
+        ObjSelection[31].SetActive(false);
+        //CaseSoupTutupPanciMatang();
+
+        ObjSocket[8].SetActive(true);
+        OutlineOn(ObjShapes[6]);
+        ObjSetColliderKinematic(ObjShapes[6], true, false);
+        ObjShapes[6].isStatic = false;
+    }
+
+    public void CaseSoupPanciMatangBuka()
+    {
+        OutlineOff(ObjShapes[6]);
+        OutlineOn(ObjShapes[17]);
+        ObjSetColliderKinematic(ObjShapes[17], true, true);
+
+    }
+
+    public void CaseSoupSendokSayurGrab() {
+
+        ObjShapes[17].SetActive(false);
+        ObjSelection[22].SetActive(true);
+        ObjSelection[23].SetActive(true);
+        ObjSelection[24].SetActive(false);
+        ObjSelection[25].SetActive(false);
+        ObjSelection[26].SetActive(false);
+        ObjSelection[27].SetActive(false);
+        ObjSelection[28].SetActive(false);
+
+        ObjShapes[18].SetActive(true);
+        ObjSetColliderKinematic(ObjShapes[18], true, true);
+        OutlineOn(ObjShapes[18]);
+        ObjSocket[11].SetActive(true);
+        ObjSetColliderKinematic(ObjSocket[11], true, true);
+
+    }
+
+    int objDiSendok = 0;
+    public void CaseSoupSendokGetObj() {
+        ObjSelection[24].SetActive(true);
+        if (objDiSendok == 0) {
+            ObjShapes[18].SetActive(false);
+        } else if (objDiSendok == 1)
+        {
+            ObjShapes[19].SetActive(false);
+            ObjSocket[12].SetActive(true);
+            ObjSetColliderKinematic(ObjSocket[12], true, true);
+        } else if (objDiSendok == 2)
+        {
+            ObjShapes[20].SetActive(false);
+            ObjSocket[13].SetActive(true);
+            ObjSetColliderKinematic(ObjSocket[13], true, true);
+        }
+
+    }
+
+    public void CaseSoupReleaseObj() {
+        
+        ObjSelection[24].SetActive(false);
+        ObjSelection[25].SetActive(false);
+        ObjSelection[26].SetActive(false);
+        ObjSelection[27].SetActive(false);
+
+        if (objDiSendok == 0)
+        {
+            ObjSocket[11].SetActive(false);
+            ObjShapes[19].SetActive(true);
+            ObjSetColliderKinematic(ObjShapes[19], true, true);
+            OutlineOn(ObjShapes[19]);
+            ObjSelection[27].SetActive(true);
+            ObjSelection[28].SetActive(true);
+        }
+        else if (objDiSendok == 1)
+        {
+            ObjSocket[12].SetActive(false);
+            ObjShapes[20].SetActive(true);
+            ObjSetColliderKinematic(ObjShapes[20], true, true);
+            OutlineOn(ObjShapes[20]);
+            ObjSelection[26].SetActive(true);
+        }
+        else if (objDiSendok == 2)
+        {
+            ObjSocket[13].SetActive(false);
+            ObjSelection[25].SetActive(true);
+            StartCoroutine(UISoupFinish());
+        }
+
+        objDiSendok++;
+    }
+
+    IEnumerator UISoupFinish()
+    {
+        DisableUINarasi();
+        ObjUiNarasi[5].SetActive(true);
+        
+        yield return new WaitForSeconds(1);
+
+        ObjSelection[22].SetActive(false);
+    }
+
 
 
     #endregion

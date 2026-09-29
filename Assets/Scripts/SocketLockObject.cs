@@ -8,6 +8,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 public class SocketLockObject : MonoBehaviour
 {
     public bool TestEvent = false;
+    public GameObject ObjSnapped;
     public UnityEvent onObjectSnappedEvent;
     [SerializeField] private XRSocketInteractor socket;
     public bool isFinishLocked = false;
@@ -39,6 +40,8 @@ public class SocketLockObject : MonoBehaviour
     private void OnObjectSnapped(SelectEnterEventArgs args)
     {
         Debug.Log("Object masuk socket: " + args.interactableObject.transform.name);
+
+        ObjSnapped = args.interactableObject.transform.gameObject;
 
         if (EventOnly) {
             isFinishLocked = true;

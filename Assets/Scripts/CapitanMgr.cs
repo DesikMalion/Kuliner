@@ -7,6 +7,7 @@ public class CapitanMgr : MonoBehaviour
     public bool mencapit = false;
     public Animator AnimatorCapitan;
     GameObject objDicapit;
+    public UnityEvent OnTriggerGetObj;
     public UnityEvent OnTriggerSocket;
 
     void Start()
@@ -21,7 +22,7 @@ public class CapitanMgr : MonoBehaviour
     }
 
     public void SetMencapit(bool isCapit) {
-
+        if(!AnimatorCapitan)return;
         if (mencapit != isCapit)
         {
             mencapit = isCapit;
@@ -50,6 +51,8 @@ public class CapitanMgr : MonoBehaviour
             objDicapit.transform.localPosition = Vector3.zero;
 
             SetMencapit(true);
+
+            OnTriggerGetObj.Invoke();
         }
         
         if (other.gameObject.tag == "Finish" && objDicapit) {
