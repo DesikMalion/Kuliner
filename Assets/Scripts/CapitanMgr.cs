@@ -53,9 +53,10 @@ public class CapitanMgr : MonoBehaviour
         }
         
         if (other.gameObject.tag == "Finish" && objDicapit) {
-            objDicapit.transform.parent = other.transform.parent;
-            objDicapit.transform.localEulerAngles = Vector3.zero;
-            objDicapit.transform.localPosition = Vector3.zero;
+            objDicapit.SetActive(false);
+            //objDicapit.transform.parent = other.transform.parent;
+            //objDicapit.transform.localEulerAngles = Vector3.zero;
+            //objDicapit.transform.localPosition = Vector3.zero;
             objDicapit = null;
             SetMencapit(false);
 

@@ -1,5 +1,4 @@
 using ITISKIRUHERE;
-using JetBrains.Annotations;
 using MikeNspired.XRIStarterKit;
 using System.Collections;
 using UnityEngine;
@@ -18,6 +17,9 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
     public GameObject[] ObjSelection;
     public GameObject[] ObjUiNarasi;
+
+    XRKnob JetBurnerKnob;
+    XRKnob BurnerKnob;
 
     void Start()
     {
@@ -82,6 +84,9 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
         ObjShapes[0].SetActive(true);
         ObjShapes[1].SetActive(true);
+
+        JetBurnerKnob = ObjShapes[1].GetComponent<XRKnob>();
+        BurnerKnob = ObjShapes[0].GetComponent<XRKnob>();
 
     }
 
@@ -184,11 +189,20 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
         ObjSelection[7].SetActive(true);
         ObjSelection[8].SetActive(true);
+        ObjSelection[10].SetActive(true);
 
         //aktifkan gelas
         ObjSocket[0].SetActive(true);
         OutlineOn(ObjShapes[2]);
         ObjSetColliderKinematic(ObjShapes[2], true, false);
+
+        OutlineOff(ObjShapes[5]);
+        ObjSetColliderKinematic(ObjShapes[5], false, true);
+
+        ObjSelection[4].SetActive(false);
+        ObjSelection[5].SetActive(false);
+        JetBurnerKnob.Value = 1;
+        BurnerKnob.Value = 1;
 
     }
 
@@ -262,6 +276,15 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
     public void CaseMengukus_TutupPanci()
     {
+        for (int i = 0; i < ObjShapesSiomay.Length; i++) {
+            OutlineOff(ObjShapesSiomay[i]);
+        }
+
+        for (int i = 0; i < ObjSocketSiomay.Length; i++) {
+            OutlineOff(ObjSocketSiomay[i]);
+            ObjSocketSiomay[i].GetComponent<Collider>().enabled = false;
+        }
+
         ObjSocket[2].SetActive(true);
         OutlineOn(ObjSocket[2]);
         ObjSocket[2].GetComponent<Collider>().enabled = true;
@@ -281,16 +304,11 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         OutlineOff(ObjShapes[4]);
         ObjSetColliderKinematic(ObjShapes[4], false, true);
 
-        if (!BurnerKnob)
-            BurnerKnob = ObjShapes[0].GetComponent<XRKnob>();
-
         OutlineOn(ObjShapes[0]);
         ObjSetColliderKinematic(ObjShapes[0], true, true);
         isControlBurnerOn = true;
     }
 
-    XRKnob JetBurnerKnob;
-    XRKnob BurnerKnob;
     public bool isJetBurnerOn = false;
     public bool isControlBurnerOn = false;
     public bool isJetBurnerOff = false;
@@ -301,8 +319,6 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         if (!isControlBurnerOn) return;
         if (BurnerKnob.Value <= 0.055f)
         {
-            if (!JetBurnerKnob)
-                JetBurnerKnob = ObjShapes[1].GetComponent<XRKnob>();
 
             isControlBurnerOn = false;
             isJetBurnerOn = true;
@@ -341,7 +357,7 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         ObjSelection[9].SetActive(true);
         yield return new WaitForSeconds(5f);
         ObjSelection[3].SetActive(true);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
 
         for (int i = 0; i < ObjShapesSiomay.Length; i++)
         {
@@ -417,7 +433,7 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         ObjSetColliderKinematic(ObjShapes[4], false, true);
 
         OutlineOn(ObjShapes[5]);
-        ObjSetColliderKinematic(ObjShapes[5], true, false);
+        ObjSetColliderKinematic(ObjShapes[5], true, true);
 
     }
 
@@ -438,7 +454,7 @@ public class SceneTeknikPanasBasah : MonoBehaviour
         {
             ObjSocketSiomayMatang[i].SetActive(true);
             OutlineOff(ObjSocketSiomayMatang[i]);
-            ObjSocketSiomayMatang[0].GetComponentInChildren<Collider>().enabled = false;
+            ObjSocketSiomayMatang[i].GetComponentInChildren<Collider>().enabled = false;
         }
 
         OutlineOn(ObjShapesSiomayMatang[0]);
@@ -456,6 +472,9 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
         OutlineOff(ObjSocketSiomayMatang[indexSiomayMatang]);
         ObjSocketSiomayMatang[indexSiomayMatang].GetComponentInChildren<Collider>().enabled = false;
+
+        ObjSocketSiomayMatang[indexSiomayMatang].transform.GetChild(0).gameObject.SetActive(true);
+        ObjSocketSiomayMatang[indexSiomayMatang].transform.GetChild(1).gameObject.SetActive(false);
 
         indexSiomayMatang++;
 
@@ -480,7 +499,7 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
         for (int i = 0; i < ObjShapesSiomayMatang.Length; i++)
         {
-            ObjShapesSiomayMatang[i].SetActive(true);
+            ObjShapesSiomayMatang[i].SetActive(false);
 
             OutlineOff(ObjShapesSiomayMatang[i]);
             ObjSetColliderKinematic(ObjShapesSiomayMatang[i], false, true);
@@ -488,10 +507,15 @@ public class SceneTeknikPanasBasah : MonoBehaviour
 
         for (int i = 0; i < ObjSocketSiomayMatang.Length; i++)
         {
-            ObjSocketSiomayMatang[i].SetActive(false);
+            //ObjSocketSiomayMatang[i].SetActive(false);
 
-
+            ObjSocketSiomayMatang[i].transform.GetChild(0).gameObject.SetActive(true);
+            ObjSocketSiomayMatang[i].transform.GetChild(1).gameObject.SetActive(false);
         }
+
+        ObjSelection[6].SetActive(false);
+        ObjShapes[5].SetActive(false);
+        ObjSetColliderKinematic(ObjShapes[5], false, true);
 
         DisableUINarasi();
         ObjUiNarasi[3].SetActive(true);
