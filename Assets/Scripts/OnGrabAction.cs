@@ -74,7 +74,7 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnHoverEntered(HoverEnterEventArgs args)
     {
-        Debug.Log("Object sedang ditunjuk!");
+        //Debug.Log("Object sedang ditunjuk!");
 
         try
         {
@@ -87,7 +87,7 @@ public class ObjectGrabEvent : MonoBehaviour
         }
         catch (System.NullReferenceException e)
         {
-            Debug.Log("OnGrabbed: SocketLockObject null");
+            //Debug.Log("OnGrabbed: SocketLockObject null");
         }
 
         //Debug.Log("Interactor: " + interactor.transform.name);
@@ -101,7 +101,7 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnHoverExited(HoverExitEventArgs args)
     {
-        Debug.Log("Object tidak lagi ditunjuk!");
+        //Debug.Log("Object tidak lagi ditunjuk!");
 
         //IXRHoverInteractor interactor = args.interactorObject;
 
@@ -117,7 +117,7 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnGrabbed(SelectEnterEventArgs args)
     {
-        Debug.Log("Object di grab");
+        //Debug.Log("Object di grab");
 
         try
         {
@@ -130,7 +130,7 @@ public class ObjectGrabEvent : MonoBehaviour
         }
         catch (System.NullReferenceException e)
         {
-            Debug.Log("OnGrabbed: SocketLockObject null");
+            //Debug.Log("OnGrabbed: SocketLockObject null");
         }
 
 
@@ -147,7 +147,7 @@ public class ObjectGrabEvent : MonoBehaviour
 
     private void OnReleased(SelectExitEventArgs args)
     {
-        Debug.Log("Object dilepas");
+        //Debug.Log("Object dilepas");
         try
         {
             IXRSelectInteractor interactor = args.interactorObject;

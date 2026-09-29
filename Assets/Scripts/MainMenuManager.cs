@@ -17,7 +17,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] float jarakDariKamera = 1.5f;
     [SerializeField] float tinggiOffset = 0f;
 
-    private bool isAPressed = false;
+    private bool isMenuPressed = false;
 
     private void Awake()
     {
@@ -59,20 +59,20 @@ public class MainMenuManager : MonoBehaviour
         //adjust jarak dan tinggi panel
         //PosisikanMenuDiDepanKamera();
 
-        InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
 
-        if (rightHand.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonPressed))
+        if (rightHand.TryGetFeatureValue(CommonUsages.menuButton, out bool primaryButtonPressed))
         {
-            if (primaryButtonPressed && !isAPressed)
+            if (primaryButtonPressed && !isMenuPressed)
             {
-                isAPressed = true; // Tandai tombol sedang ditahan
+                isMenuPressed = true; // Tandai tombol sedang ditahan
 
                 // 4. Panggil fungsi untuk menampilkan menu kembali
                 MunculkanMenu();
             }
             else if (!primaryButtonPressed)
             {
-                isAPressed = false; // Reset saat tombol A dilepas
+                isMenuPressed = false; // Reset saat tombol menu dilepas
             }
         }
     }

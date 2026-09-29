@@ -108,6 +108,6 @@ public class EvaluasiPenerimaan : MonoBehaviour
         jumlahBenar = 0;
         jumlahSalah = 0;
 
-        Debug.Log("Simulasi di-reset. Silakan mulai menyortir lagi.");
+        //Debug.Log("Simulasi di-reset. Silakan mulai menyortir lagi.");
     }
 }

@@ -29,7 +29,7 @@ public class FoodItem : MonoBehaviour
         if (isWashed) return; // hindari trigger event dobel kalau sudah dicuci
 
         isWashed = true;
-        Debug.Log($"[FoodItem] {name} ({category}) sudah dicuci.");
+        //Debug.Log($"[FoodItem] {name} ({category}) sudah dicuci.");
     }
 
     // Dipanggil oleh SliceObject saat bahan ini berhasil dipotong.
