@@ -64,6 +64,12 @@ public class CapitanMgr : MonoBehaviour
             SetMencapit(false);
 
             OnTriggerSocket.Invoke();
-}
+        }
+    }
+
+    public void ResetObj() {
+        objDicapit = null;
+
+
     }
 }
