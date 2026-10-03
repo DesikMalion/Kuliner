@@ -1,84 +1,84 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-[RequireComponent(typeof(XRGrabInteractable))]
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(XRSimpleInteractable))]
 public class FreezerSlidingDoor : MonoBehaviour
 {
     public enum SumbuGeser { X, Y, Z }
 
     [Header("Pengaturan Rel Pintu")]
-    [Tooltip("Sumbu pergerakan pintu (local space parent).")]
     public SumbuGeser sumbu = SumbuGeser.Z;
 
-    [Tooltip("Batas minimum posisi lokal")]
-    public float batasMin = 0f;
+    [Tooltip("Kalau true: batas dihitung relatif dari posisi awal pintu. Kalau false: posisi lokal absolut.")]
+    public bool relatifDariPosisiAwal = true;
 
-    [Tooltip("Batas maksimum posisi lokal")]
+    public float batasMin = 0f;
     public float batasMax = 1f;
 
-    private Rigidbody rb;
-    private XRGrabInteractable grab;
-
+    private XRSimpleInteractable interactable;
+    private IXRSelectInteractor interactor;
     private Vector3 posisiAwalLokal;
-    private Quaternion rotasiAwalLokal;
+    private float offsetGenggam;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        grab = GetComponent<XRGrabInteractable>();
+        interactable = GetComponent<XRSimpleInteractable>();
 
-        // PENTING: pakai Instantaneous, BUKAN Kinematic.
-        // Movement Type "Kinematic" di XR Interaction Toolkit menggerakkan Rigidbody
-        // lewat rb.MovePosition() di dalam FixedUpdate miliknya sendiri. Kalau script kita
-        // JUGA mengoreksi posisi lewat rb.MovePosition() di FixedUpdate, dua-duanya rebutan
-        // siapa yang dieksekusi terakhir tiap physics step -> bisa bikin pintu macet total
-        // atau malah "lari" tidak terduga, tergantung urutan eksekusi script.
-        //
-        // Dengan Instantaneous, XR Toolkit hanya menulis transform.position/rotation biasa
-        // tiap Update(). Kita lalu mengoreksi transform.localPosition di LateUpdate(), yang
-        // dijamin Unity berjalan SETELAH semua Update() selesai -> tidak ada race condition,
-        // koreksi kita selalu jadi kata terakhir sebelum frame dirender.
-        grab.movementType = XRBaseInteractable.MovementType.Instantaneous;
+        var rb = GetComponent<Rigidbody>();
+        if (rb != null) rb.isKinematic = true;
+    }
 
-        // Rigidbody tetap Kinematic supaya tidak jatuh karena gravity/collision fisik,
-        // tapi TIDAK dipakai untuk digerakkan lewat MovePosition oleh script ini.
-        rb.isKinematic = true;
-        rb.interpolation = RigidbodyInterpolation.None;
-        rb.constraints = RigidbodyConstraints.None;
+    void OnEnable()
+    {
+        interactable.selectEntered.AddListener(OnGrab);
+        interactable.selectExited.AddListener(OnRelease);
+    }
+
+    void OnDisable()
+    {
+        interactable.selectEntered.RemoveListener(OnGrab);
+        interactable.selectExited.RemoveListener(OnRelease);
     }
 
     void Start()
     {
         posisiAwalLokal = transform.localPosition;
-        rotasiAwalLokal = transform.localRotation;
     }
 
-    void LateUpdate()
+    int Idx => (int)sumbu;
+
+    Vector3 KeLokalParent(Vector3 worldPos)
     {
-        Vector3 posisiTerkunci = transform.localPosition;
+        return transform.parent != null ? transform.parent.InverseTransformPoint(worldPos) : worldPos;
+    }
 
-        switch (sumbu)
-        {
-            case SumbuGeser.X:
-                posisiTerkunci.x = Mathf.Clamp(posisiTerkunci.x, batasMin, batasMax);
-                posisiTerkunci.y = posisiAwalLokal.y;
-                posisiTerkunci.z = posisiAwalLokal.z;
-                break;
-            case SumbuGeser.Y:
-                posisiTerkunci.x = posisiAwalLokal.x;
-                posisiTerkunci.y = Mathf.Clamp(posisiTerkunci.y, batasMin, batasMax);
-                posisiTerkunci.z = posisiAwalLokal.z;
-                break;
-            case SumbuGeser.Z:
-                posisiTerkunci.x = posisiAwalLokal.x;
-                posisiTerkunci.y = posisiAwalLokal.y;
-                posisiTerkunci.z = Mathf.Clamp(posisiTerkunci.z, batasMin, batasMax);
-                break;
-        }
+    void OnGrab(SelectEnterEventArgs args)
+    {
+        interactor = args.interactorObject;
+        Vector3 tanganLokal = KeLokalParent(interactor.GetAttachTransform(interactable).position);
+        offsetGenggam = transform.localPosition[Idx] - tanganLokal[Idx];
+    }
 
-        transform.localPosition = posisiTerkunci;
-        transform.localRotation = rotasiAwalLokal;
+    void OnRelease(SelectExitEventArgs args)
+    {
+        interactor = null;
+    }
+
+    void Update()
+    {
+        if (interactor == null) return;
+
+        Vector3 tanganLokal = KeLokalParent(interactor.GetAttachTransform(interactable).position);
+        float target = tanganLokal[Idx] + offsetGenggam;
+
+        float min = relatifDariPosisiAwal ? posisiAwalLokal[Idx] + batasMin : batasMin;
+        float max = relatifDariPosisiAwal ? posisiAwalLokal[Idx] + batasMax : batasMax;
+        target = Mathf.Clamp(target, Mathf.Min(min, max), Mathf.Max(min, max));
+
+        Vector3 pos = posisiAwalLokal;   // sumbu lain dikunci
+        pos[Idx] = target;
+        transform.localPosition = pos;
     }
 }
