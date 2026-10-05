@@ -205,7 +205,7 @@ public class EvaluasiPersiapan : MonoBehaviour
     {
         if (uiManager != null)
         {
-            uiManager.MunculkanPanelAwal();
+            uiManager.MunculkanLaporanAkhir();
         }
     }
 

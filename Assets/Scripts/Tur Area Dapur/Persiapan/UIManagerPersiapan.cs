@@ -1,64 +1,60 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class UIManagerPersiapan : MonoBehaviour
 {
-    [Header("Pengaturan Panel")]
-    public GameObject panelInstruksi;
-    public GameObject panelLaporan;
+    [Header("Referensi UI Panel (Satu Pintu)")]
+    public GameObject panelVisualUtama; // Papan utama pembungkus UI
+    public GameObject objekInstruksi;
+    public GameObject objekLaporan;
+    public GameObject tombolLanjutkan;
+    public GameObject tombolReset;
 
-    [Header("Tombol Laporan")]
-    [Tooltip("Tombol untuk membuka laporan. Nonaktif (disabled) sampai semua instruksi/aktivitas selesai.")]
-    public GameObject tombolLaporan;
-
-    [Header("Pengaturan Teks UI (TextMeshPro)")]
+    [Header("Pengaturan Teks UI")]
     public TextMeshProUGUI teksKesimpulan;
     public TextMeshProUGUI teksRincian;
 
-    [Header("Sumber Data")]
+    [Header("Referensi Manager")]
     public EvaluasiPersiapan managerPersiapan;
+    public AreaProgressManager progressManager;
 
     private void Start()
     {
-        // Kunci tombol laporan di awal permainan, sebelum semua aktivitas selesai
-        if (tombolLaporan != null)
-        {
-            tombolLaporan.gameObject.SetActive(false);
-        }
+        // Pastikan selalu mulai di fase instruksi saat awal
+        AturFaseInstruksi();
     }
 
-    // Dipanggil otomatis oleh EvaluasiPersiapan saat SEMUA instruksi/aktivitas sudah selesai
-    public void MunculkanPanelAwal()
+    public void AturFaseInstruksi()
     {
-        panelInstruksi.SetActive(true);
-        panelLaporan.SetActive(false);
-
-        // Baru sekarang tombol laporan boleh ditekan siswa
-        if (tombolLaporan != null)
-        {
-            tombolLaporan.gameObject.SetActive(true);
-        }
+        //if (panelVisualUtama != null) panelVisualUtama.SetActive(true);
+        if (objekInstruksi != null) objekInstruksi.SetActive(true);
+        if (objekLaporan != null) objekLaporan.SetActive(false);
+        if (tombolLanjutkan != null) tombolLanjutkan.SetActive(false);
+        if (tombolReset != null) tombolReset.SetActive(false);
     }
 
-    // Fungsi ini dipanggil saat siswa menekan tombol "Lanjutkan"
-    public void BukaPanelLaporan()
+    // Dipanggil otomatis oleh EvaluasiPersiapan saat potongan terakhir masuk wadah
+    public void MunculkanLaporanAkhir()
     {
-        panelInstruksi.SetActive(false);
-        panelLaporan.SetActive(true);
-
-        // Cek K3 pisau di momen paling akhir ini, agar siswa punya waktu maksimal
-        // untuk mengembalikan pisau sebelum dinilai
+        // Cek K3 pisau di momen paling akhir sebelum laporan dicetak
         if (managerPersiapan != null)
         {
             managerPersiapan.CekEvaluasiAkhirArea();
         }
 
         TulisLaporanKeLayar();
+
+        // Ganti tampilan dari Instruksi ke Laporan
+        if (objekInstruksi != null) objekInstruksi.SetActive(false);
+        if (objekLaporan != null) objekLaporan.SetActive(true);
+        if (tombolLanjutkan != null) tombolLanjutkan.SetActive(true);
+        if (tombolReset != null) tombolReset.SetActive(true);
     }
 
     private void TulisLaporanKeLayar()
     {
+        if (managerPersiapan == null) return;
+
         // Jika list pelanggaran kosong, berarti siswa bekerja sempurna
         if (managerPersiapan.rincianPelanggaran.Count == 0)
         {
@@ -70,25 +66,27 @@ public class UIManagerPersiapan : MonoBehaviour
         {
             teksKesimpulan.text = $"Evaluasi Selesai. Ditemukan {managerPersiapan.rincianPelanggaran.Count} Pelanggaran Prosedur:";
             teksKesimpulan.color = Color.red;
-
-            // Menggabungkan semua isi List menjadi satu paragraf yang rapi
             teksRincian.text = string.Join("\n", managerPersiapan.rincianPelanggaran);
         }
     }
-    public void TekanTombolReset()
+
+    public void KlikLanjutkan()
     {
+        // Menyembunyikan seluruh papan visual
+        if (panelVisualUtama != null) panelVisualUtama.SetActive(false);
+
+        if (progressManager != null) progressManager.TambahTugasSelesai();
+    }
+
+    public void KlikReset()
+    {
+        // 1. Bersihkan 3D objek melalui manager persiapan
         if (managerPersiapan != null)
         {
             managerPersiapan.ResetSemuaSistem();
         }
 
-        // Kembalikan UI ke panel instruksi awal
-        panelLaporan.SetActive(false);
-        panelInstruksi.SetActive(true);
-
-        if (tombolLaporan != null)
-        {
-            tombolLaporan.gameObject.SetActive(false);
-        }
+        // 2. Kembalikan UI ke panel instruksi awal
+        AturFaseInstruksi();
     }
 }

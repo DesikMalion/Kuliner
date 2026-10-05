@@ -12,8 +12,14 @@ public class EvaluasiPenyimpanan : MonoBehaviour
     public AreaProgressManager progressManager;
     public BahanData[] semuaBahan; // Untuk fungsi reset
 
-    [Header("UI Laporan")]
-    public GameObject panelLaporan;
+    [Header("Referensi UI Panel (Satu Pintu)")]
+    public GameObject panelVisualUtama; // Papan utama pembungkus UI
+    public GameObject objekInstruksi;
+    public GameObject objekLaporan;
+    public GameObject tombolLanjutkan;
+    public GameObject tombolReset;
+
+    [Header("Teks Laporan")]
     public TextMeshProUGUI teksStatistik;
     public TextMeshProUGUI teksRemark;
 
@@ -21,6 +27,21 @@ public class EvaluasiPenyimpanan : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip suaraBenar;
     public AudioClip suaraSalah;
+
+    private void Start()
+    {
+        // Pastikan selalu mulai di fase instruksi
+        AturFaseInstruksi();
+    }
+
+    private void AturFaseInstruksi()
+    {
+        //if (panelVisualUtama != null) panelVisualUtama.SetActive(true);
+        if (objekInstruksi != null) objekInstruksi.SetActive(true);
+        if (objekLaporan != null) objekLaporan.SetActive(false);
+        if (tombolLanjutkan != null) tombolLanjutkan.SetActive(false);
+        if (tombolReset != null) tombolReset.SetActive(false);
+    }
 
     public void ProsesPenyimpanan(BahanData bahan, KategoriSimpan zonaTujuan)
     {
@@ -68,22 +89,37 @@ public class EvaluasiPenyimpanan : MonoBehaviour
             teksRemark.color = Color.red;
         }
 
-        panelLaporan.SetActive(true);
+        // Matikan instruksi, dan munculkan hasil laporan beserta tombol aksi
+        if (objekInstruksi != null) objekInstruksi.SetActive(false);
+        if (objekLaporan != null) objekLaporan.SetActive(true);
+        if (tombolLanjutkan != null) tombolLanjutkan.SetActive(true);
+        if (tombolReset != null) tombolReset.SetActive(true);
     }
 
     public void KlikLanjutkan()
     {
-        panelLaporan.SetActive(false);
+        // Matikan seluruh papan visual (termasuk background, judul, laporan, dan tombol) agar bersih
+        if (objekInstruksi != null)
+        {
+            objekInstruksi.SetActive(true);
+            objekLaporan.SetActive(false);
+        }
+
         if (progressManager != null) progressManager.TambahTugasSelesai();
     }
 
     public void KlikReset()
     {
-        panelLaporan.SetActive(false);
+        // 1. Sembunyikan panel evaluasi dan kembalikan ke tampilan instruksi
+        AturFaseInstruksi();
+
+        // 2. Kembalikan semua bahan ke posisi semula di atas meja
         foreach (BahanData bahan in semuaBahan)
         {
             if (bahan != null) bahan.ResetKePosisiAwal();
         }
+
+        // 3. Kembalikan skor perhitungan ke angka nol
         bahanDiproses = 0;
         jumlahBenar = 0;
         jumlahSalah = 0;

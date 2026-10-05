@@ -137,10 +137,22 @@ public class MainMenuManager : MonoBehaviour
 
         Transform cam = kameraAktif.transform;
 
-        Vector3 posisiBaru = cam.position + cam.forward * jarakDariKamera + Vector3.up * tinggiOffset;
+        // 1. Ambil arah depan kamera, hilangkan pengaruh kemiringan kepala (pitch)
+        Vector3 arahDepanMendatar = cam.forward;
+        arahDepanMendatar.y = 0;
+
+        // 2. Normalisasi menjaga agar jarak depth (Z) tidak memendek saat menengadah/menunduk
+        arahDepanMendatar.Normalize();
+
+        // 3. Hitung posisi baru hanya pada sumbu X dan Z relatif terhadap pandangan
+        Vector3 posisiBaru = cam.position + arahDepanMendatar * jarakDariKamera;
+
+        // 4. Kunci nilai Y agar tidak merubah posisi tinggi bawaan canvas
+        posisiBaru.y = menuCanvas.position.y;
+
         menuCanvas.position = posisiBaru;
 
-        // hadapkan menu ke kamera (billboard), tanpa ikut miring naik/turun
+        // Hadapkan menu ke kamera, tanpa ikut miring naik/turun
         Vector3 arahKeKamera = cam.position - menuCanvas.position;
         arahKeKamera.y = 0f;
         if (arahKeKamera.sqrMagnitude > 0.001f)

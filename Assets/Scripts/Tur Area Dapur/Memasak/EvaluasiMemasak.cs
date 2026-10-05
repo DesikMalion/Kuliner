@@ -6,9 +6,12 @@ public class EvaluasiMemasak : MonoBehaviour
 {
     public static EvaluasiMemasak Instance { get; private set; }
 
-    [Header("Referensi UI Laporan Akhir")]
-    [Tooltip("Panel Canvas besar yang muncul di akhir area")]
-    public GameObject panelLaporanAkhir;
+    [Header("Referensi UI Panel (Satu Pintu)")]
+    public GameObject panelVisualUtama; // Papan utama pembungkus UI
+    public GameObject objekInstruksi;   // GameObject 'Instruksi'
+    public GameObject objekLaporan;     // GameObject 'Laporan'
+
+    [Header("Referensi Teks Laporan Akhir")]
     public TextMeshProUGUI teksRingkasan;
     public TextMeshProUGUI teksRincianKesalahan;
 
@@ -18,7 +21,6 @@ public class EvaluasiMemasak : MonoBehaviour
     private int totalKesalahan = 0;
 
     public AreaProgressManager progressManager;
-
 
     // Menyimpan jumlah salah per alat (misal: "Oven" -> 2 kali salah)
     private Dictionary<string, int> rekapKesalahan = new Dictionary<string, int>();
@@ -31,9 +33,19 @@ public class EvaluasiMemasak : MonoBehaviour
             return;
         }
         Instance = this;
+    }
 
-        // Pastikan panel laporan tertutup di awal
-        if (panelLaporanAkhir != null) panelLaporanAkhir.SetActive(false);
+    private void Start()
+    {
+        // Pastikan selalu mulai di fase instruksi saat awal
+        AturFaseInstruksi();
+    }
+
+    public void AturFaseInstruksi()
+    {
+        //if (panelVisualUtama != null) panelVisualUtama.SetActive(true);
+        if (objekInstruksi != null) objekInstruksi.SetActive(true);
+        if (objekLaporan != null) objekLaporan.SetActive(false);
     }
 
     // Dipanggil saat siswa salah menjawab kuis
@@ -65,16 +77,15 @@ public class EvaluasiMemasak : MonoBehaviour
 
     private void TampilkanLaporan()
     {
-        // 1. Munculkan Panel
-        if (panelLaporanAkhir != null) panelLaporanAkhir.SetActive(true);
+        // Matikan panel instruksi (beserta tombol fase-nya) dan munculkan panel laporan
+        if (objekInstruksi != null) objekInstruksi.SetActive(false);
+        if (objekLaporan != null) objekLaporan.SetActive(true);
 
-        // 2. Isi Teks Ringkasan Skor
         if (teksRingkasan != null)
         {
             teksRingkasan.text = $"<b>Area Memasak Selesai!</b>\nAlat Dipelajari: {alatSelesai} / {totalAlat}\nTotal Kesalahan: {totalKesalahan}";
         }
 
-        // 3. Isi Teks Rincian Kesalahan
         if (teksRincianKesalahan != null)
         {
             if (rekapKesalahan.Count == 0)
@@ -86,22 +97,30 @@ public class EvaluasiMemasak : MonoBehaviour
                 string rincian = "<b>Rincian Kesalahan Evaluasi:</b>\n";
                 foreach (var item in rekapKesalahan)
                 {
-                    rincian += $"- {item.Key} : Salah menebak {item.Value} kali\n";
+                    rincian += $"- {item.Key} : Salah menjawab {item.Value} kali\n";
                 }
                 teksRincianKesalahan.text = rincian;
             }
         }
     }
+
     public void KlikLanjutkan()
     {
-        if (panelLaporanAkhir != null)
-        {
-            panelLaporanAkhir.SetActive(false);
-        }
+        // Sembunyikan seluruh papan visual dari pandangan
+        if (panelVisualUtama != null) panelVisualUtama.SetActive(false);
 
         if (progressManager != null)
         {
             progressManager.TambahTugasSelesai();
         }
+    }
+
+    public void KlikReset()
+    {
+        // Reset skor dan kembalikan tampilan
+        alatSelesai = 0;
+        totalKesalahan = 0;
+        rekapKesalahan.Clear();
+        AturFaseInstruksi();
     }
 }

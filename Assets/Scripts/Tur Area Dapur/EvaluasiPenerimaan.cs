@@ -11,8 +11,13 @@ public class EvaluasiPenerimaan : MonoBehaviour
 
     public AreaProgressManager progressManager;
 
-    [Header("UI Laporan")]
-    public GameObject panelLaporan;
+    [Header("Referensi UI Panel (Satu Pintu)")]
+    public GameObject objekInstruksi;
+    public GameObject objekLaporan;
+    public GameObject tombolLanjutkan;
+    public GameObject tombolReset;
+
+    [Header("Teks Laporan")]
     public TextMeshProUGUI teksStatistik;
     public TextMeshProUGUI teksRemark;
 
@@ -22,6 +27,22 @@ public class EvaluasiPenerimaan : MonoBehaviour
     public AudioClip suaraSalah;
 
     public BahanData[] semuaBahan;
+
+    private void Start()
+    {
+        // Saat simulasi dimulai, atur otomatis ke fase instruksi
+        AturFaseInstruksi();
+    }
+
+    private void AturFaseInstruksi()
+    {
+        // Menyalakan teks instruksi dan menyembunyikan elemen laporan serta tombol
+        if (objekInstruksi != null) objekInstruksi.SetActive(true);
+        if (objekLaporan != null) objekLaporan.SetActive(false);
+        if (tombolLanjutkan != null) tombolLanjutkan.SetActive(false);
+        if (tombolReset != null) tombolReset.SetActive(false);
+    }
+
     public void ProsesBahan(BahanData bahan, bool masukAreaTerima)
     {
         bahanDiproses++;
@@ -50,7 +71,7 @@ public class EvaluasiPenerimaan : MonoBehaviour
     {
         if (audioSource != null && klipSuara != null)
         {
-            // PlayOneShot memastikan suara tidak bertabrakan terpotong jika ada 2 barang masuk bersamaan
+            // PlayOneShot memastikan suara tidak bertabrakan jika ada 2 barang masuk bersamaan
             audioSource.PlayOneShot(klipSuara);
         }
     }
@@ -78,21 +99,32 @@ public class EvaluasiPenerimaan : MonoBehaviour
             teksRemark.color = Color.red;
         }
 
-        panelLaporan.SetActive(true);
+        // Matikan instruksi, dan munculkan hasil laporan beserta tombol aksi
+        if (objekInstruksi != null) objekInstruksi.SetActive(false);
+        if (objekLaporan != null) objekLaporan.SetActive(true);
+        if (tombolLanjutkan != null) tombolLanjutkan.SetActive(true);
+        if (tombolReset != null) tombolReset.SetActive(true);
     }
 
     public void KlikLanjutkan()
     {
-        panelLaporan.SetActive(false);
+        // Menyembunyikan seluruh Canvas/Panel Induk ini dari hadapan pemain
+        if (objekInstruksi != null)
+        {
+            objekInstruksi.SetActive(true);
+            objekLaporan.SetActive(false);
+        }
+
         if (progressManager != null)
         {
             progressManager.TambahTugasSelesai();
         }
     }
+
     public void KlikReset()
     {
-        // 1. Sembunyikan panel evaluasi
-        panelLaporan.SetActive(false);
+        // 1. Sembunyikan panel evaluasi dan kembalikan ke tampilan instruksi
+        AturFaseInstruksi();
 
         // 2. Kembalikan semua bahan ke posisi semula di atas meja
         foreach (BahanData bahan in semuaBahan)
@@ -107,7 +139,5 @@ public class EvaluasiPenerimaan : MonoBehaviour
         bahanDiproses = 0;
         jumlahBenar = 0;
         jumlahSalah = 0;
-
-        //Debug.Log("Simulasi di-reset. Silakan mulai menyortir lagi.");
     }
 }
