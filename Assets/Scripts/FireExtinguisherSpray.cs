@@ -4,7 +4,9 @@ using UnityEngine.Events;
 public class FireExtinguisherSpray : MonoBehaviour
 {
     public UnityEvent OnExtinguished;
+    public UnityEvent OnSpray;
 
+    public bool isFireExtinguished = true;
     [Header("Raycast")]
     [SerializeField] private float sprayDistance = 5f;
     [SerializeField] private LayerMask fireLayer;
@@ -22,6 +24,7 @@ public class FireExtinguisherSpray : MonoBehaviour
     private Vector3 initialScale = Vector3.one;
     //private bool extinguished;
     GameObject fireObject = null;
+    GameObject sprayObject = null;
 
     private void Awake()
     {
@@ -36,7 +39,14 @@ public class FireExtinguisherSpray : MonoBehaviour
             return;
         }
 
-        DetectFire();
+        if (isFireExtinguished)
+        {
+            DetectFire();
+        }
+        else {
+            Spraying();
+        }
+
     }
 
     private void DetectFire()
@@ -49,7 +59,7 @@ public class FireExtinguisherSpray : MonoBehaviour
             sprayDistance,
             fireLayer))
         {
-           // FireController fire = hit.collider.GetComponentInParent<FireController>();
+
            GameObject gameObject = hit.collider.gameObject;
             if (gameObject != fireObject)
             {
@@ -65,6 +75,36 @@ public class FireExtinguisherSpray : MonoBehaviour
         }
 
        // currentFire = null;
+    }
+
+    void Spraying()
+    {
+
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        if (Physics.Raycast(
+            ray,
+            out RaycastHit hit,
+            sprayDistance,
+            fireLayer))
+        {
+            sprayObject = hit.collider.transform.parent.gameObject;
+            OnSpray.Invoke();
+
+        }
+        else { 
+        if (sprayObject != null)
+            {
+                sprayObject = null;
+            }
+
+        }
+
+    }
+
+    public GameObject GetSprayObject()
+    {
+        return sprayObject;
     }
 
     public void StartSpray()

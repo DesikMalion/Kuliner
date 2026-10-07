@@ -11,6 +11,7 @@ public class Rope : MonoBehaviour
     public bool showLineRenderers = true;
 
     private LineRenderer lr;
+    public float lineWidth = 0.01f;
 
     public void Init(List<Transform> pts, Material lineMaterial)
     {
@@ -26,9 +27,10 @@ public class Rope : MonoBehaviour
         lr.useWorldSpace = true;
         lr.positionCount = points.Count;
         lr.material = lineMaterial;
-        lr.startWidth = 0.01f;
-        lr.endWidth = 0.01f;
+        lr.startWidth = lineWidth;
+        lr.endWidth = lineWidth;
         lr.generateLightingData = true;
+
     }
     void LateUpdate()
     {
