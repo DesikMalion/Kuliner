@@ -58,7 +58,7 @@ public class PanelInstruksiMemasak : MonoBehaviour
     private void SetFaseDua()
     {
         diFaseSatu = false;
-        teksInstruksi.text = "Sekarang saatnya ujian! Arahkan laser ke alat dan klik pelatuk untuk menjawab kuis.";
+        teksInstruksi.text = "Sekarang saatnya ujian! Arahkan laser ke alat dan klik pelatuk untuk menjawab kuis.\n\n1. Panci\n2. Wajan\n3. Grill\n4. Penggorengan\n5. Steam\n6. Oven";
 
         if (teksTombol != null) teksTombol.text = "Previous";
 
