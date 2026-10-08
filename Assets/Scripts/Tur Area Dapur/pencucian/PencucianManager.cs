@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -58,6 +59,8 @@ public class PencucianManager : MonoBehaviour
 
     void GetAllObjPos()
     {
+        posisiAwalObj.Add(OtherInteraction[4].transform.position);
+        rotasiAwalObj.Add(OtherInteraction[4].transform.eulerAngles);
         for (int i = 0; i < ShapePiring.Length; i++)
         {
             posisiAwalObj.Add(ShapePiring[i].transform.position);
@@ -65,6 +68,7 @@ public class PencucianManager : MonoBehaviour
         }
         posisiAwalObj.Add(OtherInteraction[3].transform.position);
         rotasiAwalObj.Add(OtherInteraction[3].transform.eulerAngles);
+
     }
 
     void StartPencucian()
@@ -83,17 +87,18 @@ public class PencucianManager : MonoBehaviour
         {
             OtherSocket[i].SetActive(false);
         }
-        for (int i = 0; i < OtherInteraction.Length; i++)
-        {
-            OtherInteraction[i].SetActive(false);
-        }
+
+        OtherInteraction[1].SetActive(false);
+        OtherInteraction[2].SetActive(false);
 
         // Aktifkan Socket pertama dan interaksi lainnya
         ObjSetColliderKinematic(OtherInteraction[3], true, false);
+        OtherInteraction[3].isStatic = false;
         SocketPiring[0].SetActive(true);
         OtherSocket[0].SetActive(true);
         OtherInteraction[0].SetActive(true);
         OtherInteraction[3].SetActive(true);
+        OtherInteraction[4].SetActive(true);
     }
 
     public void ObjSetColliderKinematic(GameObject obj, bool ColEnable, bool KinematicEnable)
@@ -184,6 +189,7 @@ public class PencucianManager : MonoBehaviour
         OtherInteraction[2].SetActive(true);
 
         ObjSetColliderKinematic(OtherInteraction[3], true, false);
+        OtherInteraction[3].isStatic = false;
         // Hapus OtherInteraction[3].isStatic karena isStatic tidak bisa dimodifikasi di script saat runtime
         OtherSocket[0].SetActive(false);
         OtherSocket[1].SetActive(true);
@@ -277,6 +283,11 @@ public class PencucianManager : MonoBehaviour
     void ResetAllObjPos()
     {
         int index = 0;
+        
+        OtherInteraction[4].transform.position = posisiAwalObj[index];
+        OtherInteraction[4].transform.eulerAngles = rotasiAwalObj[index];
+        index++;
+
         for (int i = 0; i < ShapePiring.Length; i++)
         {
             ShapePiring[i].transform.position = posisiAwalObj[index];
@@ -289,6 +300,15 @@ public class PencucianManager : MonoBehaviour
 
         OtherInteraction[3].transform.position = posisiAwalObj[index];
         OtherInteraction[3].transform.eulerAngles = rotasiAwalObj[index];
-        index++;
+        
+        
     }
+
+    public void ResetHandleSelangPos() 
+    {
+        OtherInteraction[4].transform.position = posisiAwalObj[0];
+        OtherInteraction[4].transform.eulerAngles = rotasiAwalObj[0];
+
+    }
+
 }
