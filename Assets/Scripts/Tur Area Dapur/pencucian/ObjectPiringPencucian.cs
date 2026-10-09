@@ -3,6 +3,7 @@ using UnityEngine;
 public class ObjectPiringPencucian : MonoBehaviour
 {
     public bool isBersih = false;
+    public bool isDicuci = false;
     public bool isSnapped = false;
     public GameObject[] KotoranPiring;
     int piringBersih = 0;
@@ -28,6 +29,7 @@ public class ObjectPiringPencucian : MonoBehaviour
     {
         isBersih = false;
         isSnapped = false;
+        isDicuci = false;
         piringBersih = 0;
         for (int i = 0; i < KotoranPiring.Length; i++)
         {
@@ -62,6 +64,7 @@ public class ObjectPiringPencucian : MonoBehaviour
 
             if (piringBersih >= KotoranPiring.Length-1)
             {
+                if(isSnapped)
                 isBersih = true;
             }
             else {

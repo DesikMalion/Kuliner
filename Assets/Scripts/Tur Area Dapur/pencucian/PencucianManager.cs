@@ -187,6 +187,11 @@ public class PencucianManager : MonoBehaviour
             {
                 SocketPiring[i].SetActive(false);
             }
+            else
+            {
+
+                SocketPiring[i].GetComponent<SocketLockObject>().ObjSnapped.GetComponent<ObjectPiringPencucian>().isDicuci = true;
+            }
         }
 
         if (!isMesinCuciOpen)
@@ -325,7 +330,7 @@ public class PencucianManager : MonoBehaviour
         for (int i = 0; i < ShapePiring.Length; i++)
         {
             ObjectPiringPencucian objectPiringPencucian = ShapePiring[i].GetComponent<ObjectPiringPencucian>();
-            if (objectPiringPencucian.isBersih)
+            if (objectPiringPencucian.isBersih && objectPiringPencucian.isDicuci)
             {
                 piringBersih++;
             }
