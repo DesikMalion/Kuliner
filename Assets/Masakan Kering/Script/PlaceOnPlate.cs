@@ -5,7 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 public class PlaceOnPlate : MonoBehaviour
 {
      public PlateSlot targetSlot;
-
+    public GameObject tools_used;
     private bool isPlaced;
     public bool isCake;
 
@@ -48,6 +48,7 @@ public class PlaceOnPlate : MonoBehaviour
                 slot.place_slot.rotation
             );
 
+tools_used.gameObject.SetActive(false);
         if (matang != null)
         {
             ingredient.gameObject.SetActive(false);

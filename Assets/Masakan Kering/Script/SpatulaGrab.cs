@@ -10,16 +10,22 @@ public class SpatulaGrab : MonoBehaviour
     [Header("Take Ingredient Step")]
     public int takeIngredientStepIndex = 4;
 
-    [Header("Ingredient")]
+    [Header("Ingredient Target")]
     public Ingredient targetIngredient;
+    public Ingredient targetIngredient2;
 
     [Tooltip("Point tempat ingredient menempel.")]
     public Transform ingredientPoint;
 
+    [Header("Settings")]
+    [Tooltip("Jumlah maksimal ingredient yang bisa dibawa spatula.")]
+    public int maxIngredient = 2;
+
     private XRGrabInteractable grabInteractable;
     private Rigidbody rb;
 
-    private bool hasIngredient = false;
+    // Jumlah ingredient yang sedang dibawa
+    private int ingredientCount = 0;
 
 
     // =========================================================
@@ -77,11 +83,20 @@ public class SpatulaGrab : MonoBehaviour
         }
 
 
+        // =====================================================
+        // MATIKAN PHYSICS SPATULA
+        // =====================================================
+
         if (rb != null)
         {
             rb.isKinematic = true;
             rb.useGravity = false;
         }
+
+
+        // =====================================================
+        // MASUKKAN KE TANGAN
+        // =====================================================
 
         transform.SetParent(handParent);
 
@@ -92,11 +107,21 @@ public class SpatulaGrab : MonoBehaviour
             Quaternion.identity;
 
 
-        // Setelah masuk tangan,
-        // XR tidak perlu mengontrol spatula lagi
+        // =====================================================
+        // XR TIDAK PERLU MENGONTROL SPATULA LAGI
+        // =====================================================
+
         grabInteractable.enabled = false;
 
-        this.GetComponent<BoxCollider>().isTrigger = true;
+
+        BoxCollider box =
+            GetComponent<BoxCollider>();
+
+        if (box != null)
+        {
+            box.isTrigger = true;
+        }
+
 
         Debug.Log(
             "Spatula masuk ke tangan!"
@@ -111,11 +136,16 @@ public class SpatulaGrab : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // =====================================================
-        // CEK STEP
+        // CEK COOKING MANAGER
         // =====================================================
 
         if (CookingManager.Instance == null)
             return;
+
+
+        // =====================================================
+        // CEK STEP
+        // =====================================================
 
         if (CookingManager.Instance.CurrentStepIndex
             != takeIngredientStepIndex)
@@ -125,11 +155,13 @@ public class SpatulaGrab : MonoBehaviour
 
 
         // =====================================================
-        // KALAU SUDAH ADA INGREDIENT
+        // CEK JUMLAH INGREDIENT
         // =====================================================
 
-        if (hasIngredient)
+        if (ingredientCount >= maxIngredient)
+        {
             return;
+        }
 
 
         // =====================================================
@@ -147,8 +179,11 @@ public class SpatulaGrab : MonoBehaviour
         // CEK TARGET
         // =====================================================
 
-        if (targetIngredient != null &&
-            ingredient != targetIngredient)
+        bool isTarget =
+            ingredient == targetIngredient ||
+            ingredient == targetIngredient2;
+
+        if (!isTarget)
         {
             return;
         }
@@ -169,8 +204,17 @@ public class SpatulaGrab : MonoBehaviour
     private void TakeIngredient(
         Ingredient ingredient)
     {
-        if (hasIngredient)
+        // =====================================================
+        // CEK MAX
+        // =====================================================
+
+        if (ingredientCount >= maxIngredient)
             return;
+
+
+        // =====================================================
+        // CEK INGREDIENT POINT
+        // =====================================================
 
         if (ingredientPoint == null)
         {
@@ -182,7 +226,11 @@ public class SpatulaGrab : MonoBehaviour
         }
 
 
-        hasIngredient = true;
+        // =====================================================
+        // TAMBAH JUMLAH
+        // =====================================================
+
+        ingredientCount++;
 
 
         // =====================================================
@@ -215,6 +263,19 @@ public class SpatulaGrab : MonoBehaviour
 
 
         // =====================================================
+        // MATIKAN COLLIDER INGREDIENT
+        // =====================================================
+
+        Collider[] colliders =
+            ingredient.GetComponentsInChildren<Collider>();
+
+        foreach (Collider col in colliders)
+        {
+            col.enabled = false;
+        }
+
+
+        // =====================================================
         // EVENT
         // =====================================================
 
@@ -227,9 +288,17 @@ public class SpatulaGrab : MonoBehaviour
         }
 
 
+        // =====================================================
+        // DEBUG
+        // =====================================================
+
         Debug.Log(
             "SPATULA MENGAMBIL : " +
-            ingredient.ingredientName
+            ingredient.ingredientName +
+            " | Jumlah : " +
+            ingredientCount +
+            "/" +
+            maxIngredient
         );
     }
 }

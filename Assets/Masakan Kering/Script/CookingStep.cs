@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
 [System.Serializable]
 public class CookingStepObject
 {
@@ -11,6 +12,22 @@ public class CookingStepObject
     public Color outlineColor = Color.white;
 }
 
+
+// =========================================================
+// GHOST OBJECT
+// =========================================================
+
+[System.Serializable]
+public class CookingGhostObject
+{
+    [Header("Ghost Object")]
+    public GameObject ghost;
+
+    [Header("Show Ghost")]
+    public bool showGhost = true;
+}
+
+
 public class CookingStep : MonoBehaviour
 {
     [Header("Step Information")]
@@ -19,8 +36,18 @@ public class CookingStep : MonoBehaviour
     [TextArea(2, 5)]
     public string instruction;
 
+
+    // =========================================================
+    // REQUIREMENTS
+    // =========================================================
+
     [Header("Requirements")]
     public List<CookingRequirement> requirements;
+
+
+    // =========================================================
+    // ACTIVE OBJECTS
+    // =========================================================
 
     [Header("Active Objects")]
     public CookingStepObject[] activeObjects;
@@ -31,8 +58,25 @@ public class CookingStep : MonoBehaviour
     [HideInInspector]
     public int activeObjectIndex = 0;
 
+
+    // =========================================================
+    // GHOST OBJECTS
+    // =========================================================
+
+    [Header("Ghost Objects")]
+    public CookingGhostObject[] ghostObjects;
+
+
+    // =========================================================
+    // STATUS
+    // =========================================================
+
     public bool IsCompleted { get; private set; }
 
+
+    // =========================================================
+    // COMPLETE
+    // =========================================================
 
     public void Complete()
     {
@@ -41,12 +85,19 @@ public class CookingStep : MonoBehaviour
 
         IsCompleted = true;
 
+        // Matikan ghost ketika step selesai
+        HideGhostObjects();
+
         Debug.Log(
             "STEP SELESAI : " +
             stepName
         );
     }
 
+
+    // =========================================================
+    // CHECK REQUIREMENT
+    // =========================================================
 
     public bool CheckRequirement(
         CookingEventType eventType,
@@ -79,6 +130,10 @@ public class CookingStep : MonoBehaviour
         return false;
     }
 
+
+    // =========================================================
+    // CHECK ALL REQUIREMENTS
+    // =========================================================
 
     private void CheckAllRequirements()
     {
@@ -130,6 +185,53 @@ public class CookingStep : MonoBehaviour
 
 
     // =========================================================
+    // SHOW GHOST
+    // =========================================================
+
+    public void ShowGhostObjects()
+    {
+        if (ghostObjects == null)
+            return;
+
+        foreach (CookingGhostObject ghostData in ghostObjects)
+        {
+            if (ghostData == null)
+                continue;
+
+            if (ghostData.ghost == null)
+                continue;
+
+            if (!ghostData.showGhost)
+                continue;
+
+            ghostData.ghost.SetActive(true);
+        }
+    }
+
+
+    // =========================================================
+    // HIDE GHOST
+    // =========================================================
+
+    public void HideGhostObjects()
+    {
+        if (ghostObjects == null)
+            return;
+
+        foreach (CookingGhostObject ghostData in ghostObjects)
+        {
+            if (ghostData == null)
+                continue;
+
+            if (ghostData.ghost == null)
+                continue;
+
+            ghostData.ghost.SetActive(false);
+        }
+    }
+
+
+    // =========================================================
     // RESET STEP
     // =========================================================
 
@@ -143,6 +245,9 @@ public class CookingStep : MonoBehaviour
         }
 
         ResetActiveObjects();
+
+        // Ghost kembali disembunyikan.
+        HideGhostObjects();
     }
 }
 

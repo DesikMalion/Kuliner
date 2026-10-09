@@ -46,6 +46,7 @@ public class Stirable : MonoBehaviour
             if (ingredient != null)
             {
                 ingredient.OnStirred();
+                ingredient.GetComponent<BoxCollider>().enabled = false;
             }
         }
     }
