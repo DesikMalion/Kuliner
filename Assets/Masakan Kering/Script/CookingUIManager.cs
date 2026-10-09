@@ -608,6 +608,7 @@ public class SimulationData
                 if (obj != null)
                 {
                     obj.SetActive(true);
+                    Debug.Log("OBJEK AKTIF "+obj.gameObject.name);
                 }
             }
         }

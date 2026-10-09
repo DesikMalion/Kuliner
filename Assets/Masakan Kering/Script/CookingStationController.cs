@@ -119,6 +119,12 @@ private void ToggleTransform()
 
         transformInitialized = true;
     }
+    Color alpha =
+                    material_panas.color;
+
+                alpha.a = 0;
+
+                material_panas.color =alpha;
 }
 
 
@@ -339,6 +345,7 @@ public void Toggle()
     }
 
      ToggleTransform();
+     targetTransform.GetComponent<Collider>().enabled = false;
 }
 
     // =========================================================

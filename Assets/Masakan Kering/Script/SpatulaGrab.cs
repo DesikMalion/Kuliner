@@ -1,3 +1,5 @@
+
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -24,9 +26,21 @@ public class SpatulaGrab : MonoBehaviour
     private XRGrabInteractable grabInteractable;
     private Rigidbody rb;
 
-    // Jumlah ingredient yang sedang dibawa
+    // Jumlah ingredient yang sedang dibawa.
     private int ingredientCount = 0;
 
+    // Ingredient yang sudah diambil agar tidak diambil dua kali.
+    private readonly HashSet<Ingredient> takenIngredients =
+        new HashSet<Ingredient>();
+
+    // Ingredient harus keluar lalu masuk kembali sebelum diambil.
+    private readonly HashSet<Ingredient> exitedIngredients =
+        new HashSet<Ingredient>();
+
+    // Menghindari trigger berulang dari beberapa collider
+    // milik ingredient yang sama.
+    private readonly HashSet<Ingredient> ingredientsInside =
+        new HashSet<Ingredient>();
 
     // =========================================================
     // AWAKE
@@ -34,12 +48,9 @@ public class SpatulaGrab : MonoBehaviour
 
     private void Awake()
     {
-        grabInteractable =
-            GetComponent<XRGrabInteractable>();
-
+        grabInteractable = GetComponent<XRGrabInteractable>();
         rb = GetComponent<Rigidbody>();
     }
-
 
     // =========================================================
     // ENABLE
@@ -53,7 +64,6 @@ public class SpatulaGrab : MonoBehaviour
         }
     }
 
-
     // =========================================================
     // DISABLE
     // =========================================================
@@ -66,7 +76,6 @@ public class SpatulaGrab : MonoBehaviour
         }
     }
 
-
     // =========================================================
     // GRAB SPATULA
     // =========================================================
@@ -76,76 +85,60 @@ public class SpatulaGrab : MonoBehaviour
         if (handParent == null)
         {
             Debug.LogWarning(
-                "Hand Parent belum diisi pada Spatula!"
+                "Hand Parent belum diisi pada Spatula!",
+                this
             );
 
             return;
         }
 
-
-        // =====================================================
-        // MATIKAN PHYSICS SPATULA
-        // =====================================================
-
+        // Matikan physics spatula.
         if (rb != null)
         {
             rb.isKinematic = true;
             rb.useGravity = false;
         }
 
-
-        // =====================================================
-        // MASUKKAN KE TANGAN
-        // =====================================================
-
+        // Masukkan spatula ke tangan.
         transform.SetParent(handParent);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
 
-        transform.localPosition =
-            Vector3.zero;
+        // XR tidak perlu mengontrol spatula lagi.
+        if (grabInteractable != null)
+        {
+            grabInteractable.enabled = false;
+        }
 
-        transform.localRotation =
-            Quaternion.identity;
-
-
-        // =====================================================
-        // XR TIDAK PERLU MENGONTROL SPATULA LAGI
-        // =====================================================
-
-        grabInteractable.enabled = false;
-
-
-        BoxCollider box =
-            GetComponent<BoxCollider>();
+        BoxCollider box = GetComponent<BoxCollider>();
 
         if (box != null)
         {
             box.isTrigger = true;
         }
 
-
-        Debug.Log(
-            "Spatula masuk ke tangan!"
-        );
+        Debug.Log("Spatula masuk ke tangan!");
     }
 
-
     // =========================================================
-    // TRIGGER INGREDIENT
+    // TRIGGER INGREDIENT MASUK
     // =========================================================
 
     private void OnTriggerEnter(Collider other)
     {
-        // =====================================================
-        // CEK COOKING MANAGER
-        // =====================================================
+        Ingredient ingredient =
+            other.GetComponentInParent<Ingredient>();
 
-        if (CookingManager.Instance == null)
+        if (ingredient == null)
             return;
 
+        // Jika ingredient ini sudah diambil, abaikan.
+        if (takenIngredients.Contains(ingredient))
+            return;
 
-        // =====================================================
-        // CEK STEP
-        // =====================================================
+        // Tunggu step pengambilan yang benar.
+        if (CookingManager.Instance == null)
+            return;
 
         if (CookingManager.Instance.CurrentStepIndex
             != takeIngredientStepIndex)
@@ -153,105 +146,108 @@ public class SpatulaGrab : MonoBehaviour
             return;
         }
 
+        // Pastikan ingredient termasuk target.
+        bool isTarget =
+            ingredient == targetIngredient ||
+            ingredient == targetIngredient2;
 
-        // =====================================================
-        // CEK JUMLAH INGREDIENT
-        // =====================================================
+        if (!isTarget)
+            return;
 
-        if (ingredientCount >= maxIngredient)
+        // Catat ingredient yang sedang berada di area trigger.
+        ingredientsInside.Add(ingredient);
+
+        // Harus sudah keluar sebelumnya, baru boleh diambil.
+        if (!exitedIngredients.Contains(ingredient))
         {
+            Debug.Log(
+                ingredient.ingredientName +
+                " terdeteksi. Keluar dari collider lalu masuk lagi untuk mengambil."
+            );
+
             return;
         }
 
+        // Cek jumlah maksimum.
+        if (ingredientCount >= maxIngredient)
+            return;
 
-        // =====================================================
-        // CARI INGREDIENT
-        // =====================================================
+        // Ingredient sudah keluar dan masuk kembali.
+        exitedIngredients.Remove(ingredient);
 
+        TakeIngredient(ingredient);
+    }
+
+    // =========================================================
+    // TRIGGER INGREDIENT KELUAR
+    // =========================================================
+
+    private void OnTriggerExit(Collider other)
+    {
         Ingredient ingredient =
             other.GetComponentInParent<Ingredient>();
 
         if (ingredient == null)
             return;
 
+        if (takenIngredients.Contains(ingredient))
+            return;
 
-        // =====================================================
-        // CEK TARGET
-        // =====================================================
-
+        // Hanya proses ingredient yang memang menjadi target.
         bool isTarget =
             ingredient == targetIngredient ||
             ingredient == targetIngredient2;
 
         if (!isTarget)
-        {
             return;
-        }
 
+        // Tandai bahwa ingredient sudah keluar dari collider.
+        exitedIngredients.Add(ingredient);
+        ingredientsInside.Remove(ingredient);
 
-        // =====================================================
-        // AMBIL INGREDIENT
-        // =====================================================
-
-        TakeIngredient(ingredient);
+        Debug.Log(
+            ingredient.ingredientName +
+            " keluar dari spatula. Masuk kembali untuk mengambil."
+        );
     }
-
 
     // =========================================================
     // TAKE INGREDIENT
     // =========================================================
 
-    private void TakeIngredient(
-        Ingredient ingredient)
+    private void TakeIngredient(Ingredient ingredient)
     {
-        // =====================================================
-        // CEK MAX
-        // =====================================================
+        if (ingredient == null)
+            return;
 
         if (ingredientCount >= maxIngredient)
             return;
 
-
-        // =====================================================
-        // CEK INGREDIENT POINT
-        // =====================================================
+        if (takenIngredients.Contains(ingredient))
+            return;
 
         if (ingredientPoint == null)
         {
             Debug.LogWarning(
-                "Ingredient Point belum diisi!"
+                "Ingredient Point belum diisi!",
+                this
             );
 
             return;
         }
 
+        // Catat agar tidak terambil dua kali.
+        takenIngredients.Add(ingredient);
 
-        // =====================================================
-        // TAMBAH JUMLAH
-        // =====================================================
-
+        // Tambah jumlah ingredient.
         ingredientCount++;
 
+        // Pindahkan ingredient ke spatula.
+        ingredient.transform.SetParent(ingredientPoint);
+        ingredient.transform.localPosition = Vector3.zero;
+        ingredient.transform.localRotation = Quaternion.identity;
 
-        // =====================================================
-        // MASUKKAN INGREDIENT KE SPATULA
-        // =====================================================
-
-        ingredient.transform.SetParent(
-            ingredientPoint
-        );
-
-        ingredient.transform.localPosition =
-            Vector3.zero;
-
-        ingredient.transform.localRotation =
-            Quaternion.identity;
-
-
-        // =====================================================
-        // MATIKAN PHYSICS INGREDIENT
-        // =====================================================
-
+        // Matikan physics ingredient.
         Rigidbody ingredientRb =
             ingredient.GetComponent<Rigidbody>();
 
@@ -261,11 +257,7 @@ public class SpatulaGrab : MonoBehaviour
             ingredientRb.useGravity = false;
         }
 
-
-        // =====================================================
-        // MATIKAN COLLIDER INGREDIENT
-        // =====================================================
-
+        // Matikan collider agar tidak memicu trigger berulang.
         Collider[] colliders =
             ingredient.GetComponentsInChildren<Collider>();
 
@@ -274,11 +266,7 @@ public class SpatulaGrab : MonoBehaviour
             col.enabled = false;
         }
 
-
-        // =====================================================
-        // EVENT
-        // =====================================================
-
+        // Kirim event ke sistem task.
         if (CookingManager.Instance != null)
         {
             CookingManager.Instance.CheckEvent(
@@ -287,15 +275,10 @@ public class SpatulaGrab : MonoBehaviour
             );
         }
 
-
-        // =====================================================
-        // DEBUG
-        // =====================================================
-
         Debug.Log(
-            "SPATULA MENGAMBIL : " +
+            "SPATULA MENGAMBIL: " +
             ingredient.ingredientName +
-            " | Jumlah : " +
+            " | Jumlah: " +
             ingredientCount +
             "/" +
             maxIngredient

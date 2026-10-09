@@ -9,10 +9,12 @@ public class Spatula : CookingTool
     // CURRENT INGREDIENT
     // =========================================================
 
-    [SerializeField]private Ingredient currentIngredient;
+    [SerializeField] private Ingredient currentIngredient;
+    [SerializeField] private bool isHoldingIngredient = false;
 
-    [SerializeField]private bool isHoldingIngredient = false;
-
+    // Khusus Grab:
+    // Ingredient harus keluar lalu masuk kembali ke collider.
+    private bool grabRequiresReenter = false;
 
     // =========================================================
     // UI
@@ -23,7 +25,6 @@ public class Spatula : CookingTool
 
     [Header("UI Text")]
     public TMPro.TMP_Text actionText;
-
 
     // =========================================================
     // STEP INDEX SETTINGS
@@ -42,15 +43,14 @@ public class Spatula : CookingTool
 
     private int lastActionStepIndex = -1;
 
-
     // =========================================================
     // HOLD POINT
     // =========================================================
 
     [Header("Hold Point")]
+
     [Tooltip("Posisi ingredient ketika sedang dipegang spatula.")]
     public Transform holdPoint;
-
 
     // =========================================================
     // ROTATE SETTINGS
@@ -66,118 +66,102 @@ public class Spatula : CookingTool
 
     private bool isRotating;
 
-
     // =========================================================
     // INTERNAL HOLD DATA
     // =========================================================
 
     private Transform originalParent;
-
     private Rigidbody currentRigidbody;
-
     private XRGrabInteractable currentGrabInteractable;
 
     private bool originalIsKinematic;
-
     private bool originalUseGravity;
-
 
     // =========================================================
     // UPDATE
     // =========================================================
 
     private void Update()
-{
-    if (CookingManager.Instance == null)
-        return;
-
-    if (CookingManager.Instance.CurrentStep == null)
-        return;
-
-
-    // =====================================================
-    // CURRENT STEP
-    // =====================================================
-
-    int activeStepIndex =
-        CookingManager.Instance.CurrentStepIndex;
-
-
-    // =====================================================
-    // FLIP / ROTATE
-    // =====================================================
-
-    // ROTATE BOLEH DILAKUKAN BERKALI-KALI
-    // DALAM STEP YANG SAMA.
-    if (flipRotateStepIndex > 0 &&
-        activeStepIndex == flipRotateStepIndex)
     {
-        if (currentIngredient == null ||
-            isHoldingIngredient ||
-            isRotating)
+        if (CookingManager.Instance == null)
+            return;
+
+        if (CookingManager.Instance.CurrentStep == null)
+            return;
+
+        int activeStepIndex =
+            CookingManager.Instance.CurrentStepIndex;
+
+        // =====================================================
+        // FLIP / ROTATE
+        // =====================================================
+
+        // Tetap bisa dilakukan berkali-kali dalam step yang sama.
+        if (flipRotateStepIndex > 0 &&
+            activeStepIndex == flipRotateStepIndex)
         {
+            if (currentIngredient == null ||
+                isHoldingIngredient ||
+                isRotating)
+            {
+                return;
+            }
+
+            Use();
             return;
         }
 
-        // JANGAN gunakan lastActionStepIndex
-        // karena rotate membutuhkan beberapa kali aksi.
+        // =====================================================
+        // GRAB INGREDIENT
+        // =====================================================
 
-        Use();
-
-        return;
-    }
-
-
-    // =====================================================
-    // GRAB INGREDIENT
-    // =====================================================
-
-    if (grabStepIndex > 0 &&
-        activeStepIndex == grabStepIndex)
-    {
-        if (currentIngredient == null ||
-            isHoldingIngredient)
+        if (grabStepIndex > 0 &&
+            activeStepIndex == grabStepIndex)
         {
+            if (currentIngredient == null ||
+                isHoldingIngredient)
+            {
+                return;
+            }
+
+            // WAJIB keluar dari collider dan masuk kembali.
+            if (!grabRequiresReenter)
+                return;
+
+            // Grab hanya sekali per step.
+            if (lastActionStepIndex == activeStepIndex)
+                return;
+
+            lastActionStepIndex = activeStepIndex;
+            grabRequiresReenter = false;
+
+            GrabIngredient();
             return;
         }
 
-        // Grab hanya boleh dilakukan sekali
-        if (lastActionStepIndex == activeStepIndex)
-            return;
+        // =====================================================
+        // RELEASE INGREDIENT
+        // =====================================================
 
-        lastActionStepIndex = activeStepIndex;
-
-        GrabIngredient();
-
-        return;
-    }
-
-
-    // =====================================================
-    // RELEASE INGREDIENT
-    // =====================================================
-
-    if (releaseStepIndex > 0 &&
-        activeStepIndex == releaseStepIndex)
-    {
-        if (!isHoldingIngredient ||
-            currentIngredient == null)
+        if (releaseStepIndex > 0 &&
+            activeStepIndex == releaseStepIndex)
         {
+            if (!isHoldingIngredient ||
+                currentIngredient == null)
+            {
+                return;
+            }
+
+            // Release hanya sekali per step.
+            if (lastActionStepIndex == activeStepIndex)
+                return;
+
+            lastActionStepIndex = activeStepIndex;
+
+            ReleaseIngredient();
             return;
         }
-
-        // Release hanya boleh dilakukan sekali
-        if (lastActionStepIndex == activeStepIndex)
-            return;
-
-        lastActionStepIndex = activeStepIndex;
-
-        ReleaseIngredient();
-
-        return;
     }
-}
-
 
     // =========================================================
     // TRIGGER MASUK
@@ -185,30 +169,36 @@ public class Spatula : CookingTool
 
     private void OnTriggerEnter(Collider other)
     {
-         Debug.Log(
-        "SPATULA TRIGGER KENA: " +
-        other.name
-    );
+        Debug.Log("SPATULA TRIGGER KENA: " + other.name);
+
         Ingredient ingredient =
             other.GetComponentInParent<Ingredient>();
 
         if (ingredient == null)
             return;
 
-        // Jangan mengganti target ketika sedang memegang ingredient.
         if (isHoldingIngredient)
             return;
 
         currentIngredient = ingredient;
 
+        // Jika sebelumnya ingredient sudah keluar,
+        // masuk kembali berarti siap di-grab.
+        if (grabRequiresReenter)
+        {
+            Debug.Log(
+                ingredient.ingredientName +
+                " masuk kembali. Grab siap dilakukan."
+            );
+        }
+
+        ShowActionUI();
+
         Debug.Log(
             "Spatula menyentuh: " +
             ingredient.ingredientName
         );
-
-        ShowActionUI();
     }
-
 
     // =========================================================
     // TRIGGER KELUAR
@@ -222,23 +212,26 @@ public class Spatula : CookingTool
         if (ingredient == null)
             return;
 
-        // Pertahankan target selama ingredient dipegang.
         if (isHoldingIngredient)
             return;
 
         if (currentIngredient == ingredient)
         {
+            // Tandai bahwa ingredient sudah keluar.
+            // Grab baru boleh dilakukan setelah masuk lagi.
+            grabRequiresReenter = true;
+
             currentIngredient = null;
 
             HideActionUI();
 
             Debug.Log(
                 "Spatula keluar dari: " +
-                ingredient.ingredientName
+                ingredient.ingredientName +
+                ". Masuk kembali untuk grab."
             );
         }
     }
-
 
     // =========================================================
     // FLIP / ROTATE
@@ -252,22 +245,14 @@ public class Spatula : CookingTool
             return;
         }
 
-
-        // =====================================================
         // ROTATE
-        // =====================================================
-
         if (currentIngredient.requiresRotate)
         {
             RotateIngredient();
             return;
         }
 
-
-        // =====================================================
         // FLIP
-        // =====================================================
-
         if (currentIngredient.requiresFlip)
         {
             Flipable flippable =
@@ -293,17 +278,11 @@ public class Spatula : CookingTool
             return;
         }
 
-
-        // =====================================================
-        // TIDAK MEMERLUKAN AKSI
-        // =====================================================
-
         Debug.Log(
             currentIngredient.ingredientName +
             " tidak membutuhkan flip atau rotate."
         );
     }
-
 
     // =========================================================
     // ROTATE INGREDIENT
@@ -323,7 +302,6 @@ public class Spatula : CookingTool
         StartCoroutine(RotateRoutine());
     }
 
-
     // =========================================================
     // ROTATE ROUTINE
     // =========================================================
@@ -337,11 +315,7 @@ public class Spatula : CookingTool
 
         Quaternion targetRotation =
             startRotation *
-            Quaternion.Euler(
-                0f,
-                rotateAngle,
-                0f
-            );
+            Quaternion.Euler(0f, rotateAngle, 0f);
 
         float elapsed = 0f;
 
@@ -384,7 +358,6 @@ public class Spatula : CookingTool
         isRotating = false;
     }
 
-
     // =========================================================
     // GRAB INGREDIENT
     // =========================================================
@@ -406,11 +379,7 @@ public class Spatula : CookingTool
             return;
         }
 
-
-        // =====================================================
         // SIMPAN DATA INGREDIENT
-        // =====================================================
-
         originalParent =
             currentIngredient.transform.parent;
 
@@ -420,11 +389,7 @@ public class Spatula : CookingTool
         currentGrabInteractable =
             currentIngredient.GetComponent<XRGrabInteractable>();
 
-
-        // =====================================================
         // SIMPAN STATE RIGIDBODY
-        // =====================================================
-
         if (currentRigidbody != null)
         {
             originalIsKinematic =
@@ -437,11 +402,7 @@ public class Spatula : CookingTool
             currentRigidbody.useGravity = false;
         }
 
-
-        // =====================================================
         // LEPAS XR GRAB JIKA SEDANG DIPEGANG CONTROLLER
-        // =====================================================
-
         if (currentGrabInteractable != null)
         {
             if (currentGrabInteractable.isSelected)
@@ -449,36 +410,37 @@ public class Spatula : CookingTool
                 IXRSelectInteractor interactor =
                     currentGrabInteractable.firstInteractorSelecting;
 
-                if (interactor != null)
+                if (interactor != null &&
+                    currentGrabInteractable.interactionManager != null)
                 {
-                    currentGrabInteractable.interactionManager
-                        .SelectExit(
-                            interactor,
-                            currentGrabInteractable
-                        );
+                    currentGrabInteractable.interactionManager.SelectExit(
+                        interactor,
+                        currentGrabInteractable
+                    );
                 }
             }
 
             currentGrabInteractable.enabled = false;
         }
 
-
-        // =====================================================
         // PINDAHKAN KE HOLD POINT
-        // =====================================================
-
         currentIngredient.transform.SetParent(holdPoint);
 
         currentIngredient.transform.SetPositionAndRotation(
             holdPoint.position,
             holdPoint.rotation
         );
-  CookingManager.Instance.CheckEvent(
-        CookingEventType.ObjectPickedUp,
-        currentIngredient.gameObject
-    );
 
         isHoldingIngredient = true;
+
+        // Beri tahu sistem task.
+        if (CookingManager.Instance != null)
+        {
+            CookingManager.Instance.CheckEvent(
+                CookingEventType.ObjectPickedUp,
+                currentIngredient.gameObject
+            );
+        }
 
         UpdateHoldingUI();
 
@@ -487,7 +449,6 @@ public class Spatula : CookingTool
             currentIngredient.ingredientName
         );
     }
-
 
     // =========================================================
     // RELEASE INGREDIENT
@@ -498,7 +459,6 @@ public class Spatula : CookingTool
         if (currentIngredient == null)
             return;
 
-
         Ingredient releasedIngredient = currentIngredient;
 
         Debug.Log(
@@ -506,18 +466,10 @@ public class Spatula : CookingTool
             releasedIngredient.ingredientName
         );
 
-
-        // =====================================================
         // KEMBALIKAN PARENT
-        // =====================================================
-
         releasedIngredient.transform.SetParent(originalParent);
 
-
-        // =====================================================
         // KEMBALIKAN RIGIDBODY
-        // =====================================================
-
         if (currentRigidbody != null)
         {
             currentRigidbody.isKinematic =
@@ -527,21 +479,13 @@ public class Spatula : CookingTool
                 originalUseGravity;
         }
 
-
-        // =====================================================
         // AKTIFKAN XR GRAB KEMBALI
-        // =====================================================
-
         if (currentGrabInteractable != null)
         {
             currentGrabInteractable.enabled = true;
         }
 
-
-        // =====================================================
         // RESET DATA HOLD
-        // =====================================================
-
         currentRigidbody = null;
         currentGrabInteractable = null;
         originalParent = null;
@@ -551,9 +495,12 @@ public class Spatula : CookingTool
 
         currentIngredient = null;
 
+        // Setelah release, ingredient harus masuk trigger lagi
+        // untuk menjadi target baru.
+        grabRequiresReenter = false;
+
         HideActionUI();
     }
-
 
     // =========================================================
     // UI NORMAL
@@ -572,7 +519,6 @@ public class Spatula : CookingTool
         }
     }
 
-
     // =========================================================
     // UI SAAT MEMBAWA
     // =========================================================
@@ -589,7 +535,6 @@ public class Spatula : CookingTool
                 "Lepas";
         }
     }
-
 
     // =========================================================
     // HIDE UI

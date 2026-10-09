@@ -47,11 +47,11 @@ public class CookingPan : MonoBehaviour
         if (animationController != null)
         {
             animationController.PlayAnimation();
-oil.SetActive(true);
         }
         else
         {
             FinishOil();
+
         }
     }
 
@@ -60,21 +60,31 @@ oil.SetActive(true);
     // FINISH OIL
     // =========================================================
 
-    public void FinishOil()
+    
+public void FinishOil()
+{
+    Debug.Log(gameObject.name + " : PROSES MINYAK SELESAI");
+
+    if (oil == null)
     {
-        Debug.Log(
-            gameObject.name +
-            " : PROSES MINYAK SELESAI"
-        );
+        Debug.LogError("Oil belum di-assign di Inspector!", this);
+        return;
+    }
 
+    oil.SetActive(true);
 
-        // =====================================================
-        // EVENT COOKING
-        // =====================================================
+    Debug.Log(
+        "Oil activeSelf: " + oil.activeSelf +
+        " | activeInHierarchy: " + oil.activeInHierarchy,
+        oil
+    );
 
+    if (CookingEvent.Instance != null)
+    {
         CookingEvent.Instance.Trigger(
             CookingEventType.ObjectPrepared,
             gameObject
         );
     }
+}
 }
