@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class PencucianManager : MonoBehaviour
 {
     public GameObject[] ShapePiring;
     public GameObject[] SocketPiring;
+    public GameObject[] SocketPiringBersih;
     public GameObject[] OtherSocket;
     public GameObject[] OtherInteraction;
 
@@ -19,6 +21,7 @@ public class PencucianManager : MonoBehaviour
     public AreaProgressManager progressManager;
 
     int snappedObj = 0;
+    int snappedObjBersih = 0;
 
     List<Vector3> posisiAwalObj = new List<Vector3>();
     List<Vector3> rotasiAwalObj = new List<Vector3>();
@@ -83,6 +86,10 @@ public class PencucianManager : MonoBehaviour
         {
             SocketPiring[i].SetActive(false);
         }
+        for (int i = 0; i < SocketPiringBersih.Length; i++)
+        {
+            SocketPiringBersih[i].SetActive(false);
+        }
         for (int i = 0; i < OtherSocket.Length; i++)
         {
             OtherSocket[i].SetActive(false);
@@ -93,6 +100,7 @@ public class PencucianManager : MonoBehaviour
 
         // Aktifkan Socket pertama dan interaksi lainnya
         ObjSetColliderKinematic(OtherInteraction[3], true, false);
+        
         OtherInteraction[3].isStatic = false;
         SocketPiring[0].SetActive(true);
         OtherSocket[0].SetActive(true);
@@ -103,8 +111,8 @@ public class PencucianManager : MonoBehaviour
 
     public void ObjSetColliderKinematic(GameObject obj, bool ColEnable, bool KinematicEnable)
     {
-        Collider[] Colliders = obj.transform.GetComponentsInChildren<Collider>(true);
-        foreach (Collider Collider in Colliders)
+        BoxCollider[] Colliders = obj.transform.GetComponentsInChildren<BoxCollider>(true);
+        foreach (BoxCollider Collider in Colliders)
         {
             Collider.enabled = ColEnable;
         }
@@ -128,11 +136,13 @@ public class PencucianManager : MonoBehaviour
         {
             if (SocketPiring[i].name == objPiring.name)
             {
+                // Kunci posisi piring yang sudah menempel di rak (Kinematic ON)
+                ObjSetColliderKinematic(SocketPiring[i].GetComponent<SocketLockObject>().ObjSnapped, true, true);
+
                 SocketPiring[i].GetComponent<XRSocketInteractor>().attachTransform.gameObject.SetActive(false);
                 SocketPiring[i].GetComponent<SocketLockObject>().ObjSnapped.GetComponent<ObjectPiringPencucian>().isSnapped = true;
+                SocketPiring[i].GetComponent<SocketLockObject>().ObjSnapped.GetComponent<XRGrabInteractable>().colliders[0].gameObject.SetActive(false);
 
-                // Kunci posisi piring yang sudah menempel di rak (Kinematic ON)
-                ObjSetColliderKinematic(ShapePiring[i], true, true);
                 snappedObj++;
 
                 // Aktifkan socket piring selanjutnya
@@ -162,12 +172,22 @@ public class PencucianManager : MonoBehaviour
     public void RakPiringSnapped()
     {
         OtherInteraction[1].SetActive(true);
+
+
     }
 
     bool isMesinCuciOpen = false;
     public void GrabMesinCuci()
     {
         OtherInteraction[1].SetActive(false);
+
+        for (int i = 0; i < SocketPiring.Length; i++)
+        {
+            if (!SocketPiring[i].GetComponent<SocketLockObject>().ObjSnapped)
+            {
+                SocketPiring[i].SetActive(false);
+            }
+        }
 
         if (!isMesinCuciOpen)
         {
@@ -206,6 +226,90 @@ public class PencucianManager : MonoBehaviour
             if (!objectPiringPencucian.isBersih && objectPiringPencucian.isSnapped)
             {
                 objectPiringPencucian.KotoranPiring[2].SetActive(true);
+            }
+        }
+    }
+
+    public void RakBersihSnapped() {
+
+        StartCoroutine(WaitSocketPiringBersihEnable());
+
+    }
+
+    IEnumerator WaitSocketPiringBersihEnable()
+    {
+        yield return new WaitForSeconds(2f);
+
+        for (int i = 0; i < ShapePiring.Length; i++)
+        {
+            ObjSetColliderKinematic(ShapePiring[i], true, false);
+            ShapePiring[i].GetComponent<ObjectPiringPencucian>().isSnapped = false;
+            ShapePiring[i].GetComponent<XRGrabInteractable>().colliders[0].gameObject.SetActive(true);
+            ShapePiring[i].GetComponent<XRGrabInteractable>().colliders[1].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < SocketPiring.Length; i++)
+        {
+            SocketPiring[i].SetActive(false);
+        }
+
+        ObjSetColliderKinematic(OtherInteraction[3], false, true);
+        OtherInteraction[3].transform.GetComponentInChildren<MeshCollider>().enabled = true;
+
+        SocketPiringBersih[0].SetActive(true);
+        snappedObjBersih = 0;
+    }
+
+    public void PiringBersihSnapped(GameObject objPiring)
+    {
+        for (int i = 0; i < SocketPiringBersih.Length; i++)
+        {
+            if (SocketPiringBersih[i].name == objPiring.name)
+            {
+
+                ObjSetColliderKinematic(SocketPiringBersih[i].GetComponent<SocketLockObject>().ObjSnapped, false, true);
+
+                SocketPiringBersih[i].GetComponent<XRSocketInteractor>().attachTransform.gameObject.SetActive(false);
+                SocketPiringBersih[i].GetComponent<SocketLockObject>().ObjSnapped.GetComponent<ObjectPiringPencucian>().isSnapped = true;
+                SocketPiringBersih[i].GetComponent<SocketLockObject>().ObjSnapped.GetComponent<XRGrabInteractable>().colliders[0].gameObject.SetActive(false);
+                SocketPiringBersih[i].GetComponent<SocketLockObject>().ObjSnapped.GetComponent<XRGrabInteractable>().colliders[1].gameObject.SetActive(false);
+
+                snappedObjBersih++;
+
+                for (int j = 0; j < SocketPiring.Length; j++)
+                {
+                    if (SocketPiring[j].GetComponent<SocketLockObject>().ObjSnapped) {
+                        if (SocketPiring[j].GetComponent<SocketLockObject>().ObjSnapped.name == SocketPiringBersih[i].GetComponent<SocketLockObject>().ObjSnapped.name)
+                        {
+                            SocketPiring[j].GetComponent<SocketLockObject>().ObjSnapped = null;
+
+                        }
+
+                    }
+                }
+                bool isAllPiringBersihSnapped = true;
+
+                for (int j = 0; j < SocketPiring.Length; j++)
+                {
+                    if (SocketPiring[j].GetComponent<SocketLockObject>().ObjSnapped)
+                    {
+                        isAllPiringBersihSnapped = false;
+                    }
+                }
+
+                if (!isAllPiringBersihSnapped)
+                {
+                    // Aktifkan socket piring selanjutnya
+                    if (snappedObjBersih < ShapePiring.Length)
+                    {
+                        SocketPiringBersih[snappedObjBersih].SetActive(true);
+                    }
+                }
+                else {
+                    LaporanPencucian();
+                }
+
+
             }
         }
     }
@@ -254,13 +358,7 @@ public class PencucianManager : MonoBehaviour
 
     public void KlikReset()
     {
-        ResetAllObjPos();
 
-        for (int i = 0; i < ShapePiring.Length; i++)
-        {
-            ObjectPiringPencucian objectPiringPencucian = ShapePiring[i].GetComponent<ObjectPiringPencucian>();
-            objectPiringPencucian.ResetPiring();
-        }
 
         for (int i = 0; i < OtherSocket.Length; i++)
         {
@@ -270,10 +368,31 @@ public class PencucianManager : MonoBehaviour
         for (int i = 0; i < SocketPiring.Length; i++)
         {
             SocketPiring[i].GetComponent<XRSocketInteractor>().attachTransform.gameObject.SetActive(true);
+            SocketPiring[i].GetComponent<SocketLockObject>().ObjSnapped = null;
         }
+
+        for (int i = 0; i < SocketPiringBersih.Length; i++)
+        {
+            SocketPiringBersih[i].GetComponent<XRSocketInteractor>().attachTransform.gameObject.SetActive(true);
+            SocketPiringBersih[i].GetComponent<SocketLockObject>().ObjSnapped = null;
+            SocketPiringBersih[i].SetActive(false);
+        }
+
+        ResetAllObjPos();
+
+        for (int i = 0; i < ShapePiring.Length; i++)
+        {
+            ObjectPiringPencucian objectPiringPencucian = ShapePiring[i].GetComponent<ObjectPiringPencucian>();
+            objectPiringPencucian.ResetPiring();
+            ShapePiring[i].GetComponent<XRGrabInteractable>().colliders[0].gameObject.SetActive(true);
+            ShapePiring[i].GetComponent<XRGrabInteractable>().colliders[1].gameObject.SetActive(true);
+        }
+
+        OtherInteraction[3].transform.GetComponentInChildren<MeshCollider>().enabled = false;
 
         PiringSpray = null;
         snappedObj = 0;
+        snappedObjBersih = 0;
 
         // Kembalikan UI ke fase instruksi
         AturFaseInstruksi();
