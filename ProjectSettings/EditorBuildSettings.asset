@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Teknik-Panas-Basah.unity
     guid: 3a5c7e7a7c42ada40948cad186a0a31b
+  - enabled: 1
+    path: Assets/Masakan Kering/Teknik Panas Kering.unity
+    guid: f5a34f6d8c03f6d48bdb160618dcec75
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f733a9693051d1c4ead95434902e1e33,
       type: 2}

@@ -184,4 +184,8 @@ public class MainMenuManager : MonoBehaviour
         if (btnKembali != null)
             btnKembali.SetActive(sedangDiSubModul);
     }
+    public void KeluarAplikasi() 
+    {
+        Application.Quit();
+    }
 }

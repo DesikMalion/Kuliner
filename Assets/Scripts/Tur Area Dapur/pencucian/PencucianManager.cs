@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.SceneManagement;
 
 public class PencucianManager : MonoBehaviour
 {
@@ -359,6 +360,7 @@ public class PencucianManager : MonoBehaviour
         {
             progressManager.TambahTugasSelesai();
         }
+        SceneManager.LoadScene("Kitchen-Area");
     }
 
     public void KlikReset()

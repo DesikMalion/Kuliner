@@ -66,7 +66,7 @@ public class UIManagerPenyajian : MonoBehaviour
         {
             if (objekOrderan != null) objekOrderan.SetActive(false);
             if (objekLaporan != null) objekLaporan.SetActive(true);
-            if (teksTombol != null) teksTombol.text = "Selesaikan Dapur";
+            if (teksTombol != null) teksTombol.text = "Lanjutkan";
             faseAktif = 2;
         }
         else if (faseAktif == 2)
