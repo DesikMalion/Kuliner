@@ -5,15 +5,18 @@ using UnityEngine.UI;
 public class CookingUIManager : MonoBehaviour
 {
     public static CookingUIManager Instance { get; private set; }
+
     public CookingTaskUI sc_cooking_taskUI;
+
 
     // =========================================================
     // PANEL
     // =========================================================
-    
+
     [Header("Panel")]
     public GameObject simulationListPanel;
     public GameObject simulationDescriptionPanel;
+    public GameObject completionPanel;
 
 
     // =========================================================
@@ -23,7 +26,7 @@ public class CookingUIManager : MonoBehaviour
     [Header("Simulation List")]
     public Transform simulationListContainer;
     public GameObject simulationButtonPrefab;
-public GameObject completionPanel;
+
 
     // =========================================================
     // DESCRIPTION UI
@@ -38,6 +41,14 @@ public GameObject completionPanel;
 
 
     // =========================================================
+    // PROGRESS CANVAS
+    // =========================================================
+
+    [Header("Progress Canvas")]
+    public RectTransform progressCanvas;
+
+
+    // =========================================================
     // SIMULATION DATA
     // =========================================================
 
@@ -45,10 +56,21 @@ public GameObject completionPanel;
     public SimulationData[] simulations;
 
 
+    // =========================================================
+    // COMPLETION
+    // =========================================================
+
+    [Header("Completion")]
+    public Button completionBackButton;
+
+
+    // =========================================================
+    // SELECTED SIMULATION
+    // =========================================================
+
     private SimulationData selectedSimulation;
 
-[Header("Completion")]
-public Button completionBackButton;
+
     // =========================================================
     // AWAKE
     // =========================================================
@@ -70,46 +92,62 @@ public Button completionBackButton;
     // START
     // =========================================================
 
-   private void Start()
-{
-    ShowSimulationList();
-
-    GenerateSimulationList();
-
-
-    if (startButton != null)
+    private void Start()
     {
-        startButton.onClick.AddListener(
-            StartSelectedSimulation
-        );
+        ShowSimulationList();
+
+        GenerateSimulationList();
+
+
+        // =====================================================
+        // START BUTTON
+        // =====================================================
+
+        if (startButton != null)
+        {
+            startButton.onClick.AddListener(
+                StartSelectedSimulation
+            );
+        }
+
+
+        // =====================================================
+        // BACK BUTTON
+        // =====================================================
+
+        if (backButton != null)
+        {
+            backButton.onClick.AddListener(
+                ShowSimulationList
+            );
+        }
+
+
+        // =====================================================
+        // COMPLETION BACK BUTTON
+        // =====================================================
+
+        if (completionBackButton != null)
+        {
+            completionBackButton.onClick.AddListener(
+                ShowSimulationList
+            );
+        }
+
+
+        // =====================================================
+        // HIDE COMPLETION PANEL
+        // =====================================================
+
+        if (completionPanel != null)
+        {
+            completionPanel.SetActive(false);
+        }
     }
-
-
-    if (backButton != null)
-    {
-        backButton.onClick.AddListener(
-            ShowSimulationList
-        );
-    }
-
-
-    if (completionBackButton != null)
-    {
-        completionBackButton.onClick.AddListener(
-            ShowSimulationList
-        );
-    }
-
-
-    if (completionPanel != null)
-    {
-        completionPanel.SetActive(false);
-    }
-}
 
 
     // =========================================================
-    // GENERATE LIST
+    // GENERATE SIMULATION LIST
     // =========================================================
 
     private void GenerateSimulationList()
@@ -123,6 +161,7 @@ public Button completionBackButton;
             return;
         }
 
+
         if (simulationButtonPrefab == null)
         {
             Debug.LogError(
@@ -133,17 +172,20 @@ public Button completionBackButton;
         }
 
 
-        // Hapus button lama
-        foreach (
-            Transform child
-            in simulationListContainer
-        )
+        // =====================================================
+        // HAPUS BUTTON LAMA
+        // =====================================================
+
+        foreach (Transform child in simulationListContainer)
         {
             Destroy(child.gameObject);
         }
 
 
-        // Buat button
+        // =====================================================
+        // BUAT BUTTON
+        // =====================================================
+
         for (int i = 0;
              i < simulations.Length;
              i++)
@@ -163,6 +205,10 @@ public Button completionBackButton;
                 );
 
 
+            // =================================================
+            // SET TEXT BUTTON
+            // =================================================
+
             TMP_Text text =
                 buttonObject.GetComponentInChildren<TMP_Text>();
 
@@ -174,6 +220,10 @@ public Button completionBackButton;
             }
 
 
+            // =================================================
+            // BUTTON
+            // =================================================
+
             Button button =
                 buttonObject.GetComponent<Button>();
 
@@ -182,6 +232,7 @@ public Button completionBackButton;
             {
                 SimulationData selectedData =
                     data;
+
 
                 button.onClick.AddListener(
                     () =>
@@ -211,12 +262,20 @@ public Button completionBackButton;
             data;
 
 
+        // =====================================================
+        // SET TITLE
+        // =====================================================
+
         if (titleText != null)
         {
             titleText.text =
                 data.simulationName;
         }
 
+
+        // =====================================================
+        // SET DESCRIPTION
+        // =====================================================
 
         if (descriptionText != null)
         {
@@ -225,11 +284,19 @@ public Button completionBackButton;
         }
 
 
+        // =====================================================
+        // HIDE LIST
+        // =====================================================
+
         if (simulationListPanel != null)
         {
             simulationListPanel.SetActive(false);
         }
 
+
+        // =====================================================
+        // SHOW DESCRIPTION
+        // =====================================================
 
         if (simulationDescriptionPanel != null)
         {
@@ -239,31 +306,43 @@ public Button completionBackButton;
 
 
     // =========================================================
-    // SHOW LIST
+    // SHOW SIMULATION LIST
     // =========================================================
 
-  public void ShowSimulationList()
-{
-    selectedSimulation = null;
-
-
-    if (simulationListPanel != null)
+    public void ShowSimulationList()
     {
-        simulationListPanel.SetActive(true);
+        selectedSimulation = null;
+
+
+        // =====================================================
+        // SHOW LIST
+        // =====================================================
+
+        if (simulationListPanel != null)
+        {
+            simulationListPanel.SetActive(true);
+        }
+
+
+        // =====================================================
+        // HIDE DESCRIPTION
+        // =====================================================
+
+        if (simulationDescriptionPanel != null)
+        {
+            simulationDescriptionPanel.SetActive(false);
+        }
+
+
+        // =====================================================
+        // HIDE COMPLETION
+        // =====================================================
+
+        if (completionPanel != null)
+        {
+            completionPanel.SetActive(false);
+        }
     }
-
-
-    if (simulationDescriptionPanel != null)
-    {
-        simulationDescriptionPanel.SetActive(false);
-    }
-
-
-    if (completionPanel != null)
-    {
-        completionPanel.SetActive(false);
-    }
-}
 
 
     // =========================================================
@@ -271,97 +350,196 @@ public Button completionBackButton;
     // =========================================================
 
     private void StartSelectedSimulation()
-{
-    if (selectedSimulation == null)
     {
-        Debug.LogWarning(
-            "Belum memilih simulasi."
+        if (selectedSimulation == null)
+        {
+            Debug.LogWarning(
+                "Belum memilih simulasi."
+            );
+
+            return;
+        }
+
+
+        Debug.Log(
+            "MEMULAI SIMULASI : " +
+            selectedSimulation.simulationName
         );
 
-        return;
+
+        // =====================================================
+        // HIDE SEMUA OBJECT SIMULASI
+        // =====================================================
+
+        HideAllSimulationObjects();
+
+
+        // =====================================================
+        // PINDAHKAN PROGRESS CANVAS
+        // =====================================================
+
+        MoveProgressCanvas(
+            selectedSimulation.progressTransform
+        );
+
+
+        // =====================================================
+        // TUTUP UI PEMBUKA
+        // =====================================================
+
+        if (simulationListPanel != null)
+        {
+            simulationListPanel.SetActive(false);
+        }
+
+
+        if (simulationDescriptionPanel != null)
+        {
+            simulationDescriptionPanel.SetActive(false);
+        }
+
+
+        // =====================================================
+        // MULAI SIMULASI TERPILIH
+        // =====================================================
+
+        selectedSimulation.StartSimulation();
     }
 
-    Debug.Log(
-        "MEMULAI SIMULASI : " +
-        selectedSimulation.simulationName
-    );
 
-    // =================================================
-    // HIDE SEMUA OBJECT SIMULASI
-    // =================================================
+    // =========================================================
+    // MOVE PROGRESS CANVAS
+    // =========================================================
 
-    HideAllSimulationObjects();
-
-
-    // =================================================
-    // TUTUP UI PEMBUKA
-    // =================================================
-
-    if (simulationListPanel != null)
+    private void MoveProgressCanvas(
+        RectTransform targetTransform)
     {
-        simulationListPanel.SetActive(false);
+        if (progressCanvas == null)
+        {
+            Debug.LogWarning(
+                "Progress Canvas belum dipasang."
+            );
+
+            return;
+        }
+
+
+        if (targetTransform == null)
+        {
+            Debug.LogWarning(
+                "Progress Transform untuk simulasi " +
+                selectedSimulation.simulationName +
+                " belum dipasang."
+            );
+
+            return;
+        }
+
+
+        // =====================================================
+        // POSITION
+        // =====================================================
+
+        progressCanvas.position =
+            targetTransform.position;
+
+
+        // =====================================================
+        // ROTATION
+        // =====================================================
+
+        progressCanvas.rotation =
+            targetTransform.rotation;
+
+
+        // =====================================================
+        // SCALE
+        // =====================================================
+
+        progressCanvas.localScale =
+            targetTransform.localScale;
+
+
+        Debug.Log(
+            "Progress Canvas dipindahkan ke : " +
+            targetTransform.name
+        );
     }
 
-    if (simulationDescriptionPanel != null)
-    {
-        simulationDescriptionPanel.SetActive(false);
-    }
 
-
-    // =================================================
-    // MULAI SIMULASI TERPILIH
-    // =================================================
-
-    selectedSimulation.StartSimulation();
-}
+    // =========================================================
+    // SHOW COMPLETION PANEL
+    // =========================================================
 
     public void ShowCompletionPanel()
-{
-    Debug.Log("=== SIMULASI SELESAI ===");
-
-
-    // Tutup panel lain
-    if (simulationListPanel != null)
     {
-        simulationListPanel.SetActive(false);
-    }
-
-    if (simulationDescriptionPanel != null)
-    {
-        simulationDescriptionPanel.SetActive(false);
-    }
+        Debug.Log(
+            "=== SIMULASI SELESAI ==="
+        );
 
 
-    // Tampilkan panel selesai
-    if (completionPanel != null)
-    {
-        completionPanel.SetActive(true);
-    }
-}
+        // =====================================================
+        // HIDE LIST
+        // =====================================================
 
-public void HideAllSimulationObjects()
-{
-    if (simulations == null)
-        return;
-
-    foreach (SimulationData simulation in simulations)
-    {
-        if (simulation == null)
-            continue;
-
-        if (simulation.requiredObjects == null)
-            continue;
-
-        foreach (GameObject obj in simulation.requiredObjects)
+        if (simulationListPanel != null)
         {
-            if (obj != null)
+            simulationListPanel.SetActive(false);
+        }
+
+
+        // =====================================================
+        // HIDE DESCRIPTION
+        // =====================================================
+
+        if (simulationDescriptionPanel != null)
+        {
+            simulationDescriptionPanel.SetActive(false);
+        }
+
+
+        // =====================================================
+        // SHOW COMPLETION
+        // =====================================================
+
+        if (completionPanel != null)
+        {
+            completionPanel.SetActive(true);
+        }
+    }
+
+
+    // =========================================================
+    // HIDE ALL SIMULATION OBJECTS
+    // =========================================================
+
+    public void HideAllSimulationObjects()
+    {
+        if (simulations == null)
+            return;
+
+
+        foreach (SimulationData simulation in simulations)
+        {
+            if (simulation == null)
+                continue;
+
+
+            if (simulation.requiredObjects == null)
+                continue;
+
+
+            foreach (GameObject obj in simulation.requiredObjects)
             {
-                obj.SetActive(false);
+                if (obj != null)
+                {
+                    obj.SetActive(false);
+                }
             }
         }
     }
 }
-}
+
 
 
 // =============================================================
@@ -371,32 +549,45 @@ public void HideAllSimulationObjects()
 [System.Serializable]
 public class SimulationData
 {
+    // =========================================================
+    // SIMULATION
+    // =========================================================
+
     [Header("Simulation")]
     public string simulationName;
+
 
     [TextArea(4, 10)]
     public string description;
 
 
-    // =====================================================
+    // =========================================================
     // REQUIRED OBJECTS
-    // =====================================================
+    // =========================================================
 
     [Header("Required Objects")]
     public GameObject[] requiredObjects;
 
 
-    // =====================================================
+    // =========================================================
     // COOKING STEPS
-    // =====================================================
+    // =========================================================
 
     [Header("Cooking Steps")]
     public CookingStep[] cookingSteps;
 
 
-    // =====================================================
+    // =========================================================
+    // PROGRESS UI POSITION
+    // =========================================================
+
+    [Header("Progress UI Position")]
+    public RectTransform progressTransform;
+
+
+    // =========================================================
     // START SIMULATION
-    // =====================================================
+    // =========================================================
 
     public void StartSimulation()
     {
@@ -406,9 +597,9 @@ public class SimulationData
         );
 
 
-        // =================================================
+        // =====================================================
         // AKTIFKAN OBJECT SIMULASI
-        // =================================================
+        // =====================================================
 
         if (requiredObjects != null)
         {
@@ -417,14 +608,15 @@ public class SimulationData
                 if (obj != null)
                 {
                     obj.SetActive(true);
+                    Debug.Log("OBJEK AKTIF "+obj.gameObject.name);
                 }
             }
         }
 
 
-        // =================================================
+        // =====================================================
         // SET COOKING STEPS
-        // =================================================
+        // =====================================================
 
         if (CookingManager.Instance != null)
         {
@@ -434,14 +626,16 @@ public class SimulationData
         }
 
 
-        // =================================================
+        // =====================================================
         // RESET TASK UI
-        // =================================================
+        // =====================================================
 
         if (CookingUIManager.Instance != null &&
             CookingUIManager.Instance.sc_cooking_taskUI != null)
         {
-            CookingUIManager.Instance.sc_cooking_taskUI.enabled = true;
+            CookingUIManager.Instance.sc_cooking_taskUI.enabled =
+                true;
+
 
             CookingUIManager.Instance.sc_cooking_taskUI.ResetTaskUI();
         }

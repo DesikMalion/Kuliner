@@ -17,7 +17,7 @@ public class Stirtool : MonoBehaviour
     public Transform stirObject;
 
 
-    private Stirable currentIngredient;
+    [SerializeField]private Stirable currentIngredient;
 
     private Vector3 lastPosition;
 

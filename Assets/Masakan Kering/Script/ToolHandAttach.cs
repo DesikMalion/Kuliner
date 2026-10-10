@@ -11,11 +11,14 @@ public class ToolHandAttach : MonoBehaviour
     [Header("Attach Point")]
     public Transform attachPoint;
 
-    private Transform handTransform;
-
     private Rigidbody rb;
 
     private bool attached;
+
+
+    // =========================================================
+    // AWAKE
+    // =========================================================
 
     private void Awake()
     {
@@ -28,6 +31,11 @@ public class ToolHandAttach : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+
+    // =========================================================
+    // ENABLE
+    // =========================================================
+
     private void OnEnable()
     {
         if (grabInteractable != null)
@@ -37,6 +45,11 @@ public class ToolHandAttach : MonoBehaviour
             );
         }
     }
+
+
+    // =========================================================
+    // DISABLE
+    // =========================================================
 
     private void OnDisable()
     {
@@ -48,36 +61,48 @@ public class ToolHandAttach : MonoBehaviour
         }
     }
 
+
+    // =========================================================
+    // GRAB
+    // =========================================================
+
     private void OnGrab(
         SelectEnterEventArgs args)
     {
         if (attached)
             return;
 
-        IXRSelectInteractor interactor =
-            args.interactorObject;
-
-        if (interactor == null)
-            return;
 
         // =====================================================
-        // TRANSFORM TANGAN / CONTROLLER
+        // CEK ATTACH POINT
         // =====================================================
 
-        handTransform =
-            interactor.transform;
+        if (attachPoint == null)
+        {
+            Debug.LogWarning(
+                gameObject.name +
+                " belum memiliki Attach Point."
+            );
 
-        if (handTransform == null)
             return;
+        }
+
 
         // =====================================================
         // LEPASKAN DARI XR GRAB
         // =====================================================
 
-        grabInteractable.interactionManager.SelectExit(
-            interactor,
-            grabInteractable
-        );
+        IXRSelectInteractor interactor =
+            args.interactorObject;
+
+        if (interactor != null)
+        {
+            grabInteractable.interactionManager.SelectExit(
+                interactor,
+                grabInteractable
+            );
+        }
+
 
         // =====================================================
         // MATIKAN PHYSICS
@@ -89,68 +114,70 @@ public class ToolHandAttach : MonoBehaviour
             rb.useGravity = false;
         }
 
+
         // =====================================================
-        // ATTACH TOOL KE TANGAN
+        // JADIKAN CHILD ATTACH POINT
         // =====================================================
 
-        if (attachPoint != null)
-        {
-            // Posisi dan rotasi AttachPoint
-            // akan dijadikan posisi tool di tangan.
+        transform.SetParent(
+            attachPoint,
+            false
+        );
 
-            Vector3 worldPosition =
-                attachPoint.position;
 
-            Quaternion worldRotation =
-                attachPoint.rotation;
+        // =====================================================
+        // RESET LOCAL TRANSFORM
+        // =====================================================
 
-            transform.SetParent(
-                handTransform,
-                true
-            );
+        transform.localPosition =
+            Vector3.zero;
 
-            // Setelah menjadi child tangan,
-            // kita sesuaikan posisi berdasarkan AttachPoint.
+        transform.localRotation =
+            Quaternion.identity;
 
-            transform.position =
-                worldPosition;
+        transform.localScale =
+            Vector3.one;
 
-            transform.rotation =
-                worldRotation;
-        }
-        else
-        {
-            // Fallback kalau AttachPoint belum dipasang.
 
-            transform.SetParent(
-                handTransform,
-                true
-            );
-        }
+        // =====================================================
+        // STATUS
+        // =====================================================
 
         attached = true;
 
+
         Debug.Log(
             gameObject.name +
-            " → TOOL MENEMPEL KE TANGAN"
+            " → CHILD DARI ATTACH POINT"
         );
     }
+
+
+    // =========================================================
+    // RELEASE TOOL
+    // =========================================================
 
     public void ReleaseTool()
     {
         if (!attached)
             return;
 
+
         attached = false;
 
-        // =====================================================
-        // LEPAS DARI TANGAN
-        // =====================================================
-
-        transform.SetParent(null);
 
         // =====================================================
-        // AKTIFKAN PHYSICS KEMBALI
+        // LEPAS DARI ATTACH POINT
+        // =====================================================
+
+        transform.SetParent(
+            null,
+            true
+        );
+
+
+        // =====================================================
+        // AKTIFKAN PHYSICS
         // =====================================================
 
         if (rb != null)
@@ -159,7 +186,10 @@ public class ToolHandAttach : MonoBehaviour
             rb.useGravity = true;
         }
 
-        handTransform = null;
+
+        // =====================================================
+        // RESET STATUS
+        // =====================================================
 
         Debug.Log(
             gameObject.name +

@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public enum IngredientType
@@ -14,7 +15,6 @@ public class Ingredient : MonoBehaviour
     public string ingredientName;
     public IngredientType ingredientType;
 
-
     // =========================================================
     // COOKING STATE
     // =========================================================
@@ -27,32 +27,24 @@ public class Ingredient : MonoBehaviour
     public bool isCooking { get; private set; }
     public bool isCooked { get; private set; }
 
-    // Apakah ingredient sudah pernah dibalik
     public bool isFlipped { get; private set; }
-
-    // Apakah ingredient sudah pernah diaduk
     public bool isStirred { get; private set; }
-
-    // Apakah ingredient sudah selesai dirotasi
     public bool isRotated { get; private set; }
-
 
     // =========================================================
     // COOKING VISUAL MODE
     // =========================================================
 
     [Header("Cooking Visual Mode")]
-
     public CookingVisualMode cookingVisualMode =
         CookingVisualMode.Material;
-
 
     public enum CookingVisualMode
     {
         Material,
-        GameObject
+        GameObject,
+        RendererArray
     }
-
 
     // =========================================================
     // MATERIAL
@@ -61,12 +53,22 @@ public class Ingredient : MonoBehaviour
     [Header("Cooking Material")]
 
     public Material materialMentah;
-
     public Material materialMatang;
 
-    [Tooltip("Renderer yang digunakan ingredient.")]
+    [Tooltip("Renderer untuk mode Material.")]
     public Renderer ingredientRenderer;
 
+    // =========================================================
+    // RENDERER ARRAY
+    // =========================================================
+
+    [Header("Cooking Renderer Array")]
+
+    [Tooltip("Semua renderer yang materialnya berubah saat memasak.")]
+    public Renderer[] ingredientRenderers;
+
+    // Menyimpan material instance untuk setiap slot renderer.
+    private Material[][] runtimeMaterialsArray;
 
     // =========================================================
     // GAMEOBJECT
@@ -74,12 +76,8 @@ public class Ingredient : MonoBehaviour
 
     [Header("Cooking GameObject")]
 
-    [Tooltip("Object ingredient saat masih mentah.")]
     public GameObject objectMentah;
-
-    [Tooltip("Object ingredient saat sudah matang.")]
     public GameObject objectMatang;
-
 
     // =========================================================
     // COOKING SETTINGS
@@ -87,19 +85,12 @@ public class Ingredient : MonoBehaviour
 
     [Header("Cooking Settings")]
 
-    // Apakah ingredient membutuhkan flip
     public bool requiresFlip = false;
-
-    // Apakah ingredient membutuhkan stir
     public bool requiresStir = false;
-
-    // Apakah ingredient membutuhkan rotate
     public bool requiresRotate = false;
 
-    // Berapa kali rotate yang dibutuhkan
     [Min(1)]
     public int requiredRotations = 4;
-
 
     // =========================================================
     // ROTATE STATE
@@ -112,7 +103,6 @@ public class Ingredient : MonoBehaviour
 
     public int rotationCount { get; private set; }
 
-
     // =========================================================
     // INTERNAL STATE
     // =========================================================
@@ -122,6 +112,7 @@ public class Ingredient : MonoBehaviour
     private bool needRotateEventSent;
 
     private Material runtimeMaterial;
+
     public GameObject[] need_gravity;
     public GameObject wadah;
 
@@ -131,51 +122,58 @@ public class Ingredient : MonoBehaviour
 
     private void Awake()
     {
-        // =====================================================
-        // CARI RENDERER
-        // =====================================================
-
         if (ingredientRenderer == null)
         {
             ingredientRenderer =
                 GetComponentInChildren<Renderer>();
         }
 
-
-        // =====================================================
-        // SETUP MATERIAL
-        // =====================================================
-
-        if (cookingVisualMode ==
-            CookingVisualMode.Material)
+        switch (cookingVisualMode)
         {
-            if (ingredientRenderer != null &&
-                ingredientRenderer.sharedMaterial != null)
-            {
-                runtimeMaterial =
-                    new Material(
-                        ingredientRenderer.sharedMaterial
-                    );
+            case CookingVisualMode.Material:
+                SetupSingleMaterial();
+                break;
 
-                ingredientRenderer.material =
-                    runtimeMaterial;
-            }
+            case CookingVisualMode.GameObject:
+                SetupGameObjects();
+                break;
 
-            UpdateCookingMaterial();
+            case CookingVisualMode.RendererArray:
+                SetupRendererArray();
+                break;
         }
 
-
-        // =====================================================
-        // SETUP GAMEOBJECT
-        // =====================================================
-
-        else if (cookingVisualMode ==
-                 CookingVisualMode.GameObject)
-        {
-            SetupGameObjects();
-        }
+        UpdateCookingVisual();
     }
 
+    // =========================================================
+    // SETUP SINGLE MATERIAL
+    // =========================================================
+
+    private void SetupSingleMaterial()
+    {
+        if (ingredientRenderer == null)
+            return;
+
+        Material sourceMaterial =
+            materialMentah != null
+                ? materialMentah
+                : ingredientRenderer.sharedMaterial;
+
+        if (sourceMaterial == null)
+            return;
+
+        runtimeMaterial = new Material(sourceMaterial);
+
+        // Pertahankan slot material lain jika ada.
+        Material[] materials = ingredientRenderer.materials;
+
+        if (materials.Length > 0)
+        {
+            materials[0] = runtimeMaterial;
+            ingredientRenderer.materials = materials;
+        }
+    }
 
     // =========================================================
     // SETUP GAMEOBJECT
@@ -184,16 +182,52 @@ public class Ingredient : MonoBehaviour
     private void SetupGameObjects()
     {
         if (objectMentah != null)
-        {
             objectMentah.SetActive(true);
-        }
 
         if (objectMatang != null)
-        {
             objectMatang.SetActive(false);
-        }
     }
 
+    // =========================================================
+    // SETUP RENDERER ARRAY
+    // =========================================================
+
+    private void SetupRendererArray()
+    {
+        if (ingredientRenderers == null)
+            return;
+
+        runtimeMaterialsArray =
+            new Material[ingredientRenderers.Length][];
+
+        for (int i = 0; i < ingredientRenderers.Length; i++)
+        {
+            Renderer rend = ingredientRenderers[i];
+
+            if (rend == null)
+                continue;
+
+            Material[] sourceMaterials = rend.sharedMaterials;
+            Material[] instances =
+                new Material[sourceMaterials.Length];
+
+            for (int j = 0; j < sourceMaterials.Length; j++)
+            {
+                Material source =
+                    materialMentah != null
+                        ? materialMentah
+                        : sourceMaterials[j];
+
+                if (source == null)
+                    continue;
+
+                instances[j] = new Material(source);
+            }
+
+            runtimeMaterialsArray[i] = instances;
+            rend.materials = instances;
+        }
+    }
 
     // =========================================================
     // UPDATE
@@ -201,12 +235,8 @@ public class Ingredient : MonoBehaviour
 
     private void Update()
     {
-        if (!isCooking)
+        if (!isCooking || isCooked)
             return;
-
-        if (isCooked)
-            return;
-
 
         // =====================================================
         // REQUIRE FLIP
@@ -214,101 +244,65 @@ public class Ingredient : MonoBehaviour
 
         if (requiresFlip && !isFlipped)
         {
-            // Sisi pertama hanya boleh masak sampai 50%
-
-            cookingProgress +=
-                Time.deltaTime * 0.2f;
-
-            cookingProgress =
-                Mathf.Clamp(
-                    cookingProgress,
-                    0f,
-                    0.5f
-                );
-
+            cookingProgress += Time.deltaTime * 0.2f;
+            cookingProgress = Mathf.Clamp(cookingProgress, 0f, 0.5f);
 
             UpdateCookingVisual();
-UpdateProgressUI();
+            UpdateProgressUI();
 
-            // Kirim event hanya SATU KALI
             if (!needFlipEventSent)
             {
                 needFlipEventSent = true;
 
-                CookingManager.Instance.CheckEvent(
-                    CookingEventType.ObjectNeedFlipped,
-                    gameObject
-                );
+                if (CookingManager.Instance != null)
+                {
+                    CookingManager.Instance.CheckEvent(
+                        CookingEventType.ObjectNeedFlipped,
+                        gameObject
+                    );
+                }
 
-                Debug.Log(
-                    ingredientName +
-                    " MEMBUTUHKAN FLIP"
-                );
+                Debug.Log(ingredientName + " MEMBUTUHKAN FLIP");
             }
 
             return;
         }
 
-
         // =====================================================
         // REQUIRE STIR
         // =====================================================
 
-    
-// =====================================================
-// REQUIRE STIR
-// =====================================================
-
-if (requiresStir && !isStirred)
-{
-    Stirable stirable =
-        GetComponent<Stirable>();
-
-    if (stirable != null)
-    {
-        // =================================================
-        // COOKING PROGRESS MENGIKUTI STIR PROGRESS
-        // =================================================
-
-        cookingProgress =
-            stirable.stirProgress;
-
-        cookingProgress =
-            Mathf.Clamp01(cookingProgress);
-
-
-        // =================================================
-        // UPDATE VISUAL
-        // =================================================
-
-        UpdateCookingVisual();
-        UpdateProgressUI();
-
-
-        // =================================================
-        // KIRIM EVENT NEED STIR
-        // =================================================
-
-        if (!needStirEventSent)
+        if (requiresStir && !isStirred)
         {
-            needStirEventSent = true;
+            Stirable stirable = GetComponent<Stirable>();
 
-            CookingManager.Instance.CheckEvent(
-                CookingEventType.ObjectNeedStirred,
-                gameObject
-            );
+            if (stirable != null)
+            {
+                cookingProgress = Mathf.Clamp01(
+                    stirable.stirProgress
+                );
 
-            Debug.Log(
-                ingredientName +
-                " MEMBUTUHKAN STIR"
-            );
+                UpdateCookingVisual();
+                UpdateProgressUI();
+
+                if (!needStirEventSent)
+                {
+                    needStirEventSent = true;
+
+                    if (CookingManager.Instance != null)
+                    {
+                        CookingManager.Instance.CheckEvent(
+                            CookingEventType.ObjectNeedStirred,
+                            gameObject
+                        );
+                    }
+
+                    Debug.Log(ingredientName + " MEMBUTUHKAN STIR");
+                }
+            }
+
+            return;
         }
-    }
-
-    return;
-}
-
-
 
         // =====================================================
         // REQUIRE ROTATE
@@ -316,71 +310,48 @@ if (requiresStir && !isStirred)
 
         if (requiresRotate && !isRotated)
         {
-            cookingProgress +=
-                Time.deltaTime * 0.2f;
-
-
-            // =================================================
-            // BATASI COOKING BERDASARKAN ROTASI
-            // =================================================
+            cookingProgress += Time.deltaTime * 0.2f;
 
             float maxCookingProgress =
                 (float)(rotationCount + 1) /
-                Mathf.Max(
-                    1,
-                    requiredRotations
-                );
+                Mathf.Max(1, requiredRotations);
 
-
-            cookingProgress =
-                Mathf.Clamp(
-                    cookingProgress,
-                    0f,
-                    maxCookingProgress
-                );
-
+            cookingProgress = Mathf.Clamp(
+                cookingProgress,
+                0f,
+                maxCookingProgress
+            );
 
             UpdateCookingVisual();
-UpdateProgressUI();
-
-            // =================================================
-            // KIRIM EVENT NEED ROTATE
-            // =================================================
+            UpdateProgressUI();
 
             if (!needRotateEventSent)
             {
                 needRotateEventSent = true;
 
-                CookingManager.Instance.CheckEvent(
-                    CookingEventType.ObjectNeedRotated,
-                    gameObject
-                );
+                if (CookingManager.Instance != null)
+                {
+                    CookingManager.Instance.CheckEvent(
+                        CookingEventType.ObjectNeedRotated,
+                        gameObject
+                    );
+                }
 
-                Debug.Log(
-                    ingredientName +
-                    " MEMBUTUHKAN ROTATE"
-                );
+                Debug.Log(ingredientName + " MEMBUTUHKAN ROTATE");
             }
 
             return;
         }
 
-
         // =====================================================
-        // BOLEH SELESAI MEMASAK
+        // NORMAL COOKING
         // =====================================================
 
-        cookingProgress +=
-            Time.deltaTime * 0.2f;
-
-        cookingProgress =
-            Mathf.Clamp01(
-                cookingProgress
-            );
-
+        cookingProgress += Time.deltaTime * 0.2f;
+        cookingProgress = Mathf.Clamp01(cookingProgress);
 
         UpdateCookingVisual();
-UpdateProgressUI();
+        UpdateProgressUI();
 
         if (cookingProgress >= 1f)
         {
@@ -388,80 +359,46 @@ UpdateProgressUI();
         }
     }
 
-
     // =========================================================
     // ROTATE
     // =========================================================
 
     public void OnRotated()
     {
-        if (!requiresRotate)
+        if (!requiresRotate || isRotated)
             return;
-
-        if (isRotated)
-            return;
-
 
         rotationCount++;
 
-
         Debug.Log(
-            ingredientName +
-            " ROTATE : " +
-            rotationCount +
-            "/" +
-            requiredRotations
+            ingredientName + " ROTATE : " +
+            rotationCount + "/" + requiredRotations
         );
 
-
-        // =====================================================
-        // UPDATE ROTATE PROGRESS
-        // =====================================================
-
-        rotateProgress =
-            (float)rotationCount /
-            Mathf.Max(
-                1,
-                requiredRotations
-            );
-
-        rotateProgress =
-            Mathf.Clamp01(
-                rotateProgress
-            );
-
-
-        // =====================================================
-        // CEK SELESAI ROTATE
-        // =====================================================
+        rotateProgress = Mathf.Clamp01(
+            (float)rotationCount / Mathf.Max(1, requiredRotations)
+        );
 
         if (rotationCount >= requiredRotations)
         {
             isRotated = true;
-
             needRotateEventSent = false;
 
-            Debug.Log(
-                ingredientName +
-                " SUDAH SELESAI DIROTASI"
-            );
+            Debug.Log(ingredientName + " SUDAH SELESAI DIROTASI");
 
-
-            CookingManager.Instance.CheckEvent(
-                CookingEventType.ObjectRotated,
-                gameObject
-            );
+            if (CookingManager.Instance != null)
+            {
+                CookingManager.Instance.CheckEvent(
+                    CookingEventType.ObjectRotated,
+                    gameObject
+                );
+            }
         }
         else
         {
-            // =================================================
-            // BOLEH MEMINTA ROTATE BERIKUTNYA
-            // =================================================
-
             needRotateEventSent = false;
         }
     }
-
 
     // =========================================================
     // UPDATE COOKING VISUAL
@@ -469,13 +406,8 @@ UpdateProgressUI();
 
     private void UpdateCookingVisual()
     {
-        if (cookingVisualMode ==
-            CookingVisualMode.Material)
-        {
-            UpdateCookingMaterial();
-        }
+        UpdateCookingMaterial();
     }
-
 
     // =========================================================
     // UPDATE COOKING MATERIAL
@@ -483,71 +415,85 @@ UpdateProgressUI();
 
     private void UpdateCookingMaterial()
     {
-        if (ingredientRenderer == null)
-            return;
+        float blend = Mathf.Clamp01(cookingProgress);
 
-        if (materialMentah == null)
-            return;
+        // =====================================================
+        // MODE 1: SINGLE RENDERER
+        // =====================================================
 
-        if (materialMatang == null)
-            return;
+        if (cookingVisualMode == CookingVisualMode.Material)
+        {
+            if (ingredientRenderer == null ||
+                materialMentah == null ||
+                materialMatang == null)
+                return;
 
+            if (runtimeMaterial == null)
+            {
+                runtimeMaterial = new Material(materialMentah);
 
-        float blend =
-            Mathf.Clamp01(
-                cookingProgress
+                Material[] materials = ingredientRenderer.materials;
+
+                if (materials.Length == 0)
+                    return;
+
+                materials[0] = runtimeMaterial;
+                ingredientRenderer.materials = materials;
+            }
+
+            runtimeMaterial.Lerp(
+                materialMentah,
+                materialMatang,
+                blend
             );
-
-
-        // =====================================================
-        // MATERIAL MENTAH
-        // =====================================================
-
-        if (blend <= 0f)
-        {
-            ingredientRenderer.material =
-                materialMentah;
-
-            return;
         }
 
-
         // =====================================================
-        // MATERIAL MATANG
+        // MODE 2: GAMEOBJECT
         // =====================================================
 
-        if (blend >= 1f)
+        else if (cookingVisualMode == CookingVisualMode.GameObject)
         {
-            ingredientRenderer.material =
-                materialMatang;
-
-            return;
+            if (blend >= 1f)
+                SetCookedGameObject();
         }
 
-
         // =====================================================
-        // BLEND MATERIAL
+        // MODE 3: RENDERER ARRAY
         // =====================================================
 
-        if (runtimeMaterial == null)
+        else if (cookingVisualMode == CookingVisualMode.RendererArray)
         {
-            runtimeMaterial =
-                new Material(
-                    materialMentah
-                );
+            if (ingredientRenderers == null ||
+                runtimeMaterialsArray == null ||
+                materialMentah == null ||
+                materialMatang == null)
+                return;
 
-            ingredientRenderer.material =
-                runtimeMaterial;
+            for (int i = 0; i < ingredientRenderers.Length; i++)
+            {
+                if (ingredientRenderers[i] == null)
+                    continue;
+
+                if (runtimeMaterialsArray[i] == null)
+                    continue;
+
+                for (int j = 0; j < runtimeMaterialsArray[i].Length; j++)
+                {
+                    Material mat = runtimeMaterialsArray[i][j];
+
+                    if (mat == null)
+                        continue;
+
+                    mat.Lerp(
+                        materialMentah,
+                        materialMatang,
+                        blend
+                    );
+                }
+            }
         }
-
-
-        runtimeMaterial.Lerp(
-            materialMentah,
-            materialMatang,
-            blend
-        );
     }
-
 
     // =========================================================
     // SET COOKED GAMEOBJECT
@@ -555,71 +501,54 @@ UpdateProgressUI();
 
     private void SetCookedGameObject()
     {
-        // =====================================================
-        // MATIKAN OBJECT MENTAH
-        // =====================================================
-
         if (objectMentah != null)
-        {
             objectMentah.SetActive(false);
-        }
-
-
-        // =====================================================
-        // AKTIFKAN OBJECT MATANG
-        // =====================================================
 
         if (objectMatang != null)
-        {
             objectMatang.SetActive(true);
-        }
     }
 
-
     // =========================================================
-    // START COOKING
+    // UPDATE PROGRESS UI
     // =========================================================
-private void UpdateProgressUI()
-{
-    if (CookingProgressUI.Instance == null)
-        return;
 
-    CookingProgressUI.Instance.SetProgress(
-        gameObject,
-        cookingProgress
-    );
-}
-public virtual void StartCooking()
-{
-    if (isCooked)
-        return;
-
-    isCooking = true;
-
-    Debug.Log(
-        ingredientName +
-        " MULAI MEMASAK"
-    );
-
-    // =====================================================
-    // PROGRESS UI
-    // =====================================================
-
-    if (CookingProgressUI.Instance != null)
+    private void UpdateProgressUI()
     {
-        CookingProgressUI.Instance.Show(
-            gameObject,
-            "Memasak " + ingredientName
-        );
+        if (CookingProgressUI.Instance == null)
+            return;
 
         CookingProgressUI.Instance.SetProgress(
             gameObject,
             cookingProgress
         );
     }
-}
 
+    // =========================================================
+    // START COOKING
+    // =========================================================
 
+    public virtual void StartCooking()
+    {
+        if (isCooked)
+            return;
+
+        isCooking = true;
+
+        Debug.Log(ingredientName + " MULAI MEMASAK");
+
+        if (CookingProgressUI.Instance != null)
+        {
+            CookingProgressUI.Instance.Show(
+                gameObject,
+                "Memasak " + ingredientName
+            );
+
+            CookingProgressUI.Instance.SetProgress(
+                gameObject,
+                cookingProgress
+            );
+        }
+    }
 
     // =========================================================
     // STOP COOKING
@@ -629,13 +558,8 @@ public virtual void StartCooking()
     {
         isCooking = false;
 
-
-        Debug.Log(
-            ingredientName +
-            " BERHENTI MEMASAK"
-        );
+        Debug.Log(ingredientName + " BERHENTI MEMASAK");
     }
-
 
     // =========================================================
     // FLIP
@@ -646,45 +570,33 @@ public virtual void StartCooking()
         if (isFlipped)
             return;
 
-
         isFlipped = true;
-
         needFlipEventSent = false;
 
-
-        Debug.Log(
-            ingredientName +
-            " SUDAH DIBALIK"
-        );
+        Debug.Log(ingredientName + " SUDAH DIBALIK");
     }
-
 
     // =========================================================
     // STIR
     // =========================================================
 
-   public void OnStirred()
-{
-    if (isStirred)
-        return;
+    public void OnStirred()
+    {
+        if (isStirred)
+            return;
 
-    isStirred = true;
+        isStirred = true;
+        needStirEventSent = false;
 
-    needStirEventSent = false;
+        cookingProgress = 1f;
 
-    cookingProgress = 1f;
+        UpdateCookingVisual();
+        UpdateProgressUI();
 
-    UpdateCookingVisual();
-    UpdateProgressUI();
+        Debug.Log(ingredientName + " SUDAH DIADUK");
 
-    Debug.Log(
-        ingredientName +
-        " SUDAH DIADUK"
-    );
-
-    FinishCooking();
-}
-
+        FinishCooking();
+    }
 
     // =========================================================
     // FINISH COOKING
@@ -695,97 +607,48 @@ public virtual void StartCooking()
         if (isCooked)
             return;
 
-
-        // =====================================================
-        // CEK FLIP
-        // =====================================================
-
         if (requiresFlip && !isFlipped)
-        {
             return;
-        }
-
-
-        // =====================================================
-        // CEK STIR
-        // =====================================================
 
         if (requiresStir && !isStirred)
-        {
             return;
-        }
-
-
-        // =====================================================
-        // CEK ROTATE
-        // =====================================================
 
         if (requiresRotate && !isRotated)
-        {
             return;
-        }
-
-
-        // =====================================================
-        // SET MATANG
-        // =====================================================
 
         isCooked = true;
         isCooking = false;
-
         cookingProgress = 1f;
 
-if (CookingProgressUI.Instance != null)
-{
-    CookingProgressUI.Instance.SetProgress(
-        gameObject,
-        1f
-    );
-
-    CookingProgressUI.Instance.ShowComplete(
-        gameObject,
-        "Memasak Selesai",
-        ingredientName + " sudah matang."
-    );
-}
-        // =====================================================
-        // UPDATE VISUAL
-        // =====================================================
-
-        if (cookingVisualMode ==
-            CookingVisualMode.Material)
+        if (CookingProgressUI.Instance != null)
         {
-            UpdateCookingMaterial();
-        }
-        else
-        {
-            SetCookedGameObject();
+            CookingProgressUI.Instance.SetProgress(
+                gameObject,
+                1f
+            );
+
+            CookingProgressUI.Instance.ShowComplete(
+                gameObject,
+                "Memasak Selesai",
+                ingredientName + " sudah matang."
+            );
         }
 
+        UpdateCookingVisual();
 
-        // =====================================================
-        // DEBUG
-        // =====================================================
+        Debug.Log(ingredientName + " SUDAH MATANG!");
 
-        Debug.Log(
-            ingredientName +
-            " SUDAH MATANG!"
-        );
-
-
-        // =====================================================
-        // EVENT
-        // =====================================================
-
-        CookingManager.Instance.CheckEvent(
-            CookingEventType.ObjectCooked,
-            gameObject
-        );
+        if (CookingManager.Instance != null)
+        {
+            CookingManager.Instance.CheckEvent(
+                CookingEventType.ObjectCooked,
+                gameObject
+            );
+        }
     }
 
-
     // =========================================================
-    // RESET
+    // RESET COOKING
     // =========================================================
 
     public void ResetCooking()
@@ -806,37 +669,42 @@ if (CookingProgressUI.Instance != null)
         needStirEventSent = false;
         needRotateEventSent = false;
 
-
-        // =====================================================
-        // RESET VISUAL
-        // =====================================================
-
-        if (cookingVisualMode ==
-            CookingVisualMode.Material)
-        {
-            UpdateCookingMaterial();
-        }
-        else
+        if (cookingVisualMode == CookingVisualMode.GameObject)
         {
             SetupGameObjects();
         }
+        else
+        {
+            UpdateCookingVisual();
+        }
     }
+
+    // =========================================================
+    // SET RIG INGREDIENT
+    // =========================================================
 
     public void SetRigIngredient()
     {
         if (wadah != null)
-        {
             wadah.SetActive(false);
-        }
-        if (need_gravity.Length > 1)
+
+        if (need_gravity == null)
+            return;
+
+        for (int i = 0; i < need_gravity.Length; i++)
         {
-            for (int i = 0; i < need_gravity.Length; i++)
-            {
-                need_gravity[i].GetComponent<Rigidbody>().useGravity = true;
-                need_gravity[i].GetComponent<Rigidbody>().isKinematic = false;
-            }
+            GameObject obj = need_gravity[i];
+
+            if (obj == null)
+                continue;
+
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+
+            if (rb == null)
+                continue;
+
+            rb.useGravity = true;
+            rb.isKinematic = false;
         }
     }
-
-   
 }

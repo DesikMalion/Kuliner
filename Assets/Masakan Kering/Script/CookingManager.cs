@@ -70,17 +70,41 @@ public class CookingManager : MonoBehaviour
         if (steps == null)
             return;
 
+
+        // =====================================================
+        // RESET SEMUA STEP
+        // =====================================================
+
         foreach (CookingStep step in steps)
         {
             if (step != null)
+            {
                 step.ResetStep();
+
+                // Pastikan semua ghost mati
+                step.HideGhostObjects();
+            }
         }
 
+
+        // =====================================================
+        // UPDATE ACTIVE OBJECT
+        // =====================================================
+
         UpdateStepObjects();
+
+
+        // =====================================================
+        // TAMPILKAN STEP PERTAMA
+        // =====================================================
 
         ShowCurrentStep();
     }
 
+
+    // =========================================================
+    // SET SIMULATION STEPS
+    // =========================================================
 
     public void SetSimulationSteps(
         CookingStep[] newSteps)
@@ -100,11 +124,46 @@ public class CookingManager : MonoBehaviour
         if (CurrentStep == null)
             return;
 
-        CurrentStep.Complete();
+
+        // =====================================================
+        // SIMPAN STEP LAMA
+        // =====================================================
+
+        CookingStep completedStep =
+            CurrentStep;
+
+
+        // =====================================================
+        // COMPLETE
+        // =====================================================
+
+        completedStep.Complete();
+
+
+        // =====================================================
+        // MATIKAN GHOST STEP LAMA
+        // =====================================================
+
+        completedStep.HideGhostObjects();
+
+
+        // =====================================================
+        // NEXT STEP
+        // =====================================================
 
         currentStepIndex++;
 
+
+        // =====================================================
+        // UPDATE ACTIVE OBJECT
+        // =====================================================
+
         UpdateStepObjects();
+
+
+        // =====================================================
+        // TAMPILKAN STEP BARU
+        // =====================================================
 
         ShowCurrentStep();
     }
@@ -122,6 +181,7 @@ public class CookingManager : MonoBehaviour
                 "=== SEMUA STEP SELESAI ==="
             );
 
+
             if (CookingUIManager.Instance != null)
             {
                 CookingUIManager.Instance
@@ -131,16 +191,30 @@ public class CookingManager : MonoBehaviour
             return;
         }
 
+
+        // =====================================================
+        // TAMPILKAN GHOST CURRENT STEP
+        // =====================================================
+
+        CurrentStep.ShowGhostObjects();
+
+
+        // =====================================================
+        // TEXT STEP
+        // =====================================================
+
         if (text_ != null)
         {
             text_.text =
                 CurrentStep.stepName;
         }
 
+
         Debug.Log(
             "STEP SEKARANG : " +
             CurrentStep.stepName
         );
+
 
         Debug.Log(
             "INSTRUKSI : " +
@@ -160,11 +234,20 @@ public class CookingManager : MonoBehaviour
         if (CurrentStep == null)
             return;
 
+
+        // =====================================================
         // REQUIREMENT BERJALAN SENDIRI
+        // =====================================================
+
         CurrentStep.CheckRequirement(
             eventType,
             target
         );
+
+
+        // =====================================================
+        // STEP SELESAI
+        // =====================================================
 
         if (CurrentStep.IsCompleted)
         {
@@ -222,12 +305,14 @@ public class CookingManager : MonoBehaviour
                 step.activeObjects == null)
                 continue;
 
+
             foreach (CookingStepObject stepObject
                      in step.activeObjects)
             {
                 if (stepObject == null ||
                     stepObject.target == null)
                     continue;
+
 
                 SetStepObjectState(
                     stepObject.target,
@@ -259,6 +344,7 @@ public class CookingManager : MonoBehaviour
                 if (stepObject == null ||
                     stepObject.target == null)
                     continue;
+
 
                 SetStepObjectState(
                     stepObject.target,
@@ -321,6 +407,7 @@ public class CookingManager : MonoBehaviour
         Collider[] colliders =
             target.GetComponentsInChildren<Collider>(true);
 
+
         foreach (Collider col in colliders)
         {
             if (col == null)
@@ -337,10 +424,12 @@ public class CookingManager : MonoBehaviour
         Outline[] outlines =
             target.GetComponentsInChildren<Outline>(true);
 
+
         foreach (Outline outline in outlines)
         {
             if (outline == null)
                 continue;
+
 
             if (state)
             {

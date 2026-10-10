@@ -30,16 +30,102 @@ public class CookingStationController : MonoBehaviour
             return heatLevel <= 0f;
         }
     }
+public enum TransformMode
+{
+    None,
+    Position,
+    Rotation
+}
 
+[Header("Transform Toggle")]
+public TransformMode transformMode = TransformMode.None;
 
-    private void Awake()
+public Transform targetTransform;
+
+[Header("ON Position / Rotation")]
+public Vector3 onPosition;
+public Vector3 onRotation;
+
+private Vector3 offPosition;
+private Vector3 offRotation;
+
+private bool transformInitialized = false;
+
+private void ToggleTransform()
+{
+    if (targetTransform == null)
+        return;
+
+    if (!transformInitialized)
     {
-        cookingStation =
-            GetComponent<CookingStation>();
+        offPosition = targetTransform.localPosition;
+        offRotation = targetTransform.localEulerAngles;
 
-        // Pastikan particle mulai dari 0
-        SetParticleEmission(0f);
+        transformInitialized = true;
     }
+
+
+    // =====================================================
+    // POSITION
+    // =====================================================
+
+    if (transformMode == TransformMode.Position)
+    {
+        if (cookingStation.isHot)
+        {
+            // ON → masuk
+            targetTransform.localPosition = onPosition;
+        }
+        else
+        {
+            // OFF → kembali ke posisi awal
+            targetTransform.localPosition = offPosition;
+        }
+    }
+
+
+    // =====================================================
+    // ROTATION
+    // =====================================================
+
+    else if (transformMode == TransformMode.Rotation)
+    {
+        if (cookingStation.isHot)
+        {
+            // ON → rotasi target
+            targetTransform.localEulerAngles = onRotation;
+        }
+        else
+        {
+            // OFF → kembali ke rotasi awal
+            targetTransform.localEulerAngles = offRotation;
+        }
+    }
+}
+
+   private void Awake()
+{
+    cookingStation =
+        GetComponent<CookingStation>();
+
+    // Pastikan particle mulai dari 0
+    SetParticleEmission(0f);
+
+    // Simpan kondisi awal sebagai OFF
+    if (targetTransform != null)
+    {
+        offPosition = targetTransform.localPosition;
+        offRotation = targetTransform.localEulerAngles;
+
+        transformInitialized = true;
+    }
+    Color alpha =
+                    material_panas.color;
+
+                alpha.a = 0;
+
+                material_panas.color =alpha;
+}
 
 
     private void Update()
@@ -257,6 +343,9 @@ public void Toggle()
     {
         TurnOn();
     }
+
+     ToggleTransform();
+     targetTransform.GetComponent<Collider>().enabled = false;
 }
 
     // =========================================================

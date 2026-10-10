@@ -50,6 +50,7 @@ public class CookingStation : MonoBehaviour
                 slot_place.position,
                 slot_place.rotation
             );
+  DisableGrab(ingredient);
         }
 
         // =====================================================
@@ -91,6 +92,24 @@ private void ReleaseGrab(Ingredient ingredient)
         }
     }
 }
+ private void DisableGrab(Ingredient ingredient)
+    {
+        XRGrabInteractable grab =
+            ingredient.GetComponent<XRGrabInteractable>();
+
+        if (grab == null)
+            return;
+
+
+        grab.enabled = false;
+
+        Debug.Log(
+            "XRGrabInteractable DIMATIKAN: " +
+            ingredient.ingredientName
+        );
+    }
+
+
     // =========================================================
     // OBJECT KELUAR STATION
     // =========================================================
