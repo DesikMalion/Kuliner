@@ -42,7 +42,7 @@ public class ObjectPiringPencucian : MonoBehaviour
 
     public void CuciPiring()
     {
-        if (isBersih)
+        if (isBersih || isDicuci)
         {
             return;
         }
@@ -64,7 +64,7 @@ public class ObjectPiringPencucian : MonoBehaviour
 
             if (piringBersih >= KotoranPiring.Length-1)
             {
-                if(isSnapped)
+                if(isSnapped && !isDicuci)
                 isBersih = true;
             }
             else {
