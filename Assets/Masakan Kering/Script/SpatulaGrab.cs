@@ -14,7 +14,11 @@ public class SpatulaGrab : MonoBehaviour
 
     [Header("Ingredient Target")]
     public Ingredient targetIngredient;
+
     public Ingredient targetIngredient2;
+       
+
+
 
     [Tooltip("Point tempat ingredient menempel.")]
     public Transform ingredientPoint;
@@ -246,7 +250,8 @@ public class SpatulaGrab : MonoBehaviour
         ingredient.transform.SetParent(ingredientPoint);
         ingredient.transform.localPosition = Vector3.zero;
         ingredient.transform.localRotation = Quaternion.identity;
-
+        ingredient.objectMentah.SetActive(false);
+        ingredient.objectMatang.SetActive(true);
         // Matikan physics ingredient.
         Rigidbody ingredientRb =
             ingredient.GetComponent<Rigidbody>();

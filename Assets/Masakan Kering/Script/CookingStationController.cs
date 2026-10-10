@@ -51,6 +51,7 @@ private Vector3 offRotation;
 
 private bool transformInitialized = false;
 
+public bool isOven;
 private void ToggleTransform()
 {
     if (targetTransform == null)
@@ -289,7 +290,13 @@ if (CookingProgressUI.Instance != null)
 
 
         cookingStation.isHot = true;
-
+        if (isOven)
+        {
+              CookingManager.Instance.CheckEvent(
+                    CookingEventType.StationTurnedOn,
+                    gameObject
+                );
+        }
         // Mulai heating dari kondisi sekarang
         isHeating = true;
 if (CookingProgressUI.Instance != null) { CookingProgressUI.Instance.Show( gameObject, "Memanaskan " + gameObject.name ); CookingProgressUI.Instance.SetProgress( gameObject, heatLevel ); } else { Debug.LogError( "CookingProgressUI.Instance NULL!" ); }

@@ -41,7 +41,7 @@ public class Spatula : CookingTool
     [Tooltip("Nomor step untuk melepas ingredient. 0 = nonaktif.")]
     public int releaseStepIndex = 0;
 
-    private int lastActionStepIndex = -1;
+    [SerializeField]private int lastActionStepIndex = -1;
 
     // =========================================================
     // HOLD POINT
@@ -92,6 +92,12 @@ public class Spatula : CookingTool
         int activeStepIndex =
             CookingManager.Instance.CurrentStepIndex;
 
+
+ if (currentIngredient.GetComponent<PlaceOnPlate>().isPlaced)
+        {
+            currentIngredient = null;
+            isHoldingIngredient = false;
+        }
         // =====================================================
         // FLIP / ROTATE
         // =====================================================
@@ -128,11 +134,11 @@ public class Spatula : CookingTool
             if (!grabRequiresReenter)
                 return;
 
-            // Grab hanya sekali per step.
-            if (lastActionStepIndex == activeStepIndex)
-                return;
+            // // Grab hanya sekali per step.
+            // if (lastActionStepIndex == activeStepIndex)
+            //     return;
 
-            lastActionStepIndex = activeStepIndex;
+            //lastActionStepIndex = activeStepIndex;
             grabRequiresReenter = false;
 
             GrabIngredient();
@@ -161,6 +167,8 @@ public class Spatula : CookingTool
             ReleaseIngredient();
             return;
         }
+
+       
     }
 
     // =========================================================

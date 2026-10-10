@@ -168,6 +168,10 @@ public GameObject bubble;
         "Pemanasan Selesai",
         gameObject.name + " sudah panas."
     );
+     CookingManager.Instance.CheckEvent(
+                    CookingEventType.StationTurnedOn,
+                    gameObject
+                );
 
     bubble.SetActive(true);
     asap.SetActive(true);
@@ -219,6 +223,10 @@ if (heatLevel <= 0f)
         "Pendinginan Selesai",
         gameObject.name + " sudah dingin."
     );
+    CookingManager.Instance.CheckEvent(
+                    CookingEventType.StationTurnedOff,
+                    gameObject
+                );
     bubble.SetActive(false);
     asap.SetActive(false);
 }

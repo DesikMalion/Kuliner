@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using TMPro;
 using ITISKIRUHERE;
@@ -18,7 +19,6 @@ public class CookingManager : MonoBehaviour
 
     public int CurrentStepIndex => currentStepIndex;
 
-
     // =========================================================
     // CURRENT STEP
     // =========================================================
@@ -38,7 +38,6 @@ public class CookingManager : MonoBehaviour
         }
     }
 
-
     // =========================================================
     // AWAKE
     // =========================================================
@@ -48,7 +47,6 @@ public class CookingManager : MonoBehaviour
         Instance = this;
     }
 
-
     // =========================================================
     // START
     // =========================================================
@@ -57,7 +55,6 @@ public class CookingManager : MonoBehaviour
     {
         StartCooking();
     }
-
 
     // =========================================================
     // START COOKING
@@ -70,50 +67,28 @@ public class CookingManager : MonoBehaviour
         if (steps == null)
             return;
 
-
-        // =====================================================
-        // RESET SEMUA STEP
-        // =====================================================
-
         foreach (CookingStep step in steps)
         {
-            if (step != null)
-            {
-                step.ResetStep();
+            if (step == null)
+                continue;
 
-                // Pastikan semua ghost mati
-                step.HideGhostObjects();
-            }
+            step.ResetStep();
+            step.HideGhostObjects();
         }
 
-
-        // =====================================================
-        // UPDATE ACTIVE OBJECT
-        // =====================================================
-
         UpdateStepObjects();
-
-
-        // =====================================================
-        // TAMPILKAN STEP PERTAMA
-        // =====================================================
-
         ShowCurrentStep();
     }
-
 
     // =========================================================
     // SET SIMULATION STEPS
     // =========================================================
 
-    public void SetSimulationSteps(
-        CookingStep[] newSteps)
+    public void SetSimulationSteps(CookingStep[] newSteps)
     {
         steps = newSteps;
-
         StartCooking();
     }
-
 
     // =========================================================
     // COMPLETE CURRENT STEP
@@ -124,103 +99,55 @@ public class CookingManager : MonoBehaviour
         if (CurrentStep == null)
             return;
 
-
-        // =====================================================
-        // SIMPAN STEP LAMA
-        // =====================================================
-
-        CookingStep completedStep =
-            CurrentStep;
-
-
-        // =====================================================
-        // COMPLETE
-        // =====================================================
+        CookingStep completedStep = CurrentStep;
 
         completedStep.Complete();
-
-
-        // =====================================================
-        // MATIKAN GHOST STEP LAMA
-        // =====================================================
-
         completedStep.HideGhostObjects();
-
-
-        // =====================================================
-        // NEXT STEP
-        // =====================================================
 
         currentStepIndex++;
 
-
-        // =====================================================
-        // UPDATE ACTIVE OBJECT
-        // =====================================================
-
         UpdateStepObjects();
-
-
-        // =====================================================
-        // TAMPILKAN STEP BARU
-        // =====================================================
-
         ShowCurrentStep();
     }
-
 
     // =========================================================
     // SHOW CURRENT STEP
     // =========================================================
 
-    private void ShowCurrentStep()
+    
+private void ShowCurrentStep()
+{
+    if (CurrentStep == null)
     {
-        if (CurrentStep == null)
+        Debug.Log("=== SEMUA STEP SELESAI ===");
+
+        if (CookingUIManager.Instance != null)
         {
-            Debug.Log(
-                "=== SEMUA STEP SELESAI ==="
-            );
-
-
-            if (CookingUIManager.Instance != null)
-            {
-                CookingUIManager.Instance
-                    .ShowCompletionPanel();
-            }
-
-            return;
+            CookingUIManager.Instance.ShowCompletionPanel();
         }
 
-
-        // =====================================================
-        // TAMPILKAN GHOST CURRENT STEP
-        // =====================================================
-
-        CurrentStep.ShowGhostObjects();
-
-
-        // =====================================================
-        // TEXT STEP
-        // =====================================================
-
-        if (text_ != null)
-        {
-            text_.text =
-                CurrentStep.stepName;
-        }
-
-
-        Debug.Log(
-            "STEP SEKARANG : " +
-            CurrentStep.stepName
-        );
-
-
-        Debug.Log(
-            "INSTRUKSI : " +
-            CurrentStep.instruction
-        );
+        return;
     }
+
+    CookingStep stepToShow = CurrentStep;
+
+    stepToShow.ShowGhostObjects();
+
+    if (text_ != null)
+        text_.text = stepToShow.stepName;
+
+    Debug.Log("STEP SEKARANG : " + stepToShow.stepName);
+    Debug.Log("INSTRUKSI : " + stepToShow.instruction);
+
+    // Periksa ulang status cooked saat step baru aktif.
+    stepToShow.RecheckRequirements();
+
+    // Pastikan step yang sama masih aktif sebelum lanjut.
+    if (CurrentStep == stepToShow && stepToShow.IsCompleted)
+    {
+        CompleteCurrentStep();
+    }
+}
 
 
     // =========================================================
@@ -234,36 +161,16 @@ public class CookingManager : MonoBehaviour
         if (CurrentStep == null)
             return;
 
+        CurrentStep.CheckRequirement(eventType, target);
 
-        // =====================================================
-        // REQUIREMENT BERJALAN SENDIRI
-        // =====================================================
-
-        CurrentStep.CheckRequirement(
-            eventType,
-            target
-        );
-
-
-        // =====================================================
-        // STEP SELESAI
-        // =====================================================
-
-        if (CurrentStep.IsCompleted)
+        if (CurrentStep != null && CurrentStep.IsCompleted)
         {
             CompleteCurrentStep();
         }
     }
 
-
     // =========================================================
     // NEXT ACTIVE OBJECT
-    // =========================================================
-    //
-    // Dipanggil ketika object aktif saat ini sudah selesai.
-    //
-    // Tidak berhubungan dengan requirement.
-    //
     // =========================================================
 
     public void NextActiveObject()
@@ -274,7 +181,6 @@ public class CookingManager : MonoBehaviour
         CurrentStep.NextActiveObject();
     }
 
-
     // =========================================================
     // UPDATE ACTIVE OBJECTS
     // =========================================================
@@ -283,7 +189,6 @@ public class CookingManager : MonoBehaviour
     {
         UpdateStepObjects();
     }
-
 
     // =========================================================
     // UPDATE STEP OBJECTS
@@ -294,98 +199,101 @@ public class CookingManager : MonoBehaviour
         if (steps == null)
             return;
 
-
-        // =====================================================
-        // MATIKAN SEMUA OBJECT
-        // =====================================================
-
+        // Matikan seluruh active objects pada semua step.
         foreach (CookingStep step in steps)
         {
-            if (step == null ||
-                step.activeObjects == null)
+            if (step == null)
                 continue;
 
-
-            foreach (CookingStepObject stepObject
-                     in step.activeObjects)
+            if (step.activeObjects != null)
             {
-                if (stepObject == null ||
-                    stepObject.target == null)
-                    continue;
+                foreach (CookingStepObject obj in step.activeObjects)
+                {
+                    if (obj == null || obj.target == null)
+                        continue;
 
+                    SetStepObjectState(
+                        obj.target,
+                        false,
+                        obj.outlineColor
+                    );
+                }
+            }
 
-                SetStepObjectState(
-                    stepObject.target,
-                    false,
-                    stepObject.outlineColor
-                );
+            if (step.secondaryActiveObjects != null)
+            {
+                foreach (CookingStepObject obj in step.secondaryActiveObjects)
+                {
+                    if (obj == null || obj.target == null)
+                        continue;
+
+                    SetStepObjectState(
+                        obj.target,
+                        false,
+                        obj.outlineColor
+                    );
+                }
             }
         }
 
-
-        // =====================================================
-        // CURRENT STEP
-        // =====================================================
-
-        if (CurrentStep == null ||
-            CurrentStep.activeObjects == null)
+        if (CurrentStep == null)
             return;
 
-
-        // =====================================================
-        // TIDAK BERURUTAN
-        // =====================================================
-
-        if (!CurrentStep.sequentialActiveObjects)
+        // Active objects utama.
+        if (CurrentStep.activeObjects != null)
         {
-            foreach (CookingStepObject stepObject
-                     in CurrentStep.activeObjects)
+            if (!CurrentStep.sequentialActiveObjects)
             {
-                if (stepObject == null ||
-                    stepObject.target == null)
-                    continue;
+                foreach (CookingStepObject obj in CurrentStep.activeObjects)
+                {
+                    if (obj == null || obj.target == null)
+                        continue;
 
-
-                SetStepObjectState(
-                    stepObject.target,
-                    true,
-                    stepObject.outlineColor
-                );
+                    SetStepObjectState(
+                        obj.target,
+                        true,
+                        obj.outlineColor
+                    );
+                }
             }
+            else
+            {
+                int index = CurrentStep.activeObjectIndex;
 
-            return;
+                if (index >= 0 &&
+                    index < CurrentStep.activeObjects.Length)
+                {
+                    CookingStepObject obj =
+                        CurrentStep.activeObjects[index];
+
+                    if (obj != null && obj.target != null)
+                    {
+                        SetStepObjectState(
+                            obj.target,
+                            true,
+                            obj.outlineColor
+                        );
+                    }
+                }
+            }
         }
 
+        // Secondary active objects tetap aktif bersamaan.
+        if (CurrentStep.secondaryActiveObjects != null)
+        {
+            foreach (CookingStepObject obj in CurrentStep.secondaryActiveObjects)
+            {
+                if (obj == null || obj.target == null)
+                    continue;
 
-        // =====================================================
-        // BERURUTAN
-        // =====================================================
-
-        int index =
-            CurrentStep.activeObjectIndex;
-
-
-        if (index < 0 ||
-            index >= CurrentStep.activeObjects.Length)
-            return;
-
-
-        CookingStepObject activeObject =
-            CurrentStep.activeObjects[index];
-
-
-        if (activeObject == null ||
-            activeObject.target == null)
-            return;
-
-
-        SetStepObjectState(
-            activeObject.target,
-            true,
-            activeObject.outlineColor
-        );
+                SetStepObjectState(
+                    obj.target,
+                    true,
+                    obj.outlineColor
+                );
+            }
+        }
     }
-
 
     // =========================================================
     // SET OBJECT STATE
@@ -399,14 +307,9 @@ public class CookingManager : MonoBehaviour
         if (target == null)
             return;
 
-
-        // =====================================================
-        // COLLIDER
-        // =====================================================
-
+        // Collider.
         Collider[] colliders =
             target.GetComponentsInChildren<Collider>(true);
-
 
         foreach (Collider col in colliders)
         {
@@ -416,26 +319,18 @@ public class CookingManager : MonoBehaviour
             col.enabled = state;
         }
 
-
-        // =====================================================
-        // OUTLINE
-        // =====================================================
-
+        // Outline.
         Outline[] outlines =
             target.GetComponentsInChildren<Outline>(true);
-
 
         foreach (Outline outline in outlines)
         {
             if (outline == null)
                 continue;
 
-
             if (state)
             {
-                outline.OutlineColor =
-                    outlineColor;
-
+                outline.OutlineColor = outlineColor;
                 outline.enabled = true;
             }
             else

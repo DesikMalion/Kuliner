@@ -11,6 +11,7 @@ public enum IngredientType
 
 public class Ingredient : MonoBehaviour
 {
+    public string type_memasak;
     [Header("Ingredient Info")]
     public string ingredientName;
     public IngredientType ingredientType;
@@ -235,7 +236,8 @@ public class Ingredient : MonoBehaviour
 
     private void Update()
     {
-        if (!isCooking || isCooked)
+        Debug.Log(isCooking +" |"+gameObject.name+"| "+ isCooked);
+        if ( !isCooking ||isCooked)//
             return;
 
         // =====================================================
@@ -271,11 +273,10 @@ public class Ingredient : MonoBehaviour
         // =====================================================
         // REQUIRE STIR
         // =====================================================
-
+    Debug.Log("nama gmeobject "+gameObject.name +" isStirred "+isStirred);
         if (requiresStir && !isStirred)
         {
             Stirable stirable = GetComponent<Stirable>();
-
             if (stirable != null)
             {
                 cookingProgress = Mathf.Clamp01(
@@ -346,7 +347,6 @@ public class Ingredient : MonoBehaviour
         // =====================================================
         // NORMAL COOKING
         // =====================================================
-
         cookingProgress += Time.deltaTime * 0.2f;
         cookingProgress = Mathf.Clamp01(cookingProgress);
 
@@ -540,7 +540,7 @@ public class Ingredient : MonoBehaviour
         {
             CookingProgressUI.Instance.Show(
                 gameObject,
-                "Memasak " + ingredientName
+                type_memasak+" " + ingredientName
             );
 
             CookingProgressUI.Instance.SetProgress(
@@ -629,7 +629,7 @@ public class Ingredient : MonoBehaviour
 
             CookingProgressUI.Instance.ShowComplete(
                 gameObject,
-                "Memasak Selesai",
+                type_memasak+" Selesai",
                 ingredientName + " sudah matang."
             );
         }
