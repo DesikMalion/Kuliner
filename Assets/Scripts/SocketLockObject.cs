@@ -10,6 +10,7 @@ public class SocketLockObject : MonoBehaviour
     public bool TestEvent = false;
     public GameObject ObjSnapped;
     public UnityEvent onObjectSnappedEvent;
+    public UnityEvent onObjectUnsnappedEvent;
     [SerializeField] private XRSocketInteractor socket;
     public bool isFinishLocked = false;
     public bool interactables = true;
@@ -21,12 +22,16 @@ public class SocketLockObject : MonoBehaviour
             socket = GetComponent<XRSocketInteractor>();
 
         socket.selectEntered.AddListener(OnObjectSnapped);
+        socket.selectExited.AddListener(OnObjectUnsnapped);
     }
 
     private void OnDestroy()
     {
         if (socket != null)
+        {
             socket.selectEntered.RemoveListener(OnObjectSnapped);
+        }
+    
     }
 
     private void OnEnable()
@@ -86,6 +91,14 @@ public class SocketLockObject : MonoBehaviour
             onObjectSnappedEvent.Invoke();
             //gameObject.SetActive(false);
         }
+
+    }
+
+
+    private void OnObjectUnsnapped(SelectExitEventArgs args) {
+
+        isFinishLocked = false;
+        onObjectUnsnappedEvent.Invoke();
 
     }
 
