@@ -43,6 +43,7 @@
     "com.unity.xr.interaction.toolkit": "3.5.0",
     "com.unity.xr.legacyinputhelpers": "2.1.12",
     "com.unity.xr.management": "4.5.4",
+    "com.unity.xr.meta-openxr": "2.7.0",
     "com.unity.xr.oculus": "4.5.2",
     "com.unity.xr.openxr": "1.16.1",
     "com.unity.modules.accessibility": "1.0.0",
