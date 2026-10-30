@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MikeNspired.XRIStarterKit;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -35,7 +36,7 @@ public class PourDetector : MonoBehaviour
             }
         }
 
-        if (currentStream != null) {
+        if (currentStream != null && isPouring) {
             if (currentStream.HitObj != null) {
                 if (HitObj == null)
                 {
@@ -70,6 +71,7 @@ public class PourDetector : MonoBehaviour
         // Empty
         Debug.Log("End Pouring");
         currentStream.End();
+        HitObj = null;
         PourObjEndEvent.Invoke();
         //currentStream = null;
     }

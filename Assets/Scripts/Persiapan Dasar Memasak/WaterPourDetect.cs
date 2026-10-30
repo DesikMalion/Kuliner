@@ -1,8 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WaterPourDetect : MonoBehaviour
 {
     public PourDetector PourDetector;
+
+    public UnityEvent OnPouringStop;
+
     public float scaleNow = 0f;
 
     [SerializeField] private float extinguishTime = 4f;
@@ -12,7 +16,7 @@ public class WaterPourDetect : MonoBehaviour
     private Vector3 initialScale = Vector3.zero;
     bool maxScaleChanged = false;
 
-    bool isPouring = false;
+    public bool isPouring = false;
 
     void Start()
     {
@@ -41,11 +45,13 @@ public class WaterPourDetect : MonoBehaviour
                 }
                 else { 
                     isPouring = false ;
+                    OnPouringStop.Invoke();
                 }
             }
         }
         else { 
             isPouring=false;
+            OnPouringStop.Invoke();
         }
    
     }

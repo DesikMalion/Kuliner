@@ -21,6 +21,7 @@ public class PersiapanDasarMasakMgr : MonoBehaviour
     // knife skill & gamasi
     public WaterPourDetect waterPourDetect;
     public TimbanganMemasak[] timbanganMemasak;
+    public GameObject OutlineGramasi;
 
 
     void Start()
@@ -101,6 +102,7 @@ public class PersiapanDasarMasakMgr : MonoBehaviour
         }
 
         ObjInteraction[0].SetActive(true);
+        OutlineGramasi.SetActive(false);
 
 
         if (PlayerPrefs.GetInt("TeknikPisau", 0) == 1)
@@ -298,21 +300,21 @@ public class PersiapanDasarMasakMgr : MonoBehaviour
     float beratSawiResep = 50;
     float volumeAirResep = 800;
 
-    public void CekTeknikPisau() {
+    public void CekTeknikPisau(bool isbutton) {
 
         float beratWortelTimbangan = 0;
         float beratKentangTimbangan = 0;
         float beratSawiTimbangan = 0;
         int volumeAirTimbangan = 0;
-                
+
         for (int i = 0; i < timbanganMemasak.Length; i++) {
             for (int j = 0; j < timbanganMemasak[i].objWeighingCol.Length; j++) {
 
-                if (timbanganMemasak[i].objWeighingCol[j].gameObject.name.ToLower().Contains("wortel")) { 
+                if (timbanganMemasak[i].objWeighingCol[j].gameObject.name.ToLower().Contains("wortel")) {
                     float mass = timbanganMemasak[i].objWeighingCol[j].gameObject.GetComponent<Rigidbody>().mass;
                     beratWortelTimbangan += mass;
 
-                }else if (timbanganMemasak[i].objWeighingCol[j].gameObject.name.ToLower().Contains("kentang"))
+                } else if (timbanganMemasak[i].objWeighingCol[j].gameObject.name.ToLower().Contains("kentang"))
                 {
                     float mass = timbanganMemasak[i].objWeighingCol[j].gameObject.GetComponent<Rigidbody>().mass;
                     beratKentangTimbangan += mass;
@@ -333,29 +335,47 @@ public class PersiapanDasarMasakMgr : MonoBehaviour
         int beratKentangTimbangan_ = Mathf.FloorToInt(beratKentangTimbangan);
         int beratSawiTimbangan_ = Mathf.FloorToInt(beratSawiTimbangan);
 
-        bool wortelBenar = Mathf.Abs(beratWortelTimbangan_ - beratWortelResep) <= 5;
-        bool kentangBenar = Mathf.Abs(beratKentangTimbangan_ - beratKentangResep) <= 5;
-        bool sawiBenar = Mathf.Abs(beratSawiTimbangan_ - beratSawiResep) <= 5;
-        bool airBenar = Mathf.Abs(volumeAirTimbangan - volumeAirResep) <= 50;
+        bool wortelBenar = Mathf.Abs(beratWortelTimbangan_ - beratWortelResep) <= 6;
+        bool kentangBenar = Mathf.Abs(beratKentangTimbangan_ - beratKentangResep) <= 6;
+        bool sawiBenar = Mathf.Abs(beratSawiTimbangan_ - beratSawiResep) <= 6;
+        bool airBenar = Mathf.Abs(volumeAirTimbangan - volumeAirResep) <= 55;
         bool semuabenar = true;
 
         Debug.Log("Wortel: " + (wortelBenar ? "Benar" : "Salah"));
         Debug.Log("Kentang: " + (kentangBenar ? "Benar" : "Salah"));
         Debug.Log("Sawi: " + (sawiBenar ? "Benar" : "Salah"));
         Debug.Log("Air: " + (airBenar ? "Benar" : "Salah"));
-        
-        if (airBenar && sawiBenar && wortelBenar && kentangBenar)
+
+        if (isbutton)
         {
+            if (airBenar && sawiBenar && wortelBenar && kentangBenar)
+            {
 
-            ShowUI(7);
-        }
-        else { 
-        
-            ShowUI(6);
-        }
+                ShowUI(7);
+            }
+            else
+            {
 
+                ShowUI(6);
+            }
+        }
+        else
+        {
+            if (airBenar && sawiBenar && wortelBenar && kentangBenar)
+            {
+
+                OutlineGramasi.SetActive(true);
+            }
+            else
+            {
+
+                OutlineGramasi.SetActive(false);
+            }
+
+        } 
+    
     }
 
-    #endregion
+   #endregion
 
 }

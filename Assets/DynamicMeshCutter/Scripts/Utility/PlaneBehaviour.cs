@@ -90,7 +90,7 @@ namespace DynamicMeshCutter
         IEnumerator WaitForNextCut()
         {
             isCutting = true;
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(0f);
             Cut();
             yield return new WaitForSeconds(.5f);
             isCutting = false;
