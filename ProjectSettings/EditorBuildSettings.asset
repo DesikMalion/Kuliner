@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Teknik-Panas-Basah.unity
     guid: 3a5c7e7a7c42ada40948cad186a0a31b
   - enabled: 1
+    path: Assets/Scenes/Persiapan-Dasar-Memasak.unity
+    guid: f68cf1abfa803cb439e09d263d7556b5
+  - enabled: 1
     path: Assets/Masakan Kering/Teknik Panas Kering.unity
     guid: f5a34f6d8c03f6d48bdb160618dcec75
   m_configObjects:
