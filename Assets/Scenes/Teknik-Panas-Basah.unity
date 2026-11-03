@@ -7650,6 +7650,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -11811,6 +11814,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -24576,6 +24582,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -25188,6 +25197,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -25941,6 +25953,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -28306,39 +28321,6 @@ Transform:
   - {fileID: 663790528}
   m_Father: {fileID: 1736259769}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &177302095
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: AdvancedOutlineFill (Instance)
-  m_Shader: {fileID: 4800000, guid: 6cdd088550bc7e6478ae291e0e83fabb, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _DashScale: 0
-    - _DashSpeed: 0
-    - _OutlineWidth: 2
-    - _ZTest: 4
-    m_Colors:
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &177648246
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36334,6 +36316,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -43355,6 +43340,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -43552,6 +43540,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!21 &260793101
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AdvancedOutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: c2f5089722420f44ea03b3dbb08dca7e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &260799689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43884,6 +43901,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -45620,6 +45640,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -55004,6 +55027,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -59333,6 +59359,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -63456,6 +63485,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -68040,6 +68072,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -79877,6 +79912,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -80127,6 +80165,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463256388}
   m_CullTransparentMesh: 0
+--- !u!21 &463727098
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AdvancedOutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: c2f5089722420f44ea03b3dbb08dca7e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &463786854
 Material:
   serializedVersion: 8
@@ -82271,6 +82338,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -85166,39 +85236,6 @@ Material:
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!21 &495927570
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: AdvancedOutlineFill (Instance)
-  m_Shader: {fileID: 4800000, guid: 6cdd088550bc7e6478ae291e0e83fabb, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _DashScale: 0
-    - _DashSpeed: 0
-    - _OutlineWidth: 2
-    - _ZTest: 4
-    m_Colors:
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &496173323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87548,6 +87585,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -90246,6 +90286,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -93844,6 +93887,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -94862,6 +94908,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -99967,8 +100016,8 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 2eeb5740cf98e86409e15986774b924f, type: 2}
-  - {fileID: 1155779746}
-  - {fileID: 495927570}
+  - {fileID: 260793101}
+  - {fileID: 1717559896}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -101098,6 +101147,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -110118,6 +110170,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -112273,6 +112328,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -134863,6 +134921,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -151011,6 +151072,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -157570,6 +157634,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -160814,35 +160881,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 924380276}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &924834969
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: AdvancedOutlineMask (Instance)
-  m_Shader: {fileID: 4800000, guid: c2f5089722420f44ea03b3dbb08dca7e, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _ZTest: 8
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &925564991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179771,6 +179809,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -182250,6 +182291,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -195231,35 +195275,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1155761403}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1155779746
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: AdvancedOutlineMask (Instance)
-  m_Shader: {fileID: 4800000, guid: c2f5089722420f44ea03b3dbb08dca7e, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _ZTest: 8
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1155805827
 GameObject:
   m_ObjectHideFlags: 0
@@ -197248,6 +197263,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -211169,6 +211187,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -217248,6 +217269,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -220528,6 +220552,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -232229,6 +232256,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -236381,8 +236411,8 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 2eeb5740cf98e86409e15986774b924f, type: 2}
-  - {fileID: 924834969}
-  - {fileID: 177302095}
+  - {fileID: 463727098}
+  - {fileID: 2036914107}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -251961,6 +251991,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -264443,6 +264476,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -264705,6 +264741,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -270329,6 +270368,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -276075,6 +276117,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -285295,6 +285340,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1716263173}
   m_Mesh: {fileID: -1009633522422996341, guid: c33af859ed6c05241b70d65a5375d392, type: 3}
+--- !u!21 &1717559896
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AdvancedOutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 6cdd088550bc7e6478ae291e0e83fabb, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _DashScale: 0
+    - _DashSpeed: 0
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &1718597280
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -288035,6 +288113,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -288341,6 +288422,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -290861,6 +290945,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -303935,6 +304022,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -310424,6 +310514,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -327609,6 +327702,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -335262,6 +335358,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -336423,6 +336522,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -338527,6 +338629,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -338999,6 +339104,39 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2036893993}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &2036914107
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AdvancedOutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 6cdd088550bc7e6478ae291e0e83fabb, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _DashScale: 0
+    - _DashSpeed: 0
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &2037473426
 GameObject:
   m_ObjectHideFlags: 0
@@ -346105,6 +346243,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -347720,6 +347861,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -352458,6 +352602,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1
@@ -355429,6 +355576,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onObjectUnsnappedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   socket: {fileID: 0}
   isFinishLocked: 0
   interactables: 1

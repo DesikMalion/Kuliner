@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 
 public class VRThumbstickScroll : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
@@ -73,10 +74,9 @@ public class VRThumbstickScroll : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         turnProviders.Clear();
 
-        // SnapTurnProvider & ContinuousTurnProvider = turunan dari base class turn
-        foreach (var p in FindObjectsByType<SnapTurnProviderBase>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        foreach (var p in FindObjectsByType<SnapTurnProvider>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
             turnProviders.Add(p);
-        foreach (var p in FindObjectsByType<ContinuousTurnProviderBase>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        foreach (var p in FindObjectsByType<ContinuousTurnProvider>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
             turnProviders.Add(p);
 
         lastProviderState = true;
@@ -112,4 +112,10 @@ public class VRThumbstickScroll : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (debugLog && Mathf.Abs(input) > deadzone)
             Debug.Log($"[VRScroll] input={input:F2} hover={hoverOk} turnProviders={turnProviders.Count}");
 
-        if (!hoverOk ||
+        if (!hoverOk || Mathf.Abs(input) <= deadzone) return;
+
+        scrollRect.velocity = Vector2.zero;
+        scrollRect.horizontalNormalizedPosition = Mathf.Clamp01(
+            scrollRect.horizontalNormalizedPosition + input * scrollSpeed * Time.deltaTime);
+    }
+}
