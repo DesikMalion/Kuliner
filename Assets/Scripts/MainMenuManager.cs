@@ -76,6 +76,22 @@ public class MainMenuManager : MonoBehaviour
             }
         }
     }
+    public void ToggleMenu()
+    {
+        if (menuCanvas != null)
+        {
+            bool isMenuActive = menuCanvas.gameObject.activeSelf;
+
+            // Jika menu aktif, sembunyikan. Jika menu tersembunyi, aktifkan.
+            menuCanvas.gameObject.SetActive(!isMenuActive);
+
+            // Jika menu baru saja diaktifkan, atur ulang posisinya ke depan kamera
+            if (!isMenuActive)
+            {
+                PosisikanMenuDiDepanKamera();
+            }
+        }
+    }
     public void MunculkanMenu()
     {
         // Jika menu sedang di-hide (tidak aktif), maka aktifkan
