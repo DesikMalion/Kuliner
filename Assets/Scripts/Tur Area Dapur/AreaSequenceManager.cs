@@ -14,6 +14,9 @@ public class AreaSequenceManager : MonoBehaviour
 
     public RectTransform panelUtama;
     public Transform[] titikMunculPanel;
+    [Header("Petunjuk Jalan (Wayfinding)")]
+    [Tooltip("Masukkan GameObject penunjuk arah (panah/hologram) untuk masing-masing area. Urutannya harus sama dengan tombol.")]
+    public GameObject[] penandaLokasiArea;
     // Daftar nama area agar teks bisa menyesuaikan otomatis
     private string[] namaArea = new string[]
     {
@@ -92,16 +95,24 @@ public class AreaSequenceManager : MonoBehaviour
 
     public void PilihArea(int indexPilihan)
     {
-        // 1. Matikan semua bahan dari area lain untuk mencegah sisa bahan menumpuk
-        foreach (GameObject grup in grupBahanArea)
+        // 1. Matikan semua bahan DAN penanda lokasi dari area lain
+        for (int i = 0; i < grupBahanArea.Length; i++)
         {
-            if (grup != null) grup.SetActive(false);
+            if (grupBahanArea[i] != null) grupBahanArea[i].SetActive(false);
+        }
+        for (int i = 0; i < penandaLokasiArea.Length; i++)
+        {
+            if (penandaLokasiArea[i] != null) penandaLokasiArea[i].SetActive(false);
         }
 
-        // 2. Aktifkan hanya grup bahan untuk area yang tombolnya baru saja diklik
+        // 2. Aktifkan grup bahan DAN penanda lokasi untuk area yang dipilih
         if (indexPilihan < grupBahanArea.Length && grupBahanArea[indexPilihan] != null)
         {
             grupBahanArea[indexPilihan].SetActive(true);
+        }
+        if (indexPilihan < penandaLokasiArea.Length && penandaLokasiArea[indexPilihan] != null)
+        {
+            penandaLokasiArea[indexPilihan].SetActive(true);
         }
     }
 }
